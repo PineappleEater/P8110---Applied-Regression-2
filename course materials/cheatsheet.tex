@@ -1,0 +1,1178 @@
+\documentclass[9pt,a4paper,landscape]{article}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\setlist{nosep,leftmargin=*}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1.5pt}
+\setlength{\columnsep}{8pt}
+\title{Survival Analysis Cheat Sheet}
+\author{}
+\date{}
+\begin{document}
+\footnotesize
+\begin{center}\textbf{\LARGE Survival Analysis — Comprehensive Reference}\end{center}
+\vspace{-0.8em}
+\begin{multicols}{3}
+
+\section*{I. Fundamentals of Survival Data}
+
+\textbf{A. Time-to-Event Data Structure}
+\begin{itemize}
+\item \textbf{Survival time $T$}: Random variable $T\ge 0$ measuring time from start (e.g., treatment, diagnosis) to event (e.g., death, relapse, failure).
+\item \textbf{Three components}: (1) Starting point (when clock starts), (2) Endpoint (when clock stops), (3) Time unit (days, months, years).
+\item \textbf{Event}: Can be death, disease, recurrence, recovery, onset of symptoms, equipment failure. Often called ``failure''.
+\end{itemize}
+
+\textbf{B. Censoring Mechanisms}
+\begin{itemize}
+\item \textbf{Right-censoring} (most common): Event time $>$ observed time. Causes:
+  \begin{itemize}
+  \item End of study (administrative censoring)
+  \item Loss to follow-up
+  \item Withdrawal from study
+  \item Competing events
+  \end{itemize}
+  Notation: Observe $(Y,\delta)$ where $Y=\min(T,C)$, $\delta=I(T\le C)$. $\delta=1$ (event), $\delta=0$ (censored).
+\item \textbf{Left-censoring}: Event occurred before observation started. Example: child already knew task at study start.
+\item \textbf{Interval-censoring}: Event time known to lie in $(L,R]$. Example: disease detected between visits.
+\item \textbf{Key assumption}: Censoring is \emph{non-informative} (independent of failure time). Violation leads to bias.
+\end{itemize}
+
+\textbf{C. Core Functions}
+
+\textbf{Survival Function:} $S(t)=P(T>t)=1-F(t)$
+\begin{itemize}
+\item Properties: $S(0)=1$, $S(\infty)=0$, non-increasing.
+\item Interpretation: Probability of surviving beyond time $t$.
+\item 5-year survival rate: $S(5)$.
+\end{itemize}
+
+\textbf{Probability Density Function (PDF):} $f(t)=\dfrac{dF(t)}{dt}=-\dfrac{dS(t)}{dt}$
+
+\textbf{Hazard Function:} $h(t)=\lim_{\Delta t\to 0}\dfrac{P(t\le T<t+\Delta t\mid T\ge t)}{\Delta t}=\dfrac{f(t)}{S(t)}$
+\begin{itemize}
+\item Instantaneous failure rate per unit time among survivors at $t$.
+\item Units: $1/\text{time}$ (e.g., per year).
+\item Not a probability (can exceed 1).
+\item For large population: $h(t)\Delta t\approx \frac{\text{\# deaths in }(t,t+\Delta t)}{\text{\# alive at }t}$.
+\end{itemize}
+
+\textbf{Cumulative Hazard:} $H(t)=\int_0^t h(u)\,du$
+
+\textbf{Key Relationships:}
+\begin{align*}
+S(t)&=\exp[-H(t)]=\exp\left[-\int_0^t h(u)\,du\right]\\
+h(t)&=-\frac{d\log S(t)}{dt}\\
+f(t)&=h(t)S(t)
+\end{align*}
+
+\textbf{D. Comparing Survival Data}
+\begin{itemize}
+\item Compare entire \emph{functions} $S(t)$ or $h(t)$, not just means.
+\item Median survival often more robust than mean (especially with censoring).
+\end{itemize}
+
+\section*{II. Nonparametric Methods}
+
+\textbf{A. Kaplan-Meier (KM) Estimator}
+
+\textbf{Formula:} At distinct event times $t_1<t_2<\cdots<t_m$:
+\[\hat S(t)=\prod_{t_i\le t}\left(1-\frac{d_i}{n_i}\right)\]
+where $d_i=$ \# events at $t_i$, $n_i=$ \# at risk just before $t_i$.
+
+\textbf{Properties:}
+\begin{itemize}
+\item Step function (jumps only at event times).
+\item Censoring at $t_j$: subject removed from risk set at $t_j^+$.
+\item If largest time is censored, $\hat S(t)$ doesn't reach 0.
+\item $\hat S(0^-)=1$.
+\end{itemize}
+
+\textbf{Variance — Greenwood's Formula:}
+\[\widehat{\mathrm{Var}}[\hat S(t)]=\hat S(t)^2\sum_{t_i\le t}\frac{d_i}{n_i(n_i-d_i)}\]
+
+\textbf{Confidence Intervals:}
+
+\emph{Plain CI (can go outside $[0,1]$):}
+\[\hat S(t)\pm z_{\alpha/2}\sqrt{\widehat{\mathrm{Var}}[\hat S(t)]}\]
+
+\emph{Log-log transformation (preferred):}
+\begin{align*}
+\sigma^2&=\frac{1}{[\log\hat S(t)]^2}\sum_{t_i\le t}\frac{d_i}{n_i(n_i-d_i)}\\
+C_u&=\log[-\log\hat S(t)]+z_{\alpha/2}\sigma\\
+C_l&=\log[-\log\hat S(t)]-z_{\alpha/2}\sigma\\
+\text{95\% CI}&=\left(\exp(-e^{C_u}),\exp(-e^{C_l})\right)
+\end{align*}
+Guarantees CI $\in(0,1)$. Better coverage for extreme $S(t)$.
+
+\textbf{B. Nelson-Aalen (NA) Estimator}
+
+\textbf{Cumulative Hazard:}
+\[\hat H(t)=\sum_{t_i\le t}\frac{d_i}{n_i}\]
+
+\textbf{Survival Function:}
+\[\tilde S(t)=\exp[-\hat H(t)]\]
+
+\begin{itemize}
+\item Asymptotically equivalent to KM.
+\item Useful for direct cumulative hazard estimation.
+\item Variance: $\widehat{\mathrm{Var}}[\hat H(t)]=\sum_{t_i\le t}\frac{d_i}{n_i^2}$.
+\end{itemize}
+
+\textbf{C. Quantile Estimation}
+
+\textbf{General $p$th quantile:}
+\[\hat t_p=\min\{t_j:\hat S(t_j)<1-p\}\]
+Special case: if $\hat S(t_j)=1-p$ exactly, use $\hat t_p=(t_j+t_{j+1})/2$.
+
+\textbf{Common quantiles:}
+\begin{itemize}
+\item Median: $\hat t_{0.5}=\min\{t_j:\hat S(t_j)<0.5\}$.
+\item First quartile: $\hat t_{0.25}=\min\{t_j:\hat S(t_j)<0.75\}$.
+\item Third quartile: $\hat t_{0.75}=\min\{t_j:\hat S(t_j)<0.25\}$.
+\end{itemize}
+
+\textbf{Confidence Interval (Brookmeyer-Crowley):}
+Set of all $t$ satisfying
+\[\frac{\log[-\log\hat S(t)]-\log[-\log(1-p)]}{\sqrt{\widehat{\mathrm{Var}}(\log[-\log\hat S(t)])}}\in[-z_{\alpha/2},z_{\alpha/2}]\]
+
+\textbf{Limitation:} Only estimate quantiles within observed range of $\hat S(t)$. If last observation is censored and $\hat S(t_{\max})>0.1$, cannot estimate 90th percentile.
+
+\textbf{D. Mean Survival Time}
+
+\textbf{Unrestricted mean:}
+\[\hat\mu=\int_0^\infty \hat S(t)\,dt=\sum_{i=1}^m\hat S(t_i)(t_{i+1}-t_i)\]
+\textbf{Issue:} If largest time is censored, $\hat\mu$ underestimates true mean.
+
+\textbf{Restricted Mean Survival Time (RMST):}
+\[\hat\mu(\tau)=\int_0^\tau \hat S(t)\,dt\]
+\begin{itemize}
+\item Choose $\tau$ as maximum follow-up or clinically relevant time.
+\item More robust with heavy censoring.
+\item Compare $\Delta\hat\mu(\tau)$ between groups.
+\item Variance: $\widehat{\mathrm{Var}}[\hat\mu(\tau)]=\sum_{t_i\le\tau}\left[\int_{t_i}^\tau\hat S(u)\,du\right]^2\frac{d_i}{n_i(n_i-d_i)}$.
+\end{itemize}
+
+\section*{III. Comparing Survival Curves}
+
+\textbf{A. Hypothesis Testing Framework}
+
+Test $H_0: S_1(t)=S_0(t)$ for all $t$ vs.\ $H_a: S_1(t)\ne S_0(t)$ for some $t$.
+
+\textbf{General Weighted Test Statistic:}
+
+At each event time $t_j$, construct $2\times 2$ table:
+\begin{center}
+\begin{tabular}{lccc}
+Group & Events & At Risk & Expected\\
+\hline
+1 & $d_{1j}$ & $n_{1j}$ & $e_{1j}=\frac{n_{1j}d_j}{n_j}$\\
+0 & $d_{0j}$ & $n_{0j}$ & $e_{0j}=\frac{n_{0j}d_j}{n_j}$\\
+Total & $d_j$ & $n_j$ & $d_j$
+\end{tabular}
+\end{center}
+
+Variance:
+\[v_{1j}=\frac{n_{1j}n_{0j}d_j(n_j-d_j)}{n_j^2(n_j-1)}\]
+
+\textbf{Weighted statistic:}
+\[Z=\frac{\sum_j w_j(d_{1j}-e_{1j})}{\sqrt{\sum_j w_j^2 v_{1j}}}\sim N(0,1)\]
+or $\chi^2=Z^2\sim\chi^2_1$.
+
+\textbf{B. Common Weight Choices}
+
+\begin{enumerate}
+\item \textbf{Log-rank test:} $w_j=1$
+  \begin{itemize}
+  \item Equal weight to all times.
+  \item Most powerful under proportional hazards (PH).
+  \item Default in most software.
+  \item $\chi^2_{\text{LR}}=\frac{[\sum_j(d_{1j}-e_{1j})]^2}{\sum_j v_{1j}}$.
+  \end{itemize}
+
+\item \textbf{Wilcoxon (Gehan-Breslow):} $w_j=n_j$
+  \begin{itemize}
+  \item Weight by \# at risk.
+  \item Emphasizes early differences.
+  \item More powerful when hazards cross or differ early.
+  \end{itemize}
+
+\item \textbf{Tarone-Ware:} $w_j=\sqrt{n_j}$
+  \begin{itemize}
+  \item Compromise between log-rank and Wilcoxon.
+  \end{itemize}
+
+\item \textbf{Peto-Peto, Fleming-Harrington:} $w_j=\tilde S(t_{j-1})$ or $w_j=\tilde S(t_{j-1})^p[1-\tilde S(t_{j-1})]^q$
+  \begin{itemize}
+  \item Flexible family; choose $p,q$ to emphasize early, late, or middle differences.
+  \end{itemize}
+\end{enumerate}
+
+\textbf{C. Multiple Group Comparisons ($K>2$)}
+
+\begin{itemize}
+\item Test $H_0$: all $K$ survival curves equal.
+\item $\chi^2$ statistic with $K-1$ df.
+\item \textbf{Pairwise comparisons}: use Bonferroni adjustment. For $m=\binom{K}{2}$ pairs, reject at $\alpha/m$.
+\item SAS: \verb|strata group / adjust=bon;|
+\end{itemize}
+
+\textbf{D. Stratified Tests}
+
+Control for confounders (e.g., age, sex):
+\begin{itemize}
+\item Within each stratum $s$, compute $(O_{1s}-E_{1s})$ and $V_{1s}$.
+\item Pool: $Z=\frac{\sum_s(O_{1s}-E_{1s})}{\sqrt{\sum_s V_{1s}}}$.
+\item Assumes common treatment effect across strata.
+\end{itemize}
+
+\section*{IV. Hazard Function \& Proportional Hazards}
+
+\textbf{A. Hazard Interpretation}
+
+\begin{itemize}
+\item $h(t)=0$: no risk at $t$; $S(t)$ flat.
+\item Large $h(t)$: rapid decline in $S(t)$.
+\item $h(t)$ can be constant (exponential), increasing (Weibull $\beta>1$), decreasing (Weibull $\beta<1$), or non-monotonic (log-normal, log-logistic).
+\end{itemize}
+
+\textbf{B. Proportional Hazards (PH) Assumption}
+
+For two groups with hazards $h_1(t)$ and $h_0(t)$:
+\[\frac{h_1(t)}{h_0(t)}=\text{HR}=\text{constant}\quad\forall t\]
+
+\textbf{Implications:}
+\begin{itemize}
+\item $h_1(t)=\text{HR}\cdot h_0(t)$
+\item $H_1(t)=\text{HR}\cdot H_0(t)$
+\item $S_1(t)=[S_0(t)]^{\text{HR}}$
+\item HR is instantaneous relative risk, constant over time.
+\end{itemize}
+
+\textbf{Checking PH graphically:}
+\begin{itemize}
+\item Plot $\log[-\log\hat S(t)]$ vs.\ $\log t$ (or $t$). Under PH, curves should be parallel.
+\item Plot $\log\hat H(t)$ vs.\ $\log t$ or $t$. Should be parallel under PH.
+\end{itemize}
+
+\section*{V. Cox Proportional Hazards Model}
+
+\textbf{A. Model Specification}
+
+\textbf{Univariable:}
+\[h(t,x,\beta)=h_0(t)\exp(\beta x)\]
+
+\textbf{Multivariable:}
+\[h(t,\mathbf{x},\boldsymbol{\beta})=h_0(t)\exp(\beta_1x_1+\beta_2x_2+\cdots+\beta_px_p)\]
+or
+\[\log\left[\frac{h(t,\mathbf{x})}{h_0(t)}\right]=\boldsymbol{\beta}^\top\mathbf{x}\]
+
+\textbf{Key features:}
+\begin{itemize}
+\item \textbf{Semi-parametric:} $h_0(t)$ unspecified (nonparametric baseline).
+\item \textbf{No intercept:} absorbed into $h_0(t)$.
+\item \textbf{PH:} HR independent of $t$.
+\end{itemize}
+
+\textbf{Baseline hazard:} $h_0(t)=h(t,\mathbf{x}=\mathbf{0})$. Baseline survival: $S_0(t)=\exp[-H_0(t)]$ where $H_0(t)=\int_0^t h_0(u)\,du$.
+
+\textbf{Individual survival:}
+\[S(t,\mathbf{x})=[S_0(t)]^{\exp(\boldsymbol{\beta}^\top\mathbf{x})}\]
+
+\textbf{B. Hazard Ratio (HR)}
+
+\textbf{Definition:}
+\[\text{HR}(\mathbf{x}_1:\mathbf{x}_0)=\frac{h(t,\mathbf{x}_1)}{h(t,\mathbf{x}_0)}=\exp[(\mathbf{x}_1-\mathbf{x}_0)^\top\boldsymbol{\beta}]\]
+
+\textbf{Interpretation by covariate type:}
+
+\begin{enumerate}
+\item \textbf{Binary $x$ (0/1):} $\text{HR}=e^\beta$
+  \begin{itemize}
+  \item $\beta>0$: $x=1$ has higher hazard (worse survival).
+  \item $\beta<0$: $x=1$ has lower hazard (better survival).
+  \item Example: $\hat\beta=0.555\Rightarrow\widehat{\text{HR}}=1.742$. ``Experimental group has 1.742 times the death rate of control (74.2\% increase).''
+  \item Example: $\hat\beta=-0.684\Rightarrow\widehat{\text{HR}}=0.505$. ``Experimental group has 0.505 times the death rate of control (49.5\% reduction or 50.5\% of control rate).''
+  \end{itemize}
+
+\item \textbf{Continuous $x$ (per 1-unit):} $\text{HR}(x+1:x)=e^\beta$
+  \begin{itemize}
+  \item Often report HR for clinically meaningful change (e.g., 5-year age increase).
+  \item $\text{HR}(x+k:x)=e^{k\beta}$.
+  \item Example: $\hat\beta_{\text{age}}=0.046$. For 5-year increase: $\widehat{\text{HR}}=e^{5\times 0.046}=1.259$. ``Death rate increases 25.9\% per 5-year age increase.''
+  \end{itemize}
+
+\item \textbf{Categorical $x$ (reference cell coding):}
+  \begin{itemize}
+  \item Create $K-1$ dummies for $K$ levels. Example: 4 age groups $\Rightarrow$ 3 dummies.
+  \item $\text{HR}(\text{level }j:\text{ref})=e^{\beta_j}$.
+  \item $\text{HR}(\text{level }j:\text{level }k)=e^{\beta_j-\beta_k}$.
+  \item Variance: $\widehat{\mathrm{Var}}(\hat\beta_j-\hat\beta_k)=\widehat{\mathrm{Var}}(\hat\beta_j)+\widehat{\mathrm{Var}}(\hat\beta_k)-2\widehat{\mathrm{Cov}}(\hat\beta_j,\hat\beta_k)$.
+  \item 95\% CI: $\exp\left[(\hat\beta_j-\hat\beta_k)\pm z_{\alpha/2}\sqrt{\widehat{\mathrm{Var}}(\hat\beta_j-\hat\beta_k)}\right]$.
+  \end{itemize}
+\end{enumerate}
+
+\textbf{C. Estimation (Partial Likelihood)}
+
+\textbf{No ties:} Cox's partial likelihood:
+\[L_p(\boldsymbol{\beta})=\prod_{j=1}^m\frac{\exp(\boldsymbol{\beta}^\top\mathbf{x}_j)}{\sum_{k\in R(t_j)}\exp(\boldsymbol{\beta}^\top\mathbf{x}_k)}\]
+where $m=$ \# events, $R(t_j)=$ risk set at $t_j$.
+
+\textbf{Log partial likelihood:}
+\[\ell_p(\boldsymbol{\beta})=\sum_{j=1}^m\left[\boldsymbol{\beta}^\top\mathbf{x}_j-\log\sum_{k\in R(t_j)}\exp(\boldsymbol{\beta}^\top\mathbf{x}_k)\right]\]
+
+\textbf{MLE:} Solve $\frac{\partial\ell_p}{\partial\boldsymbol{\beta}}=\mathbf{0}$ (Newton-Raphson).
+
+\textbf{Variance:} $\widehat{\mathrm{Var}}(\hat{\boldsymbol{\beta}})=\left[-\frac{\partial^2\ell_p}{\partial\boldsymbol{\beta}\partial\boldsymbol{\beta}^\top}\Big|_{\hat{\boldsymbol{\beta}}}\right]^{-1}=I(\hat{\boldsymbol{\beta}})^{-1}$ (observed information).
+
+\textbf{Handling ties:} When multiple events at $t_j$:
+\begin{itemize}
+\item \textbf{BRESLOW (fast, default):} Approximates exact likelihood. Less accurate with many ties.
+\item \textbf{EFRON (recommended):} Better approximation, moderate computation. Use this in course examples.
+\item \textbf{EXACT/DISCRETE:} Computationally intensive but exact. Use for small samples or many ties.
+\end{itemize}
+
+\textbf{D. Inference}
+
+\textbf{Single coefficient $\beta_j$:}
+
+\emph{Wald test:} $z=\frac{\hat\beta_j}{\widehat{\text{SE}}(\hat\beta_j)}\sim N(0,1)$ or $\chi^2_W=z^2\sim\chi^2_1$.
+
+\emph{95\% CI for $\beta_j$:} $\hat\beta_j\pm z_{\alpha/2}\widehat{\text{SE}}(\hat\beta_j)$.
+
+\emph{95\% CI for HR:} $\exp\left[\hat\beta_j\pm z_{\alpha/2}\widehat{\text{SE}}(\hat\beta_j)\right]$.
+
+\textbf{Multiple coefficients (overall test):}
+
+Test $H_0:\beta_1=\cdots=\beta_p=0$ vs.\ $H_a$: not all zero.
+
+\begin{enumerate}
+\item \textbf{Likelihood Ratio (LR):} $G=-2[\ell_p(\mathbf{0})-\ell_p(\hat{\boldsymbol{\beta}})]\sim\chi^2_p$.
+  \begin{itemize}
+  \item Most reliable.
+  \item For nested models: $G=-2[\ell_p(\hat{\boldsymbol{\beta}}_{\text{small}})-\ell_p(\hat{\boldsymbol{\beta}}_{\text{large}})]\sim\chi^2_{\Delta\text{df}}$.
+  \end{itemize}
+
+\item \textbf{Wald:} $\hat{\boldsymbol{\beta}}^\top[\widehat{\mathrm{Var}}(\hat{\boldsymbol{\beta}})]^{-1}\hat{\boldsymbol{\beta}}\sim\chi^2_p$.
+  \begin{itemize}
+  \item Easy to compute from output.
+  \item Can be anti-conservative.
+  \end{itemize}
+
+\item \textbf{Score (efficient score):} Based on $U(\mathbf{0})=\frac{\partial\ell_p}{\partial\boldsymbol{\beta}}\big|_{\mathbf{0}}$.
+  \begin{itemize}
+  \item Doesn't require $\hat{\boldsymbol{\beta}}$.
+  \item Used in some diagnostic tests.
+  \end{itemize}
+\end{enumerate}
+
+\textbf{Linear combinations \& CIs:}
+
+For $L=\mathbf{c}^\top\boldsymbol{\beta}=c_1\beta_1+c_2\beta_2+\cdots+c_p\beta_p$ (e.g., contrasts, pairwise comparisons):
+
+\emph{Point estimate:} $\hat L=\mathbf{c}^\top\hat{\boldsymbol{\beta}}$.
+
+\emph{Variance:}
+\[\widehat{\mathrm{Var}}(\hat L)=\mathbf{c}^\top\widehat{\mathrm{Var}}(\hat{\boldsymbol{\beta}})\mathbf{c}=\sum_i c_i^2\widehat{\mathrm{Var}}(\hat\beta_i)+2\sum_{i<j}c_ic_j\widehat{\mathrm{Cov}}(\hat\beta_i,\hat\beta_j)\]
+
+\emph{95\% CI for $L$:} $\hat L\pm z_{\alpha/2}\sqrt{\widehat{\mathrm{Var}}(\hat L)}$.
+
+\emph{95\% CI for $e^L$ (HR):} $\exp\left[\hat L\pm z_{\alpha/2}\sqrt{\widehat{\mathrm{Var}}(\hat L)}\right]$.
+
+\emph{Wald test:} $z=\frac{\hat L}{\sqrt{\widehat{\mathrm{Var}}(\hat L)}}\sim N(0,1)$ or $\chi^2=z^2\sim\chi^2_1$.
+
+\textbf{SAS:} Use \verb|estimate| statement or extract \verb|covb| from \verb|ods output CovB=covmat;|
+
+\textbf{E. Baseline \& Conditional Survival Estimation}
+
+\textbf{Breslow estimator for $H_0(t)$:}
+\[\hat H_0(t)=\sum_{t_j\le t}\frac{d_j}{\sum_{k\in R(t_j)}\exp(\hat{\boldsymbol{\beta}}^\top\mathbf{x}_k)}\]
+
+\textbf{Baseline survival:}
+\[\hat S_0(t)=\exp[-\hat H_0(t)]\]
+
+\textbf{Conditional survival for $\mathbf{x}$:}
+\[\hat S(t\mid\mathbf{x})=[\hat S_0(t)]^{\exp(\hat{\boldsymbol{\beta}}^\top\mathbf{x})}\]
+
+\textbf{SAS Implementation:}
+
+\emph{Method 1: Default (at mean/reference):}
+\begin{verbatim}
+proc phreg data=ds plots(cl)=s;
+  model time*status(0) = x1 x2 /ties=EFRON;
+  baseline out=baseout survival=s lower=lcl upper=ucl;
+run;
+\end{verbatim}
+Gives $\hat S(t\mid\bar{\mathbf{x}})$ where continuous vars at mean, categorical at reference.
+
+\emph{Method 2: Specific covariate patterns:}
+\begin{verbatim}
+/* Create dataset with desired covariate values */
+data covpatterns;
+  input id x1 x2;
+  datalines;
+1 25 1
+2 50 0
+;
+run;
+
+proc phreg data=ds plots(cl overlay)=survival;
+  model time*status(0) = x1 x2 /ties=EFRON;
+  baseline out=pred covariates=covpatterns
+           survival=_all_ /rowid=id;
+run;
+proc print data=pred; run;
+\end{verbatim}
+Gives $\hat S(t\mid\mathbf{x}_1)$ and $\hat S(t\mid\mathbf{x}_2)$ with CIs. Use \verb|plots(overlay)| to compare curves.
+
+\section*{VI. Model Building \& Selection}
+
+\textbf{A. Confounding Assessment}
+
+\textbf{Definition:} $X_2$ confounds effect of $X_1$ if including $X_2$ substantially changes $\hat\beta_1$.
+
+\textbf{Procedure:}
+\begin{enumerate}
+\item Fit reduced: $h(t,x_1)=h_0(t)e^{\beta_1x_1}$. Get $\hat\beta_1^{\text{crude}}$.
+\item Fit full: $h(t,x_1,x_2)=h_0(t)e^{\beta_1x_1+\beta_2x_2}$. Get $\hat\beta_1^{\text{adj}}$.
+\item Compute \textbf{percent change}:
+\[\Delta\%=100\times\frac{|\hat\beta_1^{\text{crude}}-\hat\beta_1^{\text{adj}}|}{|\hat\beta_1^{\text{adj}}|}\]
+\item Threshold: $|\Delta\%|\ge 10$--20\% (Hosmer et al.: 20\%).
+\end{enumerate}
+
+\textbf{Clinical vs.\ statistical significance:}
+\begin{itemize}
+\item Large $\Delta\%$ but $p>0.05$ for $\beta_2$: may still keep $X_2$ if clinically important.
+\item Small $\Delta\%$ and $p>0.05$: can remove.
+\end{itemize}
+
+\textbf{B. Effect Modification (Interaction)}
+
+\textbf{Definition:} Effect of $X_1$ varies by levels of $X_2$.
+
+\textbf{Model with interaction:}
+\[h(t,x_1,x_2)=h_0(t)\exp(\beta_1x_1+\beta_2x_2+\beta_3x_1x_2)\]
+
+\textbf{HR interpretation:}
+\begin{itemize}
+\item At $x_2=a$: $\text{HR}(x_1)=\exp(\beta_1+\beta_3 a)$.
+\item Effect of $x_1$ changes with $x_2$.
+\item \textbf{Test interaction:} Wald test for $H_0:\beta_3=0$.
+\end{itemize}
+
+\textbf{Variance for $\beta_1+\beta_3 a$:}
+\[\widehat{\mathrm{Var}}(\hat\beta_1+a\hat\beta_3)=\widehat{\mathrm{Var}}(\hat\beta_1)+a^2\widehat{\mathrm{Var}}(\hat\beta_3)+2a\widehat{\mathrm{Cov}}(\hat\beta_1,\hat\beta_3)\]
+
+\textbf{95\% CI for HR at $x_2=a$:}
+\[\exp\left[(\hat\beta_1+a\hat\beta_3)\pm z_{\alpha/2}\sqrt{\widehat{\mathrm{Var}}(\hat\beta_1+a\hat\beta_3)}\right]\]
+
+\textbf{Key point:} If interaction present, discussion of confounding becomes irrelevant. Focus on stratified or conditional effects.
+
+\textbf{C. Model Selection Strategy}
+
+\textbf{Step 1:} Univariable analysis
+\begin{itemize}
+\item Fit each covariate separately.
+\item Note significant variables ($p<0.20$ or 0.25).
+\end{itemize}
+
+\textbf{Step 2:} Initial multivariable model
+\begin{itemize}
+\item Include variables from Step 1 plus clinically important variables.
+\end{itemize}
+
+\textbf{Step 3:} Backward elimination
+\begin{itemize}
+\item Remove non-significant variables one at a time (highest $p$-value first).
+\item Check confounding at each step.
+\item Stop when all remaining variables are significant or important confounders.
+\end{itemize}
+
+\textbf{Step 4:} Check continuous variable linearity
+\begin{itemize}
+\item Martingale residuals vs.\ covariate.
+\item Consider splines, polynomials, transformations if nonlinear.
+\end{itemize}
+
+\textbf{Step 5:} Add interactions
+\begin{itemize}
+\item Test clinically plausible interactions.
+\item Keep if significant.
+\end{itemize}
+
+\textbf{Step 6:} Check PH assumption (see Section VII).
+
+\textbf{Step 7:} Assess fit \& influence (see Section VIII).
+
+\textbf{Model comparison (nested):}
+\begin{itemize}
+\item LR test: $G=-2(\ell_{\text{small}}-\ell_{\text{large}})\sim\chi^2_{\Delta\text{df}}$.
+\item AIC: $-2\ell_p+2p$ (lower better).
+\item BIC: $-2\ell_p+p\log n$ (lower better, penalizes complexity more).
+\end{itemize}
+
+\section*{VII. Checking PH Assumption}
+
+\textbf{A. Graphical Methods}
+
+\begin{enumerate}
+\item \textbf{Log-log survival plot:}
+  \begin{itemize}
+  \item Plot $\log[-\log\hat S(t)]$ vs.\ $t$ (or $\log t$) for each group.
+  \item Under PH: curves should be roughly parallel.
+  \item Works for categorical covariates.
+  \end{itemize}
+
+\item \textbf{Observed vs.\ expected plots:}
+  \begin{itemize}
+  \item Compare KM curve to predicted $\hat S(t,\mathbf{x})$ from Cox model.
+  \item Large deviations suggest PH violation.
+  \end{itemize}
+\end{enumerate}
+
+\textbf{B. Schoenfeld Residuals}
+
+\textbf{Definition:} For event at $t_j$, covariate $k$:
+\[r_{jk}=x_{jk}-\frac{\sum_{l\in R(t_j)}x_{lk}\exp(\hat{\boldsymbol{\beta}}^\top\mathbf{x}_l)}{\sum_{l\in R(t_j)}\exp(\hat{\boldsymbol{\beta}}^\top\mathbf{x}_l)}\]
+
+\textbf{Property:} Under PH, $E(r_{jk})=0$ for all $t_j$. If PH violated, $r_{jk}$ trends with time.
+
+\textbf{Test:}
+\begin{itemize}
+\item Regress scaled Schoenfeld residuals on time (or rank of time).
+\item Slope $\ne 0$ suggests non-PH.
+\item Global test: combine across covariates.
+\end{itemize}
+
+\textbf{SAS:} \verb|assess ph / resample;|
+\begin{itemize}
+\item Produces supremum test (Kolmogorov-type).
+\item Martingale-based empirical score process.
+\item Simulated paths under $H_0$ vs.\ observed path.
+\item $p$-value from resampling (e.g., 1000 reps).
+\end{itemize}
+
+\textbf{C. Time-Dependent Coefficients}
+
+Fit model: $h(t,\mathbf{x})=h_0(t)\exp[\boldsymbol{\beta}(t)^\top\mathbf{x}]$. If $\beta_j(t)$ non-constant, PH violated for $x_j$.
+
+\textbf{D. Remedies for Non-PH}
+
+\textbf{1. Stratification}
+
+Model: $h_s(t,\mathbf{x})=h_{0s}(t)\exp(\boldsymbol{\beta}^\top\mathbf{x})$ for stratum $s$.
+\begin{itemize}
+\item Separate baseline hazards per stratum.
+\item $\boldsymbol{\beta}$ common across strata.
+\item No estimate for stratifying variable (nuisance).
+\item SAS: \verb|strata age_group;|
+\item \textbf{Pros:} Robust (no parametric form for time-dependency).
+\item \textbf{Cons:} Loss of information on stratified variable; less efficient.
+\end{itemize}
+
+\textbf{2. Time Interactions}
+
+\textbf{Linear in time:}
+\[h(t,x_j)=h_0(t)\exp[(\beta_j+\beta_{jt}\cdot t)x_j]\]
+At $t=0$: HR$=e^{\beta_j}$. HR changes linearly with $t$.
+
+\textbf{Log-time:}
+\[h(t,x_j)=h_0(t)\exp[(\beta_j+\beta_{jt}\log t)x_j]\]
+HR changes with $\log t$.
+
+\textbf{Step function (piecewise):}
+\[h(t,x_j)=h_0(t)\exp[(\beta_j+\beta_{jt}I(t>\tau))x_j]\]
+Different HR before/after $\tau$.
+
+\textbf{Implementation:}
+\begin{itemize}
+\item Create interaction variable (e.g., \verb|x_time = x*time;|).
+\item Include in model.
+\item Test $H_0:\beta_{jt}=0$.
+\end{itemize}
+
+\textbf{3. Time-Dependent Covariates (see Section IX)}
+
+\section*{VIII. Diagnostics \& Influence}
+
+\textbf{A. Residuals}
+
+\textbf{1. Martingale residuals:}
+\[M_i=\delta_i-\hat H(Y_i,\mathbf{x}_i)\]
+where $\hat H(Y_i,\mathbf{x}_i)=\hat H_0(Y_i)\exp(\hat{\boldsymbol{\beta}}^\top\mathbf{x}_i)$.
+\begin{itemize}
+\item Range: $(-\infty,1]$.
+\item Sum to $\approx 0$.
+\item \textbf{Use:} Check functional form. Plot $M_i$ vs.\ $x_j$. Lowess smooth should be near 0.
+\item Nonlinear pattern $\Rightarrow$ consider transformation/spline.
+\end{itemize}
+
+\textbf{2. Deviance residuals:}
+\[D_i=\text{sign}(M_i)\sqrt{-2[M_i+\delta_i\log(\delta_i-M_i)]}\]
+\begin{itemize}
+\item More symmetric than martingale.
+\item \textbf{Use:} Identify outliers. $|D_i|>3$ suspicious.
+\end{itemize}
+
+\textbf{3. Schoenfeld residuals:} See Section VII.B.
+
+\textbf{4. Score residuals:} Contribution to score function. For influence analysis.
+
+\textbf{B. Influence Measures}
+
+\textbf{1. dfbeta:}
+\[\text{dfbeta}_{ij}=\hat\beta_j-\hat\beta_{j(-i)}\]
+Change in $\hat\beta_j$ when subject $i$ removed.
+\begin{itemize}
+\item Large $|\text{dfbeta}_{ij}|$ $\Rightarrow$ influential.
+\item Cutoff: $>2/\sqrt{n}$ or visual inspection.
+\end{itemize}
+
+\textbf{2. Likelihood displacement (LD):}
+\[LD_i=2[\ell_p(\hat{\boldsymbol{\beta}})-\ell_p(\hat{\boldsymbol{\beta}}_{(-i)})]\]
+Overall influence on likelihood.
+
+\textbf{3. LMAX:}
+\[\text{LMAX}_i=\max_j\left|\frac{\text{dfbeta}_{ij}}{\widehat{\text{SE}}(\hat\beta_j)}\right|\]
+Maximum standardized change.
+
+\textbf{C. Overall Fit}
+
+\textbf{Cox-Snell residuals:}
+\[r_i^C=\hat H(Y_i,\mathbf{x}_i)\]
+Under correct model, $r_i^C\sim\text{Exp}(1)$. Check: KM plot of $r_i^C$ should match $S(r)=e^{-r}$.
+
+\section*{IX. Time-Dependent Covariates}
+
+\textbf{A. Types}
+
+\begin{enumerate}
+\item \textbf{External:} Defined independently of subject (e.g., policy change, calendar time).
+\item \textbf{Internal:} Defined by subject's history (e.g., biomarker levels, disease progression, treatment received).
+\item \textbf{Time interactions:} Test PH (covariate $\times$ time).
+\end{enumerate}
+
+\textbf{B. Counting Process Data Format}
+
+Each subject contributes multiple rows: $(t_{\text{start}},t_{\text{stop}}]$ intervals.
+\begin{itemize}
+\item Covariate values constant within each interval.
+\item Update at change points.
+\item Event indicator: 1 only in interval containing event.
+\end{itemize}
+
+\textbf{Example:}
+\begin{center}
+\begin{tabular}{ccccl}
+ID & start & stop & event & trt\\
+\hline
+1 & 0 & 5 & 0 & 0\\
+1 & 5 & 10 & 1 & 1\\
+2 & 0 & 8 & 0 & 0
+\end{tabular}
+\end{center}
+Subject 1: untreated 0--5, treated 5--10, event at 10.
+
+\textbf{C. Cox Model with TDC}
+
+\[h(t,\mathbf{x}(t))=h_0(t)\exp[\boldsymbol{\beta}^\top\mathbf{x}(t)]\]
+
+\textbf{Partial likelihood:} Risk set $R(t_j)$ includes all with $t_{\text{start}}<t_j\le t_{\text{stop}}$, using covariate values at $t_j$.
+
+\textbf{SAS — Method 1 (Counting Process):}
+\begin{verbatim}
+proc phreg data=ds_counting;
+  model (tstart, tstop)*event(0) = trt age /ties=EFRON;
+run;
+\end{verbatim}
+Data must have multiple rows per subject with $(t_{\text{start}}, t_{\text{stop}}]$ intervals.
+
+\textbf{SAS — Method 2 (Programming Statement):}
+\begin{verbatim}
+proc phreg data=ds;
+  model time*event(0) = trt_td age /ties=EFRON;
+  if wait_time >= time or wait_time=. then trt_td = 0;
+  else trt_td = 1;
+run;
+\end{verbatim}
+\textbf{Key:} Programming statements after MODEL. Compares each event time with all at-risk subjects' waiting times.
+
+\textbf{D. Immortal Time Bias}
+
+\textbf{Problem:} Coding treatment as baseline fixed when it occurs during follow-up.
+
+\textbf{Example:} ``Ever treated'' vs.\ ``never treated'' comparison. Subjects must survive to treatment to be in ``ever'' group $\Rightarrow$ survival advantage artifactually assigned to treatment.
+
+\textbf{Solution:} Use counting process format. Code treatment as time-varying: 0 until treatment, 1 after.
+
+\textbf{E. Cautions}
+
+\begin{itemize}
+\item Internal TDC can induce bias if not carefully modeled (e.g., CD4 count as TDC in AIDS studies).
+\item Avoid ``future information'': covariate at $t$ shouldn't depend on events after $t$.
+\end{itemize}
+
+\section*{X. Data Preparation \& SAS Basics}
+
+\textbf{A. Reading Data}
+
+\begin{verbatim}
+/* From external file */
+data mydata;
+  infile 'C:\data.csv' delimiter=','
+         MISSOVER DSD firstobs=2;
+  input id time status age trt;
+run;
+
+/* Inline data */
+data mydata;
+  input id time status age trt;
+  datalines;
+1 10 1 55 0
+2 15 0 62 1
+;
+run;
+\end{verbatim}
+
+\textbf{B. Data Manipulation}
+
+\begin{verbatim}
+/* Create categorical from continuous */
+data mydata;
+  set mydata;
+  if age < 60 then age_grp = 1;
+  else if age < 70 then age_grp = 2;
+  else age_grp = 3;
+
+  /* Create interaction */
+  trt_age = trt * age;
+
+  /* Log transformation */
+  log_time = log(time);
+run;
+
+/* Sort data */
+proc sort data=mydata;
+  by trt age;
+run;
+\end{verbatim}
+
+\textbf{C. Descriptive Statistics}
+
+\begin{verbatim}
+/* Summary by group */
+proc means data=mydata n mean std median min max;
+  class trt;
+  var age time;
+run;
+
+/* Frequency tables */
+proc freq data=mydata;
+  tables trt*status / chisq;
+run;
+\end{verbatim}
+
+\section*{XI. SAS Implementation: Survival Analysis}
+
+\textbf{A. PROC LIFETEST (Kaplan-Meier, Tests)}
+
+\begin{verbatim}
+ods graphics on;
+proc lifetest data=ds method=KM alpha=0.05
+              plots=survival(cl test) conftype=loglog
+              outsurv=km_out;
+  time time*status(0);           /* 0=censored */
+  strata group;                  /* optional: compare groups */
+  strata group / test=all;       /* all tests */
+  strata group / adjust=bon;     /* Bonferroni */
+  strata age(60 70 80);          /* on-the-fly grouping */
+run;
+ods graphics off;
+\end{verbatim}
+
+\textbf{Options:}
+\begin{itemize}
+\item \verb|method=KM| (default) or \verb|LT| (life-table).
+\item \verb|alpha=|: significance level for CI.
+\item \verb|conftype=|: \verb|loglog| (preferred), \verb|linear|, \verb|log|, \verb|asinsqrt|.
+\item \verb|plots=survival(cl)| adds confidence bands; \verb|(test)| adds test result on plot.
+\item \verb|test=|: choose weights for log-rank test. Options: \verb|logrank|, \verb|wilcoxon|, \verb|tarone|, \verb|peto|, \verb|modpeto|, \verb|fleming|. \verb|test=all| shows all.
+\item \verb|adjust=bon|: Bonferroni adjustment for pairwise comparisons.
+\item \verb|outsurv=| outputs KM estimates.
+\end{itemize}
+
+\textbf{B. PROC PHREG (Cox PH)}
+
+\textbf{Basic syntax:}
+\begin{verbatim}
+proc phreg data=ds;
+  class catvar(ref=first)/param=ref;
+  model time*status(0) = x1 x2 catvar
+        /ties=EFRON risklimits covb;
+  /* Baseline survival - default (at mean/reference) */
+  baseline out=baseout survival=s lower=lcl upper=ucl;
+  /* Conditional survival - specific covariate values */
+  baseline out=pred covariates=covar_ds survival=_all_
+           /rowid=id;
+  /* Assess PH */
+  assess ph / resample crpanel;
+  /* All pairwise HRs */
+  hazardratio 'label' catvar / diff=all cl=pl;
+  /* Estimate specific HR with CI */
+  estimate 'label' catvar 1 -1 / exp cl;
+  /* Store parameter estimates */
+  ods output ParameterEstimates=pe
+             CovB=covmat;
+run;
+\end{verbatim}
+
+\textbf{Options:}
+\begin{itemize}
+\item \verb|class|: declare categorical variables.
+  \begin{itemize}
+  \item \verb|ref=first| (default) or \verb|ref=last| or \verb|ref='level'|.
+  \item \verb|param=ref| (reference cell), \verb|glm| (GLM coding), \verb|effect|.
+  \end{itemize}
+\item \verb|model| options:
+  \begin{itemize}
+  \item \verb|ties=EFRON| (recommended), \verb|BRESLOW|, \verb|EXACT|, \verb|DISCRETE|.
+  \item \verb|risklimits|: HR CIs for main effects.
+  \item \verb|covb|: covariance matrix (for linear combinations).
+  \item \verb|selection=|: stepwise, forward, backward.
+  \item \verb|slentry=, slstay=|: significance levels for selection.
+  \end{itemize}
+\item \verb|baseline|: compute baseline and conditional survival curves.
+  \begin{itemize}
+  \item \textbf{Without covariates=}: survival at mean (continuous) / reference (categorical).
+  \item \textbf{With covariates=}: survival for specific covariate patterns in dataset.
+  \item \verb|out=|: output dataset name.
+  \item \verb|survival=s|: variable name for $\hat S(t)$; use \verb|survival=_all_| for $\hat S(t)$, SE, lower, upper.
+  \item \verb|cumhaz=h|: cumulative hazard $\hat H(t)$.
+  \item \verb|lower=lcl, upper=ucl|: 95\% CI bounds.
+  \item \verb|rowid=id|: identifier for covariate patterns (required with \verb|covariates=| for plotting).
+  \end{itemize}
+\item \verb|assess ph|: test PH assumption.
+  \begin{itemize}
+  \item \verb|resample|: resampling-based $p$-value.
+  \item \verb|crpanel|: cumulative residual panel plots.
+  \end{itemize}
+\item \verb|hazardratio var / diff=all|: compute all pairwise HRs for categorical var.
+  \begin{itemize}
+  \item \verb|cl=pl| (profile likelihood CI, default), \verb|wald|.
+  \end{itemize}
+\item \verb|estimate|: custom linear combinations.
+  \begin{itemize}
+  \item \verb|exp|: exponentiate (for HR).
+  \item \verb|cl|: confidence limits.
+  \end{itemize}
+\end{itemize}
+
+\textbf{Time-dependent covariates (counting process):}
+\begin{verbatim}
+proc phreg data=ds_cp;
+  model (tstart, tstop)*status(0) = trt_tdc age
+        /ties=EFRON;
+run;
+\end{verbatim}
+Data must have $(t_{\text{start}}, t_{\text{stop}}]$ format.
+
+\textbf{Stratified Cox:}
+\begin{verbatim}
+proc phreg data=ds;
+  model time*status(0) = x1 x2 /ties=EFRON;
+  strata stratum_var;  /* no coef for stratum_var */
+run;
+\end{verbatim}
+
+\textbf{Time interaction:}
+\begin{verbatim}
+proc phreg data=ds;
+  model time*status(0) = x x_time /ties=EFRON;
+  x_time = x * time;  /* or x*log(time) */
+run;
+\end{verbatim}
+
+\section*{XII. Complete Analysis Workflow}
+
+\textbf{Step-by-Step Survival Data Analysis}
+
+\textbf{1. Exploratory Data Analysis}
+\begin{itemize}
+\item Check data structure: \verb|proc contents|, \verb|proc print| (first 10 obs).
+\item Descriptive statistics: \verb|proc means|, \verb|proc freq|.
+\item Check missing data, outliers.
+\item Calculate follow-up time if needed: \verb|time = end_date - start_date;|
+\end{itemize}
+
+\textbf{2. Univariate Survival Analysis}
+\begin{itemize}
+\item Overall KM curve: \verb|proc lifetest| without strata.
+\item Report median survival with CI.
+\item Check if survival curve reaches 0.
+\end{itemize}
+
+\textbf{3. Bivariate Analysis}
+\begin{itemize}
+\item KM curves by exposure/treatment: \verb|strata group;|
+\item Log-rank test for group differences.
+\item Assess graphically: do curves cross? (suggests non-PH).
+\end{itemize}
+
+\textbf{4. Cox Regression — Univariable}
+\begin{itemize}
+\item Fit model for each covariate separately.
+\item Identify candidates ($p<0.20$ or clinically important).
+\item Check HR direction and magnitude.
+\end{itemize}
+
+\textbf{5. Cox Regression — Multivariable}
+\begin{itemize}
+\item Include significant + clinically important variables.
+\item Assess confounding (percent change in exposure effect).
+\item Test for interactions (exposure $\times$ potential effect modifiers).
+\item Model selection: backward elimination, LR tests.
+\end{itemize}
+
+\textbf{6. Model Diagnostics}
+\begin{itemize}
+\item PH assumption: \verb|assess ph / resample;|
+\item Functional form: martingale residuals vs.\ continuous covariates.
+\item Outliers/influence: deviance residuals, dfbeta.
+\item Overall fit: Cox-Snell residuals.
+\end{itemize}
+
+\textbf{7. Address Violations}
+\begin{itemize}
+\item Non-PH: stratify, add time interactions, or use TDC.
+\item Non-linearity: transform variable, use splines, categorize.
+\item Outliers: sensitivity analysis (refit without outliers).
+\end{itemize}
+
+\textbf{8. Final Model \& Interpretation}
+\begin{itemize}
+\item Report adjusted HRs with 95\% CIs and $p$-values.
+\item Interpret in context (clinical significance).
+\item Predicted survival curves for key covariate patterns.
+\end{itemize}
+
+\textbf{9. Reporting}
+\begin{itemize}
+\item Table 1: Baseline characteristics by group.
+\item Figure 1: KM curves with log-rank $p$.
+\item Table 2: Univariable and multivariable Cox models.
+\item Text: Describe methods, results, limitations.
+\end{itemize}
+
+\section*{XIII. Interpretation \& Reporting}
+
+\textbf{A. HR Reporting Templates}
+
+\begin{enumerate}
+\item \textbf{Binary exposure:}
+
+``Adjusted for [covariates], the hazard of [event] for [exposed] was $\widehat{\text{HR}}$ times that of [reference] (95\% CI: [lower, upper], $p$=[value], Wald test).''
+
+\emph{Example:} ``Adjusted for age and BMI, the hazard of death for smokers was 1.85 times that of non-smokers (95\% CI: 1.23, 2.79, $p=0.003$).''
+
+\item \textbf{Continuous exposure:}
+
+``Adjusted for [covariates], each [k]-unit increase in [var] was associated with a [HR] times hazard of [event] (95\% CI: [lower, upper], $p$=[value]).''
+
+\emph{Example:} ``Adjusted for sex, each 10 mmHg increase in systolic BP was associated with a 1.25 times hazard of stroke (95\% CI: 1.12, 1.39, $p<0.001$).''
+
+\item \textbf{Categorical exposure:}
+
+``Compared to [reference], the hazard of [event] for [level] was $\widehat{\text{HR}}$ (95\% CI: [lower, upper], $p$=[value]).''
+
+List all levels vs.\ reference or provide pairwise comparisons.
+
+\item \textbf{Interaction:}
+
+``The effect of [var1] on [event] differed by [var2] ($p_{\text{interaction}}$=[value]). Among [var2=level1], the HR for [var1] was [HR] (95\% CI: [lower, upper]). Among [var2=level2], the HR was [HR] (95\% CI: [lower, upper]).''
+\end{enumerate}
+
+\textbf{B. Model Comparison}
+
+``Model 2 (including [additional vars]) provided significantly better fit than Model 1 (LR $\chi^2$=[value], df=[df], $p$=[value]). The AIC decreased from [AIC1] to [AIC2].''
+
+\textbf{C. PH Check}
+
+``The proportional hazards assumption was assessed using Schoenfeld residuals. The global test was non-significant ($p$=[value]), and covariate-specific tests showed no evidence of non-proportionality (all $p>0.05$).''
+
+If violated: ``The PH assumption was violated for [var] ($p$=[value]). We addressed this by [stratifying/time-interaction/TDC].''
+
+\textbf{D. Confounding}
+
+``Including [var2] changed the coefficient for [var1] by [X]\%, suggesting [var2] confounds the relationship between [var1] and [outcome].''
+
+\section*{XIV. Key Formulas Summary}
+
+\textbf{Survival relationships:}
+\begin{align*}
+S(t)&=P(T>t)=\exp[-H(t)]\\
+h(t)&=\lim_{\Delta t\to 0}\frac{P(t\le T<t+\Delta t\mid T\ge t)}{\Delta t}=\frac{f(t)}{S(t)}\\
+H(t)&=\int_0^t h(u)\,du=-\log S(t)
+\end{align*}
+
+\textbf{KM \& variance:}
+\[\hat S(t)=\prod_{t_i\le t}\left(1-\frac{d_i}{n_i}\right),\quad \widehat{\mathrm{Var}}[\hat S(t)]=\hat S(t)^2\sum_{t_i\le t}\frac{d_i}{n_i(n_i-d_i)}\]
+
+\textbf{Nelson-Aalen:}
+\[\hat H(t)=\sum_{t_i\le t}\frac{d_i}{n_i},\quad \tilde S(t)=e^{-\hat H(t)}\]
+
+\textbf{Log-rank test:}
+\[\chi^2=\frac{\left[\sum_j(d_{1j}-e_{1j})\right]^2}{\sum_j v_{1j}},\quad e_{1j}=\frac{n_{1j}d_j}{n_j},\quad v_{1j}=\frac{n_{1j}n_{0j}d_j(n_j-d_j)}{n_j^2(n_j-1)}\]
+
+\textbf{Cox model:}
+\begin{align*}
+h(t,\mathbf{x})&=h_0(t)\exp(\boldsymbol{\beta}^\top\mathbf{x})\\
+\text{HR}(\mathbf{x}_1:\mathbf{x}_0)&=\exp[(\mathbf{x}_1-\mathbf{x}_0)^\top\boldsymbol{\beta}]\\
+S(t,\mathbf{x})&=[S_0(t)]^{\exp(\boldsymbol{\beta}^\top\mathbf{x})}
+\end{align*}
+
+\textbf{Variance of linear combination:}
+\[\widehat{\mathrm{Var}}(c_1\hat\beta_1+c_2\hat\beta_2)=c_1^2\widehat{\mathrm{Var}}(\hat\beta_1)+c_2^2\widehat{\mathrm{Var}}(\hat\beta_2)+2c_1c_2\widehat{\mathrm{Cov}}(\hat\beta_1,\hat\beta_2)\]
+
+\textbf{Confounding percent change:}
+\[\Delta\%=100\times\frac{|\hat\beta_{\text{crude}}-\hat\beta_{\text{adj}}|}{|\hat\beta_{\text{adj}}|}\]
+
+\section*{XV. Common Pitfalls \& Tips}
+
+\begin{enumerate}
+\item \textbf{Immortal time bias:} Never code time-varying treatment as baseline fixed. Use counting process format.
+
+\item \textbf{Ignoring PH:} Always test with \verb|assess ph|. If violated, use stratification, time interactions, or TDC.
+
+\item \textbf{Censoring after last event:} If last time is censored, $\hat S(t)$ doesn't reach 0. Mean is underestimated. Use RMST or report restriction.
+
+\item \textbf{Ties:} With many ties (discrete time), use EFRON or EXACT. BRESLOW can be biased. Default in PROC PHREG is BRESLOW, but EFRON recommended.
+
+\item \textbf{Categorical reference:} State reference level explicitly. Check \verb|class| statement output.
+
+\item \textbf{Continuous linearity:} Don't assume. Check with martingale residuals. Use splines or transformations if needed.
+
+\item \textbf{Multiple comparisons:} Adjust $p$-values (Bonferroni: $\alpha/m$) when testing multiple pairwise differences.
+
+\item \textbf{Extrapolation:} Don't predict survival far beyond observed follow-up.
+
+\item \textbf{Small sample:} Exact tie handling may be needed. PH tests have low power.
+
+\item \textbf{Influential observations:} Check dfbeta and deviance residuals. One outlier can distort $\hat\beta$.
+
+\item \textbf{Reporting:} Always give HRs with CIs and $p$-values. State adjustments. Describe tie handling and PH checks.
+\end{enumerate}
+
+\section*{XVI. Quick Reference: Common Questions}
+
+\textbf{Q: How to choose between log-rank and Wilcoxon?}\\
+A: Log-rank if assume PH; Wilcoxon if early differences more important or curves cross.
+
+\textbf{Q: When is median survival undefined?}\\
+A: When last observation is censored and $\hat S(t_{\max})>0.5$. Report RMST instead.
+
+\textbf{Q: How to interpret HR $<$ 1 vs HR $>$ 1?}\\
+A: HR$<$1: exposure protective (lower hazard); HR$>$1: exposure harmful (higher hazard). HR$=$1: no effect.
+
+\textbf{Q: What if PH assumption violated?}\\
+A: (1) Stratify on violating variable, (2) Add time interaction $x\times g(t)$, (3) Use TDC, (4) Use alternative models (parametric, AFT).
+
+\textbf{Q: Difference between counting process vs programming statement for TDC?}\\
+A: Counting process: more flexible, handles complex scenarios. Programming statement: simpler for basic TDC, but limited to simple time-dependencies.
+
+\textbf{Q: How many events needed for Cox regression?}\\
+A: Rule of thumb: $\ge 10$ events per covariate. Fewer events $\Rightarrow$ unstable estimates, wide CIs.
+
+\textbf{Q: Can I use Cox model with small sample?}\\
+A: Yes, but use Exact tie handling, check residuals carefully, avoid overfitting (limit covariates).
+
+\textbf{Q: How to handle tied survival times?}\\
+A: EFRON (recommended) for moderate ties; EXACT for many ties or small samples; BRESLOW fast but less accurate. Always specify \verb|ties=EFRON| in PROC PHREG.
+
+\textbf{Q: What if covariate has missing values?}\\
+A: (1) Complete case analysis (if missing completely at random), (2) Multiple imputation, (3) Sensitivity analysis. Never ignore missingness.
+
+\textbf{Q: How to report censored observations?}\\
+A: State \# events, \# censored, \% censored, median follow-up time. Indicate censoring on KM plots (e.g., tick marks).
+
+\section*{XVII. Analysis Checklist}
+
+\textbf{Before Analysis:}
+\begin{itemize}
+\item[$\Box$] Data cleaned, variables coded correctly (event=1, censored=0).
+\item[$\Box$] Follow-up time calculated (non-negative).
+\item[$\Box$] Check for left truncation, interval censoring (special methods needed).
+\item[$\Box$] Identify time-varying covariates.
+\end{itemize}
+
+\textbf{During Analysis:}
+\begin{itemize}
+\item[$\Box$] KM curves for exposure and key covariates.
+\item[$\Box$] Test group differences (log-rank or Wilcoxon).
+\item[$\Box$] Fit univariable Cox models (screening).
+\item[$\Box$] Fit multivariable model (main effects).
+\item[$\Box$] Test for confounding (percent change).
+\item[$\Box$] Test for interactions (if clinically relevant).
+\item[$\Box$] Check PH assumption (\verb|assess ph|).
+\item[$\Box$] Check functional form (martingale residuals).
+\item[$\Box$] Check influence/outliers (dfbeta, deviance residuals).
+\item[$\Box$] Model comparison (LR tests, AIC).
+\end{itemize}
+
+\textbf{Reporting:}
+\begin{itemize}
+\item[$\Box$] Sample size, \# events, \% censored, median follow-up.
+\item[$\Box$] Baseline table (by exposure group).
+\item[$\Box$] KM curves with CI, log-rank $p$-value.
+\item[$\Box$] Cox model table: HR, 95\% CI, $p$-value (univariable + multivariable).
+\item[$\Box$] State tie handling method (EFRON/BRESLOW/EXACT). Use EFRON in assignments.
+\item[$\Box$] Report PH assumption check results.
+\item[$\Box$] Describe how violations addressed.
+\item[$\Box$] Clinical interpretation of HRs.
+\end{itemize}
+
+\section*{XVIII. Software Quick Commands}
+
+\textbf{Read CSV:}
+\begin{verbatim}
+proc import datafile='data.csv' out=ds dbms=csv replace;
+  getnames=yes;
+run;
+\end{verbatim}
+
+\textbf{Check data:}
+\begin{verbatim}
+proc contents data=ds; run;
+proc print data=ds(obs=10); run;
+\end{verbatim}
+
+\textbf{Univariate Cox for all vars:}
+\begin{verbatim}
+%macro univar(varlist);
+  %let n=%sysfunc(countw(&varlist));
+  %do i=1 %to &n;
+    %let var=%scan(&varlist,&i);
+    proc phreg data=ds;
+      model time*status(0)=&var;
+      title "Univariate: &var";
+    run;
+  %end;
+%mend;
+%univar(age sex bmi);
+\end{verbatim}
+
+\textbf{Export results:}
+\begin{verbatim}
+ods rtf file='results.rtf';
+proc lifetest data=ds plots=survival;
+  time time*status(0);
+  strata trt;
+run;
+ods rtf close;
+\end{verbatim}
+
+\end{multicols}
+\end{document}
