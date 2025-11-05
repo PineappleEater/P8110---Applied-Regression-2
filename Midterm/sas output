@@ -1,0 +1,2284 @@
+Gender by Parental Depression
+
+The FREQ Procedure
+
+Frequency
+Table of gender by parent_label
+gender(Gender (1=Male, 2=Female))	parent_label
+No Parental Depression	Parental Depression	Total
+1	
+42
+63
+105
+2	
+53
+62
+115
+Total	
+95
+125
+220
+Child Depression by Parental Depression
+
+The FREQ Procedure
+
+Frequency
+Table of depress_child by parent_label
+depress_child(Child Depression (0=No, 1=Yes))	parent_label
+No Parental Depression	Parental Depression	Total
+0	
+73
+78
+151
+1	
+22
+47
+69
+Total	
+95
+125
+220
+Substance Abuse by Parental Depression
+
+The FREQ Procedure
+
+Frequency
+Table of substance_abuse by parent_label
+substance_abuse(Substance Abuse (0=No, 1=Yes))	parent_label
+No Parental Depression	Parental Depression	Total
+0	
+88
+104
+192
+1	
+7
+21
+28
+Total	
+95
+125
+220
+Social Class by Parental Depression
+
+The FREQ Procedure
+
+Frequency
+Table of social_class by parent_label
+social_class(Social Class (1=Highest, 5=Lowest))	parent_label
+No Parental Depression	Parental Depression	Total
+1	
+1
+16
+17
+2	
+19
+19
+38
+3	
+16
+31
+47
+4	
+47
+50
+97
+5	
+12
+8
+20
+Total	
+95
+124
+219
+Frequency Missing = 1
+Marital Status by Parental Depression
+
+The FREQ Procedure
+
+Frequency
+Table of marital_status by parent_label
+marital_status(Marital Status (1=Married, 2=Sep/Div))	parent_label
+No Parental Depression	Parental Depression	Total
+1	
+84
+90
+174
+2	
+11
+35
+46
+Total	
+95
+125
+220
+Marital Status by Parental Depression
+
+The LIFETEST Procedure
+
+ 
+
+Stratum 1: parent_label = No Parental Depression
+
+Product-Limit Survival Estimates
+time	 	Survival	Failure	Survival Standard Error	Number
+Failed	Number
+Left
+0.0000	 	1.0000	0	0	0	95
+7.0000	*	.	.	.	0	94
+8.0000	*	.	.	.	0	93
+9.0000	*	.	.	.	0	92
+9.0000	*	.	.	.	0	91
+10.0000	*	.	.	.	0	90
+10.0000	*	.	.	.	0	89
+11.0000	*	.	.	.	0	88
+11.0000	*	.	.	.	0	87
+11.0000	*	.	.	.	0	86
+11.0000	*	.	.	.	0	85
+11.0000	*	.	.	.	0	84
+12.0000	 	.	.	.	1	83
+12.0000	 	.	.	.	2	82
+12.0000	 	0.9643	0.0357	0.0202	3	81
+12.0000	*	.	.	.	3	80
+12.0000	*	.	.	.	3	79
+12.0000	*	.	.	.	3	78
+12.0000	*	.	.	.	3	77
+12.0000	*	.	.	.	3	76
+13.0000	 	0.9516	0.0484	0.0236	4	75
+13.0000	*	.	.	.	4	74
+13.0000	*	.	.	.	4	73
+13.0000	*	.	.	.	4	72
+13.0000	*	.	.	.	4	71
+13.0000	*	.	.	.	4	70
+13.0000	*	.	.	.	4	69
+14.0000	 	.	.	.	5	68
+14.0000	 	0.9240	0.0760	0.0299	6	67
+14.0000	*	.	.	.	6	66
+14.0000	*	.	.	.	6	65
+14.0000	*	.	.	.	6	64
+14.0000	*	.	.	.	6	63
+14.0000	*	.	.	.	6	62
+14.0000	*	.	.	.	6	61
+14.0000	*	.	.	.	6	60
+14.0000	*	.	.	.	6	59
+15.0000	*	.	.	.	6	58
+15.0000	*	.	.	.	6	57
+15.0000	*	.	.	.	6	56
+15.0000	*	.	.	.	6	55
+16.0000	 	.	.	.	7	54
+16.0000	 	0.8904	0.1096	0.0371	8	53
+16.0000	*	.	.	.	8	52
+16.0000	*	.	.	.	8	51
+16.0000	*	.	.	.	8	50
+16.0000	*	.	.	.	8	49
+16.0000	*	.	.	.	8	48
+16.0000	*	.	.	.	8	47
+16.0000	*	.	.	.	8	46
+17.0000	 	.	.	.	9	45
+17.0000	 	.	.	.	10	44
+17.0000	 	.	.	.	11	43
+17.0000	 	0.8130	0.1870	0.0502	12	42
+17.0000	*	.	.	.	12	41
+17.0000	*	.	.	.	12	40
+17.0000	*	.	.	.	12	39
+17.0000	*	.	.	.	12	38
+17.0000	*	.	.	.	12	37
+18.0000	 	.	.	.	13	36
+18.0000	 	.	.	.	14	35
+18.0000	 	.	.	.	15	34
+18.0000	 	0.7251	0.2749	0.0610	16	33
+18.0000	*	.	.	.	16	32
+18.0000	*	.	.	.	16	31
+18.0000	*	.	.	.	16	30
+19.0000	 	.	.	.	17	29
+19.0000	 	.	.	.	18	28
+19.0000	 	.	.	.	19	27
+19.0000	 	0.6284	0.3716	0.0694	20	26
+19.0000	*	.	.	.	20	25
+19.0000	*	.	.	.	20	24
+19.0000	*	.	.	.	20	23
+19.0000	*	.	.	.	20	22
+19.0000	*	.	.	.	20	21
+20.0000	*	.	.	.	20	20
+20.0000	*	.	.	.	20	19
+20.0000	*	.	.	.	20	18
+20.0000	*	.	.	.	20	17
+20.0000	*	.	.	.	20	16
+20.0000	*	.	.	.	20	15
+21.0000	 	0.5865	0.4135	0.0764	21	14
+21.0000	*	.	.	.	21	13
+21.0000	*	.	.	.	21	12
+21.0000	*	.	.	.	21	11
+21.0000	*	.	.	.	21	10
+21.0000	*	.	.	.	21	9
+21.0000	*	.	.	.	21	8
+22.0000	*	.	.	.	21	7
+22.0000	*	.	.	.	21	6
+22.0000	*	.	.	.	21	5
+22.0000	*	.	.	.	21	4
+23.0000	 	0.4399	0.5601	0.1393	22	3
+23.0000	*	.	.	.	22	2
+23.0000	*	.	.	.	22	1
+25.0000	*	.	.	.	22	0
+Note:	The marked survival times are censored observations.
+
+Summary Statistics for Time Variable time
+
+Quartile Estimates
+Percent	Point
+Estimate	95% Confidence Interval
+Transform	[Lower	Upper)
+75	.	LOGLOG	23.0000	.
+50	23.0000	LOGLOG	19.0000	.
+25	18.0000	LOGLOG	17.0000	19.0000
+Mean	Standard
+Error
+20.6223	0.4352
+Note:	The mean survival time and its standard error were underestimated because the largest observation was censored and the estimation was restricted to the largest event time.
+
+Marital Status by Parental Depression
+
+The LIFETEST Procedure
+
+ 
+
+Stratum 2: parent_label = Parental Depression
+
+Product-Limit Survival Estimates
+time	 	Survival	Failure	Survival Standard Error	Number
+Failed	Number
+Left
+0.0000	 	1.0000	0	0	0	125
+4.0000	 	0.9920	0.00800	0.00797	1	124
+5.0000	 	0.9840	0.0160	0.0112	2	123
+5.0000	*	.	.	.	2	122
+6.0000	 	0.9759	0.0241	0.0137	3	121
+6.0000	*	.	.	.	3	120
+6.0000	*	.	.	.	3	119
+7.0000	 	.	.	.	4	118
+7.0000	 	.	.	.	5	117
+7.0000	 	.	.	.	6	116
+7.0000	 	0.9431	0.0569	0.0209	7	115
+7.0000	*	.	.	.	7	114
+7.0000	*	.	.	.	7	113
+7.0000	*	.	.	.	7	112
+7.0000	*	.	.	.	7	111
+8.0000	 	.	.	.	8	110
+8.0000	 	0.9261	0.0739	0.0237	9	109
+8.0000	*	.	.	.	9	108
+8.0000	*	.	.	.	9	107
+8.0000	*	.	.	.	9	106
+8.0000	*	.	.	.	9	105
+9.0000	 	0.9173	0.0827	0.0251	10	104
+9.0000	*	.	.	.	10	103
+9.0000	*	.	.	.	10	102
+9.0000	*	.	.	.	10	101
+9.0000	*	.	.	.	10	100
+9.0000	*	.	.	.	10	99
+10.0000	 	.	.	.	11	98
+10.0000	 	.	.	.	12	97
+10.0000	 	.	.	.	13	96
+10.0000	 	0.8803	0.1197	0.0301	14	95
+10.0000	*	.	.	.	14	94
+10.0000	*	.	.	.	14	93
+10.0000	*	.	.	.	14	92
+11.0000	 	.	.	.	15	91
+11.0000	 	0.8611	0.1389	0.0324	16	90
+11.0000	*	.	.	.	16	89
+11.0000	*	.	.	.	16	88
+11.0000	*	.	.	.	16	87
+12.0000	 	.	.	.	17	86
+12.0000	 	.	.	.	18	85
+12.0000	 	.	.	.	19	84
+12.0000	 	.	.	.	20	83
+12.0000	 	0.8116	0.1884	0.0373	21	82
+12.0000	*	.	.	.	21	81
+12.0000	*	.	.	.	21	80
+12.0000	*	.	.	.	21	79
+12.0000	*	.	.	.	21	78
+13.0000	 	.	.	.	22	77
+13.0000	 	.	.	.	23	76
+13.0000	 	.	.	.	24	75
+13.0000	 	.	.	.	25	74
+13.0000	 	.	.	.	26	73
+13.0000	 	0.7492	0.2508	0.0423	27	72
+13.0000	*	.	.	.	27	71
+13.0000	*	.	.	.	27	70
+13.0000	*	.	.	.	27	69
+13.0000	*	.	.	.	27	68
+14.0000	 	0.7382	0.2618	0.0431	28	67
+14.0000	*	.	.	.	28	66
+14.0000	*	.	.	.	28	65
+14.0000	*	.	.	.	28	64
+14.0000	*	.	.	.	28	63
+15.0000	 	.	.	.	29	62
+15.0000	 	.	.	.	30	61
+15.0000	 	.	.	.	31	60
+15.0000	 	.	.	.	32	59
+15.0000	 	.	.	.	33	58
+15.0000	 	.	.	.	34	57
+15.0000	 	.	.	.	35	56
+15.0000	 	.	.	.	36	55
+15.0000	 	0.6327	0.3673	0.0492	37	54
+15.0000	*	.	.	.	37	53
+15.0000	*	.	.	.	37	52
+15.0000	*	.	.	.	37	51
+16.0000	 	.	.	.	38	50
+16.0000	 	0.6079	0.3921	0.0503	39	49
+16.0000	*	.	.	.	39	48
+16.0000	*	.	.	.	39	47
+16.0000	*	.	.	.	39	46
+16.0000	*	.	.	.	39	45
+17.0000	 	.	.	.	40	44
+17.0000	 	.	.	.	41	43
+17.0000	 	0.5674	0.4326	0.0521	42	42
+17.0000	*	.	.	.	42	41
+17.0000	*	.	.	.	42	40
+17.0000	*	.	.	.	42	39
+17.0000	*	.	.	.	42	38
+18.0000	 	0.5525	0.4475	0.0528	43	37
+18.0000	*	.	.	.	43	36
+18.0000	*	.	.	.	43	35
+18.0000	*	.	.	.	43	34
+19.0000	 	.	.	.	44	33
+19.0000	 	0.5200	0.4800	0.0545	45	32
+19.0000	*	.	.	.	45	31
+19.0000	*	.	.	.	45	30
+19.0000	*	.	.	.	45	29
+19.0000	*	.	.	.	45	28
+19.0000	*	.	.	.	45	27
+19.0000	*	.	.	.	45	26
+20.0000	 	0.5000	0.5000	0.0559	46	25
+20.0000	*	.	.	.	46	24
+20.0000	*	.	.	.	46	23
+20.0000	*	.	.	.	46	22
+20.0000	*	.	.	.	46	21
+20.0000	*	.	.	.	46	20
+20.0000	*	.	.	.	46	19
+20.0000	*	.	.	.	46	18
+21.0000	 	0.4722	0.5278	0.0593	47	17
+21.0000	*	.	.	.	47	16
+21.0000	*	.	.	.	47	15
+21.0000	*	.	.	.	47	14
+22.0000	*	.	.	.	47	13
+22.0000	*	.	.	.	47	12
+22.0000	*	.	.	.	47	11
+22.0000	*	.	.	.	47	10
+22.0000	*	.	.	.	47	9
+22.0000	*	.	.	.	47	8
+22.0000	*	.	.	.	47	7
+22.0000	*	.	.	.	47	6
+23.0000	*	.	.	.	47	5
+23.0000	*	.	.	.	47	4
+23.0000	*	.	.	.	47	3
+23.0000	*	.	.	.	47	2
+25.0000	*	.	.	.	47	1
+25.0000	*	.	.	.	47	0
+Note:	The marked survival times are censored observations.
+
+Summary Statistics for Time Variable time
+
+Quartile Estimates
+Percent	Point
+Estimate	95% Confidence Interval
+Transform	[Lower	Upper)
+75	.	LOGLOG	.	.
+50	20.0000	LOGLOG	17.0000	.
+25	13.0000	LOGLOG	12.0000	15.0000
+Mean	Standard
+Error
+17.1593	0.4669
+Note:	The mean survival time and its standard error were underestimated because the largest observation was censored and the estimation was restricted to the largest event time.
+
+Summary of the Number of Censored and Uncensored Values
+Stratum	parent_label	Total	Failed	Censored	Percent
+Censored
+1	No Parental Depression	95	22	73	76.84
+2	Parental Depression	125	47	78	62.40
+Total	 	220	69	151	68.64
+Marital Status by Parental Depression
+
+The LIFETEST Procedure
+
+Testing Homogeneity of Survival Curves for time over Strata
+
+Rank Statistics
+parent_label	Log-Rank	Wilcoxon
+No Parental Depression	-11.262	-2276.0
+Parental Depression	11.262	2276.0
+Covariance Matrix for the Log-Rank Statistics
+parent_label	No Parental Depression	Parental Depression
+No Parental Depression	16.4979	-16.4979
+Parental Depression	-16.4979	16.4979
+Covariance Matrix for the Wilcoxon Statistics
+parent_label	No Parental Depression	Parental Depression
+No Parental Depression	340944	-340944
+Parental Depression	-340944	340944
+Test of Equality over Strata
+Test	Chi-Square	DF	Pr >
+Chi-Square
+Log-Rank	7.6876	1	0.0056
+Wilcoxon	15.1936	1	<.0001
+-2Log(LR)	5.7178	1	0.0168
+Product-Limit Survival Curves
+Summary Statistics
+
+The MEANS Procedure
+
+Variable	Label	N	Mean	Std Dev
+time
+age
+Time to Depression Onset or Censoring
+Age at Interview
+220
+220
+15.1909091
+16.7227273
+4.7378693
+4.7388833
+Censoring by Parental Depression Status
+
+The FREQ Procedure
+
+Frequency
+Table of censor by parent_label
+censor(Censoring Status (1=Censored, 0=Event))	parent_label
+No Parental Depression	Parental Depression	Total
+0	
+22
+47
+69
+1	
+73
+78
+151
+Total	
+95
+125
+220
+HYPOTHESIS 1a: Survival Curves for Pre-pubertal Depression Onset (<13 years)
+
+Stratified by Parental Depression Status
+
+The LIFETEST Procedure
+
+ 
+
+Stratum 1: parent_label = No Parental Depression
+
+Product-Limit Survival Estimates
+time_prepub	 	Survival	Failure	Survival Standard Error	Number
+Failed	Number
+Left
+0.0000	 	1.0000	0	0	0	95
+12.0000	 	.	.	.	1	94
+12.0000	 	.	.	.	2	93
+12.0000	 	0.9684	0.0316	0.0179	3	92
+13.0000	*	.	.	.	3	91
+13.0000	*	.	.	.	3	90
+13.0000	*	.	.	.	3	89
+13.0000	*	.	.	.	3	88
+13.0000	*	.	.	.	3	87
+13.0000	*	.	.	.	3	86
+13.0000	*	.	.	.	3	85
+13.0000	*	.	.	.	3	84
+13.0000	*	.	.	.	3	83
+13.0000	*	.	.	.	3	82
+13.0000	*	.	.	.	3	81
+13.0000	*	.	.	.	3	80
+13.0000	*	.	.	.	3	79
+13.0000	*	.	.	.	3	78
+13.0000	*	.	.	.	3	77
+13.0000	*	.	.	.	3	76
+13.0000	*	.	.	.	3	75
+13.0000	*	.	.	.	3	74
+13.0000	*	.	.	.	3	73
+13.0000	*	.	.	.	3	72
+13.0000	*	.	.	.	3	71
+13.0000	*	.	.	.	3	70
+13.0000	*	.	.	.	3	69
+13.0000	*	.	.	.	3	68
+13.0000	*	.	.	.	3	67
+13.0000	*	.	.	.	3	66
+13.0000	*	.	.	.	3	65
+13.0000	*	.	.	.	3	64
+13.0000	*	.	.	.	3	63
+13.0000	*	.	.	.	3	62
+13.0000	*	.	.	.	3	61
+13.0000	*	.	.	.	3	60
+13.0000	*	.	.	.	3	59
+13.0000	*	.	.	.	3	58
+13.0000	*	.	.	.	3	57
+13.0000	*	.	.	.	3	56
+13.0000	*	.	.	.	3	55
+13.0000	*	.	.	.	3	54
+13.0000	*	.	.	.	3	53
+13.0000	*	.	.	.	3	52
+13.0000	*	.	.	.	3	51
+13.0000	*	.	.	.	3	50
+13.0000	*	.	.	.	3	49
+13.0000	*	.	.	.	3	48
+13.0000	*	.	.	.	3	47
+13.0000	*	.	.	.	3	46
+13.0000	*	.	.	.	3	45
+13.0000	*	.	.	.	3	44
+13.0000	*	.	.	.	3	43
+13.0000	*	.	.	.	3	42
+13.0000	*	.	.	.	3	41
+13.0000	*	.	.	.	3	40
+13.0000	*	.	.	.	3	39
+13.0000	*	.	.	.	3	38
+13.0000	*	.	.	.	3	37
+13.0000	*	.	.	.	3	36
+13.0000	*	.	.	.	3	35
+13.0000	*	.	.	.	3	34
+13.0000	*	.	.	.	3	33
+13.0000	*	.	.	.	3	32
+13.0000	*	.	.	.	3	31
+13.0000	*	.	.	.	3	30
+13.0000	*	.	.	.	3	29
+13.0000	*	.	.	.	3	28
+13.0000	*	.	.	.	3	27
+13.0000	*	.	.	.	3	26
+13.0000	*	.	.	.	3	25
+13.0000	*	.	.	.	3	24
+13.0000	*	.	.	.	3	23
+13.0000	*	.	.	.	3	22
+13.0000	*	.	.	.	3	21
+13.0000	*	.	.	.	3	20
+13.0000	*	.	.	.	3	19
+13.0000	*	.	.	.	3	18
+13.0000	*	.	.	.	3	17
+13.0000	*	.	.	.	3	16
+13.0000	*	.	.	.	3	15
+13.0000	*	.	.	.	3	14
+13.0000	*	.	.	.	3	13
+13.0000	*	.	.	.	3	12
+13.0000	*	.	.	.	3	11
+13.0000	*	.	.	.	3	10
+13.0000	*	.	.	.	3	9
+13.0000	*	.	.	.	3	8
+13.0000	*	.	.	.	3	7
+13.0000	*	.	.	.	3	6
+13.0000	*	.	.	.	3	5
+13.0000	*	.	.	.	3	4
+13.0000	*	.	.	.	3	3
+13.0000	*	.	.	.	3	2
+13.0000	*	.	.	.	3	1
+13.0000	*	.	.	.	3	0
+Note:	The marked survival times are censored observations.
+
+Summary Statistics for Time Variable time_prepub
+
+Quartile Estimates
+Percent	Point
+Estimate	95% Confidence Interval
+Transform	[Lower	Upper)
+75	.	LOGLOG	.	.
+50	.	LOGLOG	.	.
+25	.	LOGLOG	.	.
+Mean	Standard
+Error
+12.0000	0.0000
+Note:	The mean survival time and its standard error were underestimated because the largest observation was censored and the estimation was restricted to the largest event time.
+
+HYPOTHESIS 1a: Survival Curves for Pre-pubertal Depression Onset (<13 years)
+
+Stratified by Parental Depression Status
+
+The LIFETEST Procedure
+
+ 
+
+Stratum 2: parent_label = Parental Depression
+
+Product-Limit Survival Estimates
+time_prepub	 	Survival	Failure	Survival Standard Error	Number
+Failed	Number
+Left
+0.0000	 	1.0000	0	0	0	125
+4.0000	 	0.9920	0.00800	0.00797	1	124
+5.0000	 	0.9840	0.0160	0.0112	2	123
+6.0000	 	0.9760	0.0240	0.0137	3	122
+7.0000	 	.	.	.	4	121
+7.0000	 	.	.	.	5	120
+7.0000	 	.	.	.	6	119
+7.0000	 	0.9440	0.0560	0.0206	7	118
+8.0000	 	.	.	.	8	117
+8.0000	 	0.9280	0.0720	0.0231	9	116
+9.0000	 	0.9200	0.0800	0.0243	10	115
+10.0000	 	.	.	.	11	114
+10.0000	 	.	.	.	12	113
+10.0000	 	.	.	.	13	112
+10.0000	 	0.8880	0.1120	0.0282	14	111
+11.0000	 	.	.	.	15	110
+11.0000	 	0.8720	0.1280	0.0299	16	109
+12.0000	 	.	.	.	17	108
+12.0000	 	.	.	.	18	107
+12.0000	 	.	.	.	19	106
+12.0000	 	.	.	.	20	105
+12.0000	 	0.8320	0.1680	0.0334	21	104
+13.0000	*	.	.	.	21	103
+13.0000	*	.	.	.	21	102
+13.0000	*	.	.	.	21	101
+13.0000	*	.	.	.	21	100
+13.0000	*	.	.	.	21	99
+13.0000	*	.	.	.	21	98
+13.0000	*	.	.	.	21	97
+13.0000	*	.	.	.	21	96
+13.0000	*	.	.	.	21	95
+13.0000	*	.	.	.	21	94
+13.0000	*	.	.	.	21	93
+13.0000	*	.	.	.	21	92
+13.0000	*	.	.	.	21	91
+13.0000	*	.	.	.	21	90
+13.0000	*	.	.	.	21	89
+13.0000	*	.	.	.	21	88
+13.0000	*	.	.	.	21	87
+13.0000	*	.	.	.	21	86
+13.0000	*	.	.	.	21	85
+13.0000	*	.	.	.	21	84
+13.0000	*	.	.	.	21	83
+13.0000	*	.	.	.	21	82
+13.0000	*	.	.	.	21	81
+13.0000	*	.	.	.	21	80
+13.0000	*	.	.	.	21	79
+13.0000	*	.	.	.	21	78
+13.0000	*	.	.	.	21	77
+13.0000	*	.	.	.	21	76
+13.0000	*	.	.	.	21	75
+13.0000	*	.	.	.	21	74
+13.0000	*	.	.	.	21	73
+13.0000	*	.	.	.	21	72
+13.0000	*	.	.	.	21	71
+13.0000	*	.	.	.	21	70
+13.0000	*	.	.	.	21	69
+13.0000	*	.	.	.	21	68
+13.0000	*	.	.	.	21	67
+13.0000	*	.	.	.	21	66
+13.0000	*	.	.	.	21	65
+13.0000	*	.	.	.	21	64
+13.0000	*	.	.	.	21	63
+13.0000	*	.	.	.	21	62
+13.0000	*	.	.	.	21	61
+13.0000	*	.	.	.	21	60
+13.0000	*	.	.	.	21	59
+13.0000	*	.	.	.	21	58
+13.0000	*	.	.	.	21	57
+13.0000	*	.	.	.	21	56
+13.0000	*	.	.	.	21	55
+13.0000	*	.	.	.	21	54
+13.0000	*	.	.	.	21	53
+13.0000	*	.	.	.	21	52
+13.0000	*	.	.	.	21	51
+13.0000	*	.	.	.	21	50
+13.0000	*	.	.	.	21	49
+13.0000	*	.	.	.	21	48
+13.0000	*	.	.	.	21	47
+13.0000	*	.	.	.	21	46
+13.0000	*	.	.	.	21	45
+13.0000	*	.	.	.	21	44
+13.0000	*	.	.	.	21	43
+13.0000	*	.	.	.	21	42
+13.0000	*	.	.	.	21	41
+13.0000	*	.	.	.	21	40
+13.0000	*	.	.	.	21	39
+13.0000	*	.	.	.	21	38
+13.0000	*	.	.	.	21	37
+13.0000	*	.	.	.	21	36
+13.0000	*	.	.	.	21	35
+13.0000	*	.	.	.	21	34
+13.0000	*	.	.	.	21	33
+13.0000	*	.	.	.	21	32
+13.0000	*	.	.	.	21	31
+13.0000	*	.	.	.	21	30
+13.0000	*	.	.	.	21	29
+13.0000	*	.	.	.	21	28
+13.0000	*	.	.	.	21	27
+13.0000	*	.	.	.	21	26
+13.0000	*	.	.	.	21	25
+13.0000	*	.	.	.	21	24
+13.0000	*	.	.	.	21	23
+13.0000	*	.	.	.	21	22
+13.0000	*	.	.	.	21	21
+13.0000	*	.	.	.	21	20
+13.0000	*	.	.	.	21	19
+13.0000	*	.	.	.	21	18
+13.0000	*	.	.	.	21	17
+13.0000	*	.	.	.	21	16
+13.0000	*	.	.	.	21	15
+13.0000	*	.	.	.	21	14
+13.0000	*	.	.	.	21	13
+13.0000	*	.	.	.	21	12
+13.0000	*	.	.	.	21	11
+13.0000	*	.	.	.	21	10
+13.0000	*	.	.	.	21	9
+13.0000	*	.	.	.	21	8
+13.0000	*	.	.	.	21	7
+13.0000	*	.	.	.	21	6
+13.0000	*	.	.	.	21	5
+13.0000	*	.	.	.	21	4
+13.0000	*	.	.	.	21	3
+13.0000	*	.	.	.	21	2
+13.0000	*	.	.	.	21	1
+13.0000	*	.	.	.	21	0
+Note:	The marked survival times are censored observations.
+
+Summary Statistics for Time Variable time_prepub
+
+Quartile Estimates
+Percent	Point
+Estimate	95% Confidence Interval
+Transform	[Lower	Upper)
+75	.	LOGLOG	.	.
+50	.	LOGLOG	.	.
+25	.	LOGLOG	.	.
+Mean	Standard
+Error
+11.5040	0.1365
+Note:	The mean survival time and its standard error were underestimated because the largest observation was censored and the estimation was restricted to the largest event time.
+
+Summary of the Number of Censored and Uncensored Values
+Stratum	parent_label	Total	Failed	Censored	Percent
+Censored
+1	No Parental Depression	95	3	92	96.84
+2	Parental Depression	125	21	104	83.20
+Total	 	220	24	196	89.09
+HYPOTHESIS 1a: Survival Curves for Pre-pubertal Depression Onset (<13 years)
+
+Stratified by Parental Depression Status
+
+The LIFETEST Procedure
+
+Testing Homogeneity of Survival Curves for time_prepub over Strata
+
+Rank Statistics
+parent_label	Log-Rank	Wilcoxon
+No Parental Depression	-7.8521	-1668.0
+Parental Depression	7.8521	1668.0
+Covariance Matrix for the Log-Rank Statistics
+parent_label	No Parental Depression	Parental Depression
+No Parental Depression	5.84026	-5.84026
+Parental Depression	-5.84026	5.84026
+Covariance Matrix for the Wilcoxon Statistics
+parent_label	No Parental Depression	Parental Depression
+No Parental Depression	258434	-258434
+Parental Depression	-258434	258434
+Test of Equality over Strata
+Test	Chi-Square	DF	Pr >
+Chi-Square
+Log-Rank	10.5571	1	0.0012
+Wilcoxon	10.7657	1	0.0010
+-2Log(LR)	11.4478	1	0.0007
+Product-Limit Survival Curves
+HYPOTHESIS 1a: Cox Regression for Pre-pubertal Depression Onset (<13 years)
+
+Effect of Parental Depression controlling for demographics and social characteristics
+
+The PHREG Procedure
+
+Model Information
+Data Set	WORK.PREPUBERTAL_DATA	 
+Dependent Variable	time_prepub	Time to Depression Onset (Censored at 13)
+Censoring Variable	censor_prepub	Censoring Status for Pre-pubertal Analysis
+Censoring Value(s)	1	 
+Ties Handling	BRESLOW	 
+Number of Observations Read
+Number of Observations Used
+220
+219
+Class Level Information
+Class	Value	Design Variables
+depress_parent	0	0
+ 	1	1
+gender	1	0
+ 	2	1
+marital_status	1	0
+ 	2	1
+Summary of the Number of Event and Censored Values
+Total	Event	Censored	Percent
+Censored
+219	24	195	89.04
+Convergence Status
+Convergence criterion (GCONV=1E-8) satisfied.
+Model Fit Statistics
+Criterion	Without
+Covariates	With
+Covariates
+-2 LOG L	256.472	241.565
+AIC	256.472	251.565
+SBC	256.472	257.455
+Testing Global Null Hypothesis: BETA=0
+Test	Chi-Square	DF	Pr > ChiSq
+Likelihood Ratio	14.9072	5	0.0108
+Score	13.6814	5	0.0178
+Wald	11.1151	5	0.0491
+Type 3 Tests
+Effect	DF	Wald Chi-Square	Pr > ChiSq
+depress_parent	1	7.9678	0.0048
+gender	1	0.1459	0.7024
+age	1	0.0926	0.7608
+social_class	1	1.3461	0.2460
+marital_status	1	0.9380	0.3328
+Analysis of Maximum Likelihood Estimates
+Parameter	 	DF	Parameter
+Estimate	Standard
+Error	Chi-Square	Pr > ChiSq	Hazard
+Ratio	95% Hazard Ratio Confidence Limits	Label
+depress_parent	1	1	1.76864	0.62657	7.9678	0.0048	5.863	1.717	20.019	Parental Depression (0=No, 1=Yes) 1
+gender	2	1	0.15749	0.41225	0.1459	0.7024	1.171	0.522	2.626	Gender (1=Male, 2=Female) 2
+age	 	1	-0.01224	0.04023	0.0926	0.7608	0.988	0.913	1.069	Age at Interview
+social_class	 	1	-0.19553	0.16853	1.3461	0.2460	0.822	0.591	1.144	Social Class (1=Highest, 5=Lowest)
+marital_status	2	1	-0.53576	0.55318	0.9380	0.3328	0.585	0.198	1.731	Marital Status (1=Married, 2=Sep/Div) 2
+HYPOTHESIS 1a: Cox Regression with PH Assumption Test
+
+The PHREG Procedure
+
+Model Information
+Data Set	WORK.PREPUBERTAL_DATA	 
+Dependent Variable	time_prepub	Time to Depression Onset (Censored at 13)
+Censoring Variable	censor_prepub	Censoring Status for Pre-pubertal Analysis
+Censoring Value(s)	1	 
+Ties Handling	EFRON	 
+Number of Observations Read
+Number of Observations Used
+220
+219
+Class Level Information
+Class	Value	Design Variables
+depress_parent	0	0
+ 	1	1
+gender	1	0
+ 	2	1
+marital_status	1	0
+ 	2	1
+Summary of the Number of Event and Censored Values
+Total	Event	Censored	Percent
+Censored
+219	24	195	89.04
+Convergence Status
+Convergence criterion (GCONV=1E-8) satisfied.
+Model Fit Statistics
+Criterion	Without
+Covariates	With
+Covariates
+-2 LOG L	256.060	240.943
+AIC	256.060	250.943
+SBC	256.060	256.833
+Testing Global Null Hypothesis: BETA=0
+Test	Chi-Square	DF	Pr > ChiSq
+Likelihood Ratio	15.1170	5	0.0099
+Score	13.8965	5	0.0163
+Wald	11.2807	5	0.0461
+Type 3 Tests
+Effect	DF	Wald Chi-Square	Pr > ChiSq
+depress_parent	1	8.0724	0.0045
+gender	1	0.1594	0.6897
+age	1	0.0872	0.7677
+social_class	1	1.3748	0.2410
+marital_status	1	0.9919	0.3193
+Analysis of Maximum Likelihood Estimates
+Parameter	 	DF	Parameter
+Estimate	Standard
+Error	Chi-Square	Pr > ChiSq	Hazard
+Ratio	Label
+depress_parent	1	1	1.78005	0.62651	8.0724	0.0045	5.930	Parental Depression (0=No, 1=Yes) 1
+gender	2	1	0.16457	0.41220	0.1594	0.6897	1.179	Gender (1=Male, 2=Female) 2
+age	 	1	-0.01186	0.04014	0.0872	0.7677	0.988	Age at Interview
+social_class	 	1	-0.19683	0.16787	1.3748	0.2410	0.821	Social Class (1=Highest, 5=Lowest)
+marital_status	2	1	-0.55101	0.55327	0.9919	0.3193	0.576	Marital Status (1=Married, 2=Sep/Div) 2
+Standardized Score Process Plot
+Standardized Score Process Plot
+Standardized Score Process Plot
+Standardized Score Process Plot
+Standardized Score Process Plot
+Supremum Test for Proportionals Hazards Assumption
+Variable	Maximum Absolute Value	Replications	Seed	Pr >
+MaxAbsVal
+depress_parent1	1.2104	1000	153033809	0.0620
+gender2	0.6671	1000	153033809	0.4120
+age	0.6435	1000	153033809	0.1530
+social_class	0.8294	1000	153033809	0.0780
+marital_status2	0.9510	1000	153033809	0.2280
+Cox model with depress parent*time interaction
+
+The PHREG Procedure
+
+Model Information
+Data Set	WORK.PREPUBERTAL_DATA	 
+Dependent Variable	time_prepub	Time to Depression Onset (Censored at 13)
+Censoring Variable	censor_prepub	Censoring Status for Pre-pubertal Analysis
+Censoring Value(s)	1	 
+Ties Handling	BRESLOW	 
+Number of Observations Read
+Number of Observations Used
+220
+219
+Class Level Information
+Class	Value	Design Variables
+depress_parent	0	0
+ 	1	1
+gender	1	0
+ 	2	1
+marital_status	1	0
+ 	2	1
+Summary of the Number of Event and Censored Values
+Total	Event	Censored	Percent
+Censored
+219	24	195	89.04
+Convergence Status
+Convergence criterion (GCONV=1E-8) satisfied.
+Model Fit Statistics
+Criterion	Without
+Covariates	With
+Covariates
+-2 LOG L	256.472	234.407
+AIC	256.472	246.407
+SBC	256.472	253.475
+Testing Global Null Hypothesis: BETA=0
+Test	Chi-Square	DF	Pr > ChiSq
+Likelihood Ratio	22.0647	6	0.0012
+Score	14.7470	6	0.0223
+Wald	3.0358	6	0.8043
+Type 3 Tests
+Effect	DF	Wald Chi-Square	Pr > ChiSq
+depress_parent	1	0.0002	0.9891
+gender	1	0.1550	0.6938
+age	1	0.0928	0.7606
+social_class	1	1.3361	0.2477
+marital_status	1	0.9266	0.3358
+depress_parent_time	1	0.0002	0.9891
+Analysis of Maximum Likelihood Estimates
+Parameter	 	DF	Parameter
+Estimate	Standard
+Error	Chi-Square	Pr > ChiSq	Hazard
+Ratio	Label
+depress_parent	1	1	401.25918	29368	0.0002	0.9891	1.84E174	Parental Depression (0=No, 1=Yes) 1
+gender	2	1	0.16232	0.41225	0.1550	0.6938	1.176	Gender (1=Male, 2=Female) 2
+age	 	1	-0.01228	0.04030	0.0928	0.7606	0.988	Age at Interview
+social_class	 	1	-0.19495	0.16865	1.3361	0.2477	0.823	Social Class (1=Highest, 5=Lowest)
+marital_status	2	1	-0.53243	0.55312	0.9266	0.3358	0.587	Marital Status (1=Married, 2=Sep/Div) 2
+depress_parent_time	 	1	-161.32121	11819	0.0002	0.9891	0.000	 
+HYPOTHESIS 1a: Stratified Cox Model
+
+The PHREG Procedure
+
+Model Information
+Data Set	WORK.PREPUBERTAL_DATA	 
+Dependent Variable	time_prepub	Time to Depression Onset (Censored at 13)
+Censoring Variable	censor_prepub	Censoring Status for Pre-pubertal Analysis
+Censoring Value(s)	1	 
+Ties Handling	EFRON	 
+Number of Observations Read
+Number of Observations Used
+220
+219
+Class Level Information
+Class	Value	Design Variables
+gender	1	0
+ 	2	1
+marital_status	1	0
+ 	2	1
+Summary of the Number of Event and Censored Values
+Stratum	depress_parent	Total	Event	Censored	Percent
+Censored
+1	0	95	3	92	96.84
+2	1	124	21	103	83.06
+Total	 	219	24	195	89.04
+Convergence Status
+Convergence criterion (GCONV=1E-8) satisfied.
+Model Fit Statistics
+Criterion	Without
+Covariates	With
+Covariates
+-2 LOG L	226.120	223.255
+AIC	226.120	231.255
+SBC	226.120	235.967
+Testing Global Null Hypothesis: BETA=0
+Test	Chi-Square	DF	Pr > ChiSq
+Likelihood Ratio	2.8654	4	0.5806
+Score	2.8634	4	0.5809
+Wald	2.7952	4	0.5927
+Type 3 Tests
+Effect	DF	Wald Chi-Square	Pr > ChiSq
+gender	1	0.1622	0.6871
+age	1	0.0907	0.7633
+social_class	1	1.3547	0.2445
+marital_status	1	0.9710	0.3244
+Analysis of Maximum Likelihood Estimates
+Parameter	 	DF	Parameter
+Estimate	Standard
+Error	Chi-Square	Pr > ChiSq	Hazard
+Ratio	95% Hazard Ratio Confidence Limits	Label
+gender	2	1	0.16603	0.41219	0.1622	0.6871	1.181	0.526	2.648	Gender (1=Male, 2=Female) 2
+age	 	1	-0.01211	0.04021	0.0907	0.7633	0.988	0.913	1.069	Age at Interview
+social_class	 	1	-0.19568	0.16813	1.3547	0.2445	0.822	0.591	1.143	Social Class (1=Highest, 5=Lowest)
+marital_status	2	1	-0.54506	0.55315	0.9710	0.3244	0.580	0.196	1.714	Marital Status (1=Married, 2=Sep/Div) 2
+HYPOTHESIS 1b: Survival Curves for Adolescent/Early Adulthood Depression Onset (>=13 years)
+
+Stratified by Parental Depression Status
+
+The LIFETEST Procedure
+
+ 
+
+Stratum 1: parent_label = No Parental Depression
+
+Product-Limit Survival Estimates
+time_adol	 	Survival	Failure	Survival Standard Error	Number
+Failed	Number
+Left
+0.0000	 	1.0000	0	0	0	76
+13.0000	 	0.9868	0.0132	0.0131	1	75
+13.0000	*	.	.	.	1	74
+13.0000	*	.	.	.	1	73
+13.0000	*	.	.	.	1	72
+13.0000	*	.	.	.	1	71
+13.0000	*	.	.	.	1	70
+13.0000	*	.	.	.	1	69
+14.0000	 	.	.	.	2	68
+14.0000	 	0.9582	0.0418	0.0236	3	67
+14.0000	*	.	.	.	3	66
+14.0000	*	.	.	.	3	65
+14.0000	*	.	.	.	3	64
+14.0000	*	.	.	.	3	63
+14.0000	*	.	.	.	3	62
+14.0000	*	.	.	.	3	61
+14.0000	*	.	.	.	3	60
+14.0000	*	.	.	.	3	59
+15.0000	*	.	.	.	3	58
+15.0000	*	.	.	.	3	57
+15.0000	*	.	.	.	3	56
+15.0000	*	.	.	.	3	55
+16.0000	 	.	.	.	4	54
+16.0000	 	0.9234	0.0766	0.0332	5	53
+16.0000	*	.	.	.	5	52
+16.0000	*	.	.	.	5	51
+16.0000	*	.	.	.	5	50
+16.0000	*	.	.	.	5	49
+16.0000	*	.	.	.	5	48
+16.0000	*	.	.	.	5	47
+16.0000	*	.	.	.	5	46
+17.0000	 	.	.	.	6	45
+17.0000	 	.	.	.	7	44
+17.0000	 	.	.	.	8	43
+17.0000	 	0.8431	0.1569	0.0489	9	42
+17.0000	*	.	.	.	9	41
+17.0000	*	.	.	.	9	40
+17.0000	*	.	.	.	9	39
+17.0000	*	.	.	.	9	38
+17.0000	*	.	.	.	9	37
+18.0000	 	.	.	.	10	36
+18.0000	 	.	.	.	11	35
+18.0000	 	.	.	.	12	34
+18.0000	 	0.7520	0.2480	0.0613	13	33
+18.0000	*	.	.	.	13	32
+18.0000	*	.	.	.	13	31
+18.0000	*	.	.	.	13	30
+19.0000	 	.	.	.	14	29
+19.0000	 	.	.	.	15	28
+19.0000	 	.	.	.	16	27
+19.0000	 	0.6517	0.3483	0.0707	17	26
+19.0000	*	.	.	.	17	25
+19.0000	*	.	.	.	17	24
+19.0000	*	.	.	.	17	23
+19.0000	*	.	.	.	17	22
+19.0000	*	.	.	.	17	21
+20.0000	*	.	.	.	17	20
+20.0000	*	.	.	.	17	19
+20.0000	*	.	.	.	17	18
+20.0000	*	.	.	.	17	17
+20.0000	*	.	.	.	17	16
+20.0000	*	.	.	.	17	15
+21.0000	 	0.6082	0.3918	0.0782	18	14
+21.0000	*	.	.	.	18	13
+21.0000	*	.	.	.	18	12
+21.0000	*	.	.	.	18	11
+21.0000	*	.	.	.	18	10
+21.0000	*	.	.	.	18	9
+21.0000	*	.	.	.	18	8
+22.0000	*	.	.	.	18	7
+22.0000	*	.	.	.	18	6
+22.0000	*	.	.	.	18	5
+22.0000	*	.	.	.	18	4
+23.0000	 	0.4562	0.5438	0.1442	19	3
+23.0000	*	.	.	.	19	2
+23.0000	*	.	.	.	19	1
+25.0000	*	.	.	.	19	0
+Note:	The marked survival times are censored observations.
+
+Summary Statistics for Time Variable time_adol
+
+Quartile Estimates
+Percent	Point
+Estimate	95% Confidence Interval
+Transform	[Lower	Upper)
+75	.	LOGLOG	23.0000	.
+50	23.0000	LOGLOG	19.0000	.
+25	19.0000	LOGLOG	17.0000	21.0000
+Mean	Standard
+Error
+20.9416	0.4099
+Note:	The mean survival time and its standard error were underestimated because the largest observation was censored and the estimation was restricted to the largest event time.
+
+HYPOTHESIS 1b: Survival Curves for Adolescent/Early Adulthood Depression Onset (>=13 years)
+
+Stratified by Parental Depression Status
+
+The LIFETEST Procedure
+
+ 
+
+Stratum 2: parent_label = Parental Depression
+
+Product-Limit Survival Estimates
+time_adol	 	Survival	Failure	Survival Standard Error	Number
+Failed	Number
+Left
+0.0000	 	1.0000	0	0	0	78
+13.0000	 	.	.	.	1	77
+13.0000	 	.	.	.	2	76
+13.0000	 	.	.	.	3	75
+13.0000	 	.	.	.	4	74
+13.0000	 	.	.	.	5	73
+13.0000	 	0.9231	0.0769	0.0302	6	72
+13.0000	*	.	.	.	6	71
+13.0000	*	.	.	.	6	70
+13.0000	*	.	.	.	6	69
+13.0000	*	.	.	.	6	68
+14.0000	 	0.9095	0.0905	0.0326	7	67
+14.0000	*	.	.	.	7	66
+14.0000	*	.	.	.	7	65
+14.0000	*	.	.	.	7	64
+14.0000	*	.	.	.	7	63
+15.0000	 	.	.	.	8	62
+15.0000	 	.	.	.	9	61
+15.0000	 	.	.	.	10	60
+15.0000	 	.	.	.	11	59
+15.0000	 	.	.	.	12	58
+15.0000	 	.	.	.	13	57
+15.0000	 	.	.	.	14	56
+15.0000	 	.	.	.	15	55
+15.0000	 	0.7796	0.2204	0.0489	16	54
+15.0000	*	.	.	.	16	53
+15.0000	*	.	.	.	16	52
+15.0000	*	.	.	.	16	51
+16.0000	 	.	.	.	17	50
+16.0000	 	0.7490	0.2510	0.0515	18	49
+16.0000	*	.	.	.	18	48
+16.0000	*	.	.	.	18	47
+16.0000	*	.	.	.	18	46
+16.0000	*	.	.	.	18	45
+17.0000	 	.	.	.	19	44
+17.0000	 	.	.	.	20	43
+17.0000	 	0.6991	0.3009	0.0556	21	42
+17.0000	*	.	.	.	21	41
+17.0000	*	.	.	.	21	40
+17.0000	*	.	.	.	21	39
+17.0000	*	.	.	.	21	38
+18.0000	 	0.6807	0.3193	0.0571	22	37
+18.0000	*	.	.	.	22	36
+18.0000	*	.	.	.	22	35
+18.0000	*	.	.	.	22	34
+19.0000	 	.	.	.	23	33
+19.0000	 	0.6406	0.3594	0.0603	24	32
+19.0000	*	.	.	.	24	31
+19.0000	*	.	.	.	24	30
+19.0000	*	.	.	.	24	29
+19.0000	*	.	.	.	24	28
+19.0000	*	.	.	.	24	27
+19.0000	*	.	.	.	24	26
+20.0000	 	0.6160	0.3840	0.0628	25	25
+20.0000	*	.	.	.	25	24
+20.0000	*	.	.	.	25	23
+20.0000	*	.	.	.	25	22
+20.0000	*	.	.	.	25	21
+20.0000	*	.	.	.	25	20
+20.0000	*	.	.	.	25	19
+20.0000	*	.	.	.	25	18
+21.0000	 	0.5818	0.4182	0.0680	26	17
+21.0000	*	.	.	.	26	16
+21.0000	*	.	.	.	26	15
+21.0000	*	.	.	.	26	14
+22.0000	*	.	.	.	26	13
+22.0000	*	.	.	.	26	12
+22.0000	*	.	.	.	26	11
+22.0000	*	.	.	.	26	10
+22.0000	*	.	.	.	26	9
+22.0000	*	.	.	.	26	8
+22.0000	*	.	.	.	26	7
+22.0000	*	.	.	.	26	6
+23.0000	*	.	.	.	26	5
+23.0000	*	.	.	.	26	4
+23.0000	*	.	.	.	26	3
+23.0000	*	.	.	.	26	2
+25.0000	*	.	.	.	26	1
+25.0000	*	.	.	.	26	0
+Note:	The marked survival times are censored observations.
+
+Summary Statistics for Time Variable time_adol
+
+Quartile Estimates
+Percent	Point
+Estimate	95% Confidence Interval
+Transform	[Lower	Upper)
+75	.	LOGLOG	.	.
+50	.	LOGLOG	20.0000	.
+25	16.0000	LOGLOG	15.0000	19.0000
+Mean	Standard
+Error
+18.9975	0.3478
+Note:	The mean survival time and its standard error were underestimated because the largest observation was censored and the estimation was restricted to the largest event time.
+
+Summary of the Number of Censored and Uncensored Values
+Stratum	parent_label	Total	Failed	Censored	Percent
+Censored
+1	No Parental Depression	76	19	57	75.00
+2	Parental Depression	78	26	52	66.67
+Total	 	154	45	109	70.78
+HYPOTHESIS 1b: Survival Curves for Adolescent/Early Adulthood Depression Onset (>=13 years)
+
+Stratified by Parental Depression Status
+
+The LIFETEST Procedure
+
+Testing Homogeneity of Survival Curves for time_adol over Strata
+
+Rank Statistics
+parent_label	Log-Rank	Wilcoxon
+No Parental Depression	-2.9670	-629.00
+Parental Depression	2.9670	629.00
+Covariance Matrix for the Log-Rank Statistics
+parent_label	No Parental Depression	Parental Depression
+No Parental Depression	10.6475	-10.6475
+Parental Depression	-10.6475	10.6475
+Covariance Matrix for the Wilcoxon Statistics
+parent_label	No Parental Depression	Parental Depression
+No Parental Depression	122780	-122780
+Parental Depression	-122780	122780
+Test of Equality over Strata
+Test	Chi-Square	DF	Pr >
+Chi-Square
+Log-Rank	0.8267	1	0.3632
+Wilcoxon	3.2224	1	0.0726
+-2Log(LR)	0.8644	1	0.3525
+Product-Limit Survival Curves
+HYPOTHESIS 1b: Cox Regression for Adolescent/Early Adulthood Depression Onset (>=13 years)
+
+Effect of Parental Depression controlling for demographics and social characteristics
+
+The PHREG Procedure
+
+Model Information
+Data Set	WORK.ADOLESCENT_DATA	 
+Dependent Variable	time_adol	Time to Depression Onset (Age 13+)
+Censoring Variable	censor_adol	Censoring Status for Adolescent Analysis
+Censoring Value(s)	1	 
+Ties Handling	BRESLOW	 
+Number of Observations Read
+Number of Observations Used
+154
+153
+Class Level Information
+Class	Value	Design Variables
+depress_parent	0	0
+ 	1	1
+gender	1	0
+ 	2	1
+marital_status	1	0
+ 	2	1
+Summary of the Number of Event and Censored Values
+Total	Event	Censored	Percent
+Censored
+153	45	108	70.59
+Convergence Status
+Convergence criterion (GCONV=1E-8) satisfied.
+Model Fit Statistics
+Criterion	Without
+Covariates	With
+Covariates
+-2 LOG L	405.339	394.317
+AIC	405.339	404.317
+SBC	405.339	413.350
+Testing Global Null Hypothesis: BETA=0
+Test	Chi-Square	DF	Pr > ChiSq
+Likelihood Ratio	11.0224	5	0.0509
+Score	10.9104	5	0.0532
+Wald	10.4703	5	0.0630
+Type 3 Tests
+Effect	DF	Wald Chi-Square	Pr > ChiSq
+depress_parent	1	0.9703	0.3246
+gender	1	7.7197	0.0055
+age	1	0.0630	0.8018
+social_class	1	0.7963	0.3722
+marital_status	1	1.9691	0.1605
+Analysis of Maximum Likelihood Estimates
+Parameter	 	DF	Parameter
+Estimate	Standard
+Error	Chi-Square	Pr > ChiSq	Hazard
+Ratio	95% Hazard Ratio Confidence Limits	Label
+depress_parent	1	1	0.30923	0.31392	0.9703	0.3246	1.362	0.736	2.521	Parental Depression (0=No, 1=Yes) 1
+gender	2	1	0.90873	0.32707	7.7197	0.0055	2.481	1.307	4.710	Gender (1=Male, 2=Female) 2
+age	 	1	-0.01575	0.06272	0.0630	0.8018	0.984	0.871	1.113	Age at Interview
+social_class	 	1	0.13107	0.14688	0.7963	0.3722	1.140	0.855	1.520	Social Class (1=Highest, 5=Lowest)
+marital_status	2	1	0.48373	0.34472	1.9691	0.1605	1.622	0.825	3.188	Marital Status (1=Married, 2=Sep/Div) 2
+HYPOTHESIS 1b: Cox Regression with PH Assumption Test
+
+The PHREG Procedure
+
+Model Information
+Data Set	WORK.ADOLESCENT_DATA	 
+Dependent Variable	time_adol	Time to Depression Onset (Age 13+)
+Censoring Variable	censor_adol	Censoring Status for Adolescent Analysis
+Censoring Value(s)	1	 
+Ties Handling	EFRON	 
+Number of Observations Read
+Number of Observations Used
+154
+153
+Class Level Information
+Class	Value	Design Variables
+depress_parent	0	0
+ 	1	1
+gender	1	0
+ 	2	1
+marital_status	1	0
+ 	2	1
+Summary of the Number of Event and Censored Values
+Total	Event	Censored	Percent
+Censored
+153	45	108	70.59
+Convergence Status
+Convergence criterion (GCONV=1E-8) satisfied.
+Model Fit Statistics
+Criterion	Without
+Covariates	With
+Covariates
+-2 LOG L	402.983	391.310
+AIC	402.983	401.310
+SBC	402.983	410.343
+Testing Global Null Hypothesis: BETA=0
+Test	Chi-Square	DF	Pr > ChiSq
+Likelihood Ratio	11.6731	5	0.0396
+Score	11.5423	5	0.0416
+Wald	11.0617	5	0.0502
+Type 3 Tests
+Effect	DF	Wald Chi-Square	Pr > ChiSq
+depress_parent	1	1.0214	0.3122
+gender	1	8.1700	0.0043
+age	1	0.0554	0.8139
+social_class	1	0.8553	0.3551
+marital_status	1	2.1802	0.1398
+Analysis of Maximum Likelihood Estimates
+Parameter	 	DF	Parameter
+Estimate	Standard
+Error	Chi-Square	Pr > ChiSq	Hazard
+Ratio	Label
+depress_parent	1	1	0.31688	0.31355	1.0214	0.3122	1.373	Parental Depression (0=No, 1=Yes) 1
+gender	2	1	0.93716	0.32787	8.1700	0.0043	2.553	Gender (1=Male, 2=Female) 2
+age	 	1	-0.01476	0.06267	0.0554	0.8139	0.985	Age at Interview
+social_class	 	1	0.13586	0.14691	0.8553	0.3551	1.146	Social Class (1=Highest, 5=Lowest)
+marital_status	2	1	0.50941	0.34500	2.1802	0.1398	1.664	Marital Status (1=Married, 2=Sep/Div) 2
+Standardized Score Process Plot
+Standardized Score Process Plot
+Standardized Score Process Plot
+Standardized Score Process Plot
+Standardized Score Process Plot
+Supremum Test for Proportionals Hazards Assumption
+Variable	Maximum Absolute Value	Replications	Seed	Pr >
+MaxAbsVal
+depress_parent1	1.4939	1000	1814536468	0.0140
+gender2	0.5567	1000	1814536468	0.5910
+age	0.4317	1000	1814536468	0.7630
+social_class	0.6493	1000	1814536468	0.2830
+marital_status2	0.5814	1000	1814536468	0.5500
+HYPOTHESIS 1b: Stratified Cox Model
+
+The PHREG Procedure
+
+Model Information
+Data Set	WORK.ADOLESCENT_DATA	 
+Dependent Variable	time_adol	Time to Depression Onset (Age 13+)
+Censoring Variable	censor_adol	Censoring Status for Adolescent Analysis
+Censoring Value(s)	1	 
+Ties Handling	EFRON	 
+Number of Observations Read
+Number of Observations Used
+154
+153
+Class Level Information
+Class	Value	Design Variables
+gender	1	0
+ 	2	1
+marital_status	1	0
+ 	2	1
+Summary of the Number of Event and Censored Values
+Stratum	depress_parent	Total	Event	Censored	Percent
+Censored
+1	0	76	19	57	75.00
+2	1	77	26	51	66.23
+Total	 	153	45	108	70.59
+Convergence Status
+Convergence criterion (GCONV=1E-8) satisfied.
+Model Fit Statistics
+Criterion	Without
+Covariates	With
+Covariates
+-2 LOG L	340.087	330.332
+AIC	340.087	338.332
+SBC	340.087	345.559
+Testing Global Null Hypothesis: BETA=0
+Test	Chi-Square	DF	Pr > ChiSq
+Likelihood Ratio	9.7551	4	0.0448
+Score	9.4897	4	0.0500
+Wald	9.0711	4	0.0593
+Type 3 Tests
+Effect	DF	Wald Chi-Square	Pr > ChiSq
+gender	1	7.3239	0.0068
+age	1	0.1933	0.6602
+social_class	1	0.8815	0.3478
+marital_status	1	1.7126	0.1907
+Analysis of Maximum Likelihood Estimates
+Parameter	 	DF	Parameter
+Estimate	Standard
+Error	Chi-Square	Pr > ChiSq	Hazard
+Ratio	95% Hazard Ratio Confidence Limits	Label
+gender	2	1	0.88092	0.32551	7.3239	0.0068	2.413	1.275	4.567	Gender (1=Male, 2=Female) 2
+age	 	1	-0.02773	0.06307	0.1933	0.6602	0.973	0.860	1.101	Age at Interview
+social_class	 	1	0.13922	0.14828	0.8815	0.3478	1.149	0.859	1.537	Social Class (1=Highest, 5=Lowest)
+marital_status	2	1	0.44924	0.34329	1.7126	0.1907	1.567	0.800	3.071	Marital Status (1=Married, 2=Sep/Div) 2
+Substance Abuse Analysis: Key Variables
+
+The FREQ Procedure
+
+Censoring Status for Substance Abuse (1=Censored, 0=Event)
+censor_subst	Frequency	Cumulative
+Frequency
+0	28	28
+1	192	220
+Frequency
+Table of prior_depression by depress_parent
+prior_depression(Prior Depression Before Substance Abuse (1=Yes, 0=No))	depress_parent(Parental Depression (0=No, 1=Yes))
+0	1	Total
+0	
+76
+83
+159
+1	
+19
+42
+61
+Total	
+95
+125
+220
+HYPOTHESIS 2a: Survival Curves for Substance Abuse Onset
+
+Stratified by Prior Depression in Offspring
+
+The LIFETEST Procedure
+
+ 
+
+Stratum 1: Prior Depression Before Substance Abuse (1=Yes, 0=No) = 0
+
+Product-Limit Survival Estimates
+time_subst	 	Survival	Failure	Survival Standard Error	Number
+Failed	Number
+Left
+0.0000	 	1.0000	0	0	0	159
+5.0000	*	.	.	.	0	158
+6.0000	*	.	.	.	0	157
+6.0000	*	.	.	.	0	156
+7.0000	*	.	.	.	0	155
+7.0000	*	.	.	.	0	154
+7.0000	*	.	.	.	0	153
+7.0000	*	.	.	.	0	152
+7.0000	*	.	.	.	0	151
+8.0000	*	.	.	.	0	150
+8.0000	*	.	.	.	0	149
+8.0000	*	.	.	.	0	148
+8.0000	*	.	.	.	0	147
+8.0000	*	.	.	.	0	146
+9.0000	*	.	.	.	0	145
+9.0000	*	.	.	.	0	144
+9.0000	*	.	.	.	0	143
+9.0000	*	.	.	.	0	142
+9.0000	*	.	.	.	0	141
+9.0000	*	.	.	.	0	140
+9.0000	*	.	.	.	0	139
+10.0000	*	.	.	.	0	138
+10.0000	*	.	.	.	0	137
+10.0000	*	.	.	.	0	136
+10.0000	*	.	.	.	0	135
+10.0000	*	.	.	.	0	134
+11.0000	*	.	.	.	0	133
+11.0000	*	.	.	.	0	132
+11.0000	*	.	.	.	0	131
+11.0000	*	.	.	.	0	130
+11.0000	*	.	.	.	0	129
+11.0000	*	.	.	.	0	128
+11.0000	*	.	.	.	0	127
+11.0000	*	.	.	.	0	126
+12.0000	 	.	.	.	1	125
+12.0000	 	.	.	.	2	124
+12.0000	 	0.9762	0.0238	0.0136	3	123
+12.0000	*	.	.	.	3	122
+12.0000	*	.	.	.	3	121
+12.0000	*	.	.	.	3	120
+12.0000	*	.	.	.	3	119
+12.0000	*	.	.	.	3	118
+12.0000	*	.	.	.	3	117
+12.0000	*	.	.	.	3	116
+12.0000	*	.	.	.	3	115
+12.0000	*	.	.	.	3	114
+13.0000	*	.	.	.	3	113
+13.0000	*	.	.	.	3	112
+13.0000	*	.	.	.	3	111
+13.0000	*	.	.	.	3	110
+13.0000	*	.	.	.	3	109
+13.0000	*	.	.	.	3	108
+13.0000	*	.	.	.	3	107
+13.0000	*	.	.	.	3	106
+13.0000	*	.	.	.	3	105
+13.0000	*	.	.	.	3	104
+14.0000	 	.	.	.	4	103
+14.0000	 	0.9574	0.0426	0.0187	5	102
+14.0000	*	.	.	.	5	101
+14.0000	*	.	.	.	5	100
+14.0000	*	.	.	.	5	99
+14.0000	*	.	.	.	5	98
+14.0000	*	.	.	.	5	97
+14.0000	*	.	.	.	5	96
+14.0000	*	.	.	.	5	95
+14.0000	*	.	.	.	5	94
+14.0000	*	.	.	.	5	93
+14.0000	*	.	.	.	5	92
+14.0000	*	.	.	.	5	91
+14.0000	*	.	.	.	5	90
+15.0000	 	.	.	.	6	89
+15.0000	 	.	.	.	7	88
+15.0000	 	0.9255	0.0745	0.0256	8	87
+15.0000	*	.	.	.	8	86
+15.0000	*	.	.	.	8	85
+15.0000	*	.	.	.	8	84
+15.0000	*	.	.	.	8	83
+15.0000	*	.	.	.	8	82
+15.0000	*	.	.	.	8	81
+15.0000	*	.	.	.	8	80
+16.0000	 	.	.	.	9	79
+16.0000	 	.	.	.	10	78
+16.0000	 	0.8908	0.1092	0.0315	11	77
+16.0000	*	.	.	.	11	76
+16.0000	*	.	.	.	11	75
+16.0000	*	.	.	.	11	74
+16.0000	*	.	.	.	11	73
+16.0000	*	.	.	.	11	72
+16.0000	*	.	.	.	11	71
+16.0000	*	.	.	.	11	70
+16.0000	*	.	.	.	11	69
+16.0000	*	.	.	.	11	68
+16.0000	*	.	.	.	11	67
+16.0000	*	.	.	.	11	66
+17.0000	 	0.8773	0.1227	0.0338	12	65
+17.0000	*	.	.	.	12	64
+17.0000	*	.	.	.	12	63
+17.0000	*	.	.	.	12	62
+17.0000	*	.	.	.	12	61
+17.0000	*	.	.	.	12	60
+17.0000	*	.	.	.	12	59
+17.0000	*	.	.	.	12	58
+17.0000	*	.	.	.	12	57
+18.0000	 	0.8619	0.1381	0.0366	13	56
+18.0000	*	.	.	.	13	55
+18.0000	*	.	.	.	13	54
+18.0000	*	.	.	.	13	53
+18.0000	*	.	.	.	13	52
+18.0000	*	.	.	.	13	51
+18.0000	*	.	.	.	13	50
+19.0000	 	.	.	.	14	49
+19.0000	 	0.8274	0.1726	0.0424	15	48
+19.0000	*	.	.	.	15	47
+19.0000	*	.	.	.	15	46
+19.0000	*	.	.	.	15	45
+19.0000	*	.	.	.	15	44
+19.0000	*	.	.	.	15	43
+19.0000	*	.	.	.	15	42
+19.0000	*	.	.	.	15	41
+19.0000	*	.	.	.	15	40
+20.0000	 	0.8067	0.1933	0.0462	16	39
+20.0000	*	.	.	.	16	38
+20.0000	*	.	.	.	16	37
+20.0000	*	.	.	.	16	36
+20.0000	*	.	.	.	16	35
+20.0000	*	.	.	.	16	34
+20.0000	*	.	.	.	16	33
+20.0000	*	.	.	.	16	32
+20.0000	*	.	.	.	16	31
+20.0000	*	.	.	.	16	30
+20.0000	*	.	.	.	16	29
+20.0000	*	.	.	.	16	28
+21.0000	 	0.7779	0.2221	0.0527	17	27
+21.0000	*	.	.	.	17	26
+21.0000	*	.	.	.	17	25
+21.0000	*	.	.	.	17	24
+21.0000	*	.	.	.	17	23
+21.0000	*	.	.	.	17	22
+21.0000	*	.	.	.	17	21
+21.0000	*	.	.	.	17	20
+21.0000	*	.	.	.	17	19
+22.0000	 	0.7370	0.2630	0.0639	18	18
+22.0000	*	.	.	.	18	17
+22.0000	*	.	.	.	18	16
+22.0000	*	.	.	.	18	15
+22.0000	*	.	.	.	18	14
+22.0000	*	.	.	.	18	13
+22.0000	*	.	.	.	18	12
+22.0000	*	.	.	.	18	11
+22.0000	*	.	.	.	18	10
+22.0000	*	.	.	.	18	9
+22.0000	*	.	.	.	18	8
+23.0000	*	.	.	.	18	7
+23.0000	*	.	.	.	18	6
+23.0000	*	.	.	.	18	5
+23.0000	*	.	.	.	18	4
+23.0000	*	.	.	.	18	3
+25.0000	*	.	.	.	18	2
+25.0000	*	.	.	.	18	1
+25.0000	*	.	.	.	18	0
+Note:	The marked survival times are censored observations.
+
+Summary Statistics for Time Variable time_subst
+
+Quartile Estimates
+Percent	Point
+Estimate	95% Confidence Interval
+Transform	[Lower	Upper)
+75	.	LOGLOG	.	.
+50	.	LOGLOG	.	.
+25	22.0000	LOGLOG	19.0000	.
+Mean	Standard
+Error
+20.8774	0.2623
+Note:	The mean survival time and its standard error were underestimated because the largest observation was censored and the estimation was restricted to the largest event time.
+
+HYPOTHESIS 2a: Survival Curves for Substance Abuse Onset
+
+Stratified by Prior Depression in Offspring
+
+The LIFETEST Procedure
+
+ 
+
+Stratum 2: Prior Depression Before Substance Abuse (1=Yes, 0=No) = 1
+
+Product-Limit Survival Estimates
+time_subst	 	Survival	Failure	Survival Standard Error	Number
+Failed	Number
+Left
+0.0000	 	1.0000	0	0	0	61
+7.0000	*	.	.	.	0	60
+11.0000	*	.	.	.	0	59
+13.0000	 	0.9831	0.0169	0.0168	1	58
+13.0000	*	.	.	.	1	57
+13.0000	*	.	.	.	1	56
+13.0000	*	.	.	.	1	55
+14.0000	 	0.9652	0.0348	0.0242	2	54
+14.0000	*	.	.	.	2	53
+14.0000	*	.	.	.	2	52
+14.0000	*	.	.	.	2	51
+15.0000	*	.	.	.	2	50
+15.0000	*	.	.	.	2	49
+15.0000	*	.	.	.	2	48
+16.0000	 	0.9451	0.0549	0.0309	3	47
+16.0000	*	.	.	.	3	46
+16.0000	*	.	.	.	3	45
+16.0000	*	.	.	.	3	44
+16.0000	*	.	.	.	3	43
+16.0000	*	.	.	.	3	42
+16.0000	*	.	.	.	3	41
+17.0000	*	.	.	.	3	40
+17.0000	*	.	.	.	3	39
+18.0000	 	0.9208	0.0792	0.0385	4	38
+18.0000	*	.	.	.	4	37
+18.0000	*	.	.	.	4	36
+18.0000	*	.	.	.	4	35
+18.0000	*	.	.	.	4	34
+18.0000	*	.	.	.	4	33
+18.0000	*	.	.	.	4	32
+18.0000	*	.	.	.	4	31
+18.0000	*	.	.	.	4	30
+18.0000	*	.	.	.	4	29
+19.0000	*	.	.	.	4	28
+19.0000	*	.	.	.	4	27
+19.0000	*	.	.	.	4	26
+19.0000	*	.	.	.	4	25
+19.0000	*	.	.	.	4	24
+19.0000	*	.	.	.	4	23
+19.0000	*	.	.	.	4	22
+20.0000	 	0.8790	0.1210	0.0550	5	21
+20.0000	*	.	.	.	5	20
+20.0000	*	.	.	.	5	19
+20.0000	*	.	.	.	5	18
+21.0000	 	0.8301	0.1699	0.0703	6	17
+21.0000	*	.	.	.	6	16
+21.0000	*	.	.	.	6	15
+21.0000	*	.	.	.	6	14
+22.0000	 	0.7709	0.2291	0.0868	7	13
+22.0000	*	.	.	.	7	12
+22.0000	*	.	.	.	7	11
+22.0000	*	.	.	.	7	10
+23.0000	 	0.6938	0.3062	0.1070	8	9
+23.0000	*	.	.	.	8	8
+23.0000	*	.	.	.	8	7
+23.0000	*	.	.	.	8	6
+23.0000	*	.	.	.	8	5
+23.0000	*	.	.	.	8	4
+23.0000	*	.	.	.	8	3
+24.0000	 	0.4625	0.5375	0.2018	9	2
+25.0000	 	0.2313	0.7687	0.1922	10	1
+25.0000	*	.	.	.	10	0
+Note:	The marked survival times are censored observations.
+
+Summary Statistics for Time Variable time_subst
+
+Quartile Estimates
+Percent	Point
+Estimate	95% Confidence Interval
+Transform	[Lower	Upper)
+75	25.0000	LOGLOG	24.0000	.
+50	24.0000	LOGLOG	23.0000	.
+25	23.0000	LOGLOG	20.0000	25.0000
+Mean	Standard
+Error
+23.2815	0.5041
+Note:	The mean survival time and its standard error were underestimated because the largest observation was censored and the estimation was restricted to the largest event time.
+
+Summary of the Number of Censored and Uncensored Values
+Stratum	prior_depression	Total	Failed	Censored	Percent
+Censored
+1	0	159	18	141	88.68
+2	1	61	10	51	83.61
+Total	 	220	28	192	87.27
+HYPOTHESIS 2a: Survival Curves for Substance Abuse Onset
+
+Stratified by Prior Depression in Offspring
+
+The LIFETEST Procedure
+
+Testing Homogeneity of Survival Curves for time_subst over Strata
+
+Rank Statistics
+prior_depression	Log-Rank	Wilcoxon
+0	0.64682	320.00
+1	-0.64682	-320.00
+Covariance Matrix for the Log-Rank Statistics
+prior_depression	0	1
+0	6.43625	-6.43625
+1	-6.43625	6.43625
+Covariance Matrix for the Wilcoxon Statistics
+prior_depression	0	1
+0	87594.0	-87594.0
+1	-87594.0	87594.0
+Test of Equality over Strata
+Test	Chi-Square	DF	Pr >
+Chi-Square
+Log-Rank	0.0650	1	0.7988
+Wilcoxon	1.1690	1	0.2796
+-2Log(LR)	0.2635	1	0.6078
+Product-Limit Survival Curves
+HYPOTHESIS 2a: Cox Regression for Substance Abuse Onset
+
+Effect of PRIOR DEPRESSION in offspring controlling for demographics and social characteristics
+
+The PHREG Procedure
+
+Model Information
+Data Set	WORK.SUBSTANCE_ANALYSIS	 
+Dependent Variable	time_subst	Time to Substance Abuse Onset or Censoring
+Censoring Variable	censor_subst	Censoring Status for Substance Abuse (1=Censored, 0=Event)
+Censoring Value(s)	1	 
+Ties Handling	BRESLOW	 
+Number of Observations Read
+Number of Observations Used
+220
+219
+Class Level Information
+Class	Value	Design Variables
+prior_depression	0	0
+ 	1	1
+gender	1	0
+ 	2	1
+marital_status	1	0
+ 	2	1
+Summary of the Number of Event and Censored Values
+Total	Event	Censored	Percent
+Censored
+219	28	191	87.21
+Convergence Status
+Convergence criterion (GCONV=1E-8) satisfied.
+Model Fit Statistics
+Criterion	Without
+Covariates	With
+Covariates
+-2 LOG L	243.449	238.263
+AIC	243.449	248.263
+SBC	243.449	254.924
+Testing Global Null Hypothesis: BETA=0
+Test	Chi-Square	DF	Pr > ChiSq
+Likelihood Ratio	5.1856	5	0.3936
+Score	4.9306	5	0.4244
+Wald	4.7544	5	0.4466
+Type 3 Tests
+Effect	DF	Wald Chi-Square	Pr > ChiSq
+prior_depression	1	0.0000	0.9981
+gender	1	2.4767	0.1155
+age	1	0.2779	0.5981
+social_class	1	0.0000	0.9989
+marital_status	1	2.1917	0.1388
+Analysis of Maximum Likelihood Estimates
+Parameter	 	DF	Parameter
+Estimate	Standard
+Error	Chi-Square	Pr > ChiSq	Hazard
+Ratio	Label
+prior_depression	1	1	-0.0009514	0.40534	0.0000	0.9981	0.999	Prior Depression Before Substance Abuse (1=Yes, 0=No) 1
+gender	2	1	-0.62044	0.39424	2.4767	0.1155	0.538	Gender (1=Male, 2=Female) 2
+age	 	1	0.04416	0.08377	0.2779	0.5981	1.045	Age at Interview
+social_class	 	1	-0.0002383	0.17675	0.0000	0.9989	1.000	Social Class (1=Highest, 5=Lowest)
+marital_status	2	1	-0.81914	0.55330	2.1917	0.1388	0.441	Marital Status (1=Married, 2=Sep/Div) 2
+HYPOTHESIS 2b: Survival Curves for Substance Abuse Onset
+
+Stratified by Parental Depression Status
+
+The LIFETEST Procedure
+
+ 
+
+Stratum 1: Parental Depression (0=No, 1=Yes) = 0
+
+Product-Limit Survival Estimates
+time_subst	 	Survival	Failure	Survival Standard Error	Number
+Failed	Number
+Left
+0.0000	 	1.0000	0	0	0	95
+7.0000	*	.	.	.	0	94
+8.0000	*	.	.	.	0	93
+9.0000	*	.	.	.	0	92
+9.0000	*	.	.	.	0	91
+10.0000	*	.	.	.	0	90
+10.0000	*	.	.	.	0	89
+11.0000	*	.	.	.	0	88
+11.0000	*	.	.	.	0	87
+11.0000	*	.	.	.	0	86
+11.0000	*	.	.	.	0	85
+11.0000	*	.	.	.	0	84
+12.0000	 	0.9881	0.0119	0.0118	1	83
+12.0000	*	.	.	.	1	82
+12.0000	*	.	.	.	1	81
+12.0000	*	.	.	.	1	80
+12.0000	*	.	.	.	1	79
+12.0000	*	.	.	.	1	78
+13.0000	*	.	.	.	1	77
+13.0000	*	.	.	.	1	76
+13.0000	*	.	.	.	1	75
+13.0000	*	.	.	.	1	74
+13.0000	*	.	.	.	1	73
+13.0000	*	.	.	.	1	72
+13.0000	*	.	.	.	1	71
+14.0000	*	.	.	.	1	70
+14.0000	*	.	.	.	1	69
+14.0000	*	.	.	.	1	68
+14.0000	*	.	.	.	1	67
+14.0000	*	.	.	.	1	66
+14.0000	*	.	.	.	1	65
+14.0000	*	.	.	.	1	64
+14.0000	*	.	.	.	1	63
+15.0000	*	.	.	.	1	62
+15.0000	*	.	.	.	1	61
+15.0000	*	.	.	.	1	60
+15.0000	*	.	.	.	1	59
+16.0000	 	.	.	.	2	58
+16.0000	 	0.9546	0.0454	0.0259	3	57
+16.0000	*	.	.	.	3	56
+16.0000	*	.	.	.	3	55
+16.0000	*	.	.	.	3	54
+16.0000	*	.	.	.	3	53
+16.0000	*	.	.	.	3	52
+16.0000	*	.	.	.	3	51
+16.0000	*	.	.	.	3	50
+16.0000	*	.	.	.	3	49
+16.0000	*	.	.	.	3	48
+17.0000	*	.	.	.	3	47
+17.0000	*	.	.	.	3	46
+17.0000	*	.	.	.	3	45
+17.0000	*	.	.	.	3	44
+17.0000	*	.	.	.	3	43
+17.0000	*	.	.	.	3	42
+18.0000	 	0.9319	0.0681	0.0338	4	41
+18.0000	*	.	.	.	4	40
+18.0000	*	.	.	.	4	39
+18.0000	*	.	.	.	4	38
+18.0000	*	.	.	.	4	37
+18.0000	*	.	.	.	4	36
+18.0000	*	.	.	.	4	35
+18.0000	*	.	.	.	4	34
+19.0000	 	0.9045	0.0955	0.0425	5	33
+19.0000	*	.	.	.	5	32
+19.0000	*	.	.	.	5	31
+19.0000	*	.	.	.	5	30
+19.0000	*	.	.	.	5	29
+19.0000	*	.	.	.	5	28
+19.0000	*	.	.	.	5	27
+19.0000	*	.	.	.	5	26
+19.0000	*	.	.	.	5	25
+20.0000	 	0.8683	0.1317	0.0541	6	24
+20.0000	*	.	.	.	6	23
+20.0000	*	.	.	.	6	22
+20.0000	*	.	.	.	6	21
+20.0000	*	.	.	.	6	20
+20.0000	*	.	.	.	6	19
+20.0000	*	.	.	.	6	18
+21.0000	 	0.8200	0.1800	0.0693	7	17
+21.0000	*	.	.	.	7	16
+21.0000	*	.	.	.	7	15
+21.0000	*	.	.	.	7	14
+21.0000	*	.	.	.	7	13
+21.0000	*	.	.	.	7	12
+21.0000	*	.	.	.	7	11
+22.0000	*	.	.	.	7	10
+22.0000	*	.	.	.	7	9
+22.0000	*	.	.	.	7	8
+22.0000	*	.	.	.	7	7
+23.0000	*	.	.	.	7	6
+23.0000	*	.	.	.	7	5
+23.0000	*	.	.	.	7	4
+23.0000	*	.	.	.	7	3
+23.0000	*	.	.	.	7	2
+23.0000	*	.	.	.	7	1
+25.0000	*	.	.	.	7	0
+Note:	The marked survival times are censored observations.
+
+Summary Statistics for Time Variable time_subst
+
+Quartile Estimates
+Percent	Point
+Estimate	95% Confidence Interval
+Transform	[Lower	Upper)
+75	.	LOGLOG	.	.
+50	.	LOGLOG	.	.
+25	.	LOGLOG	20.0000	.
+Mean	Standard
+Error
+20.5662	0.1917
+Note:	The mean survival time and its standard error were underestimated because the largest observation was censored and the estimation was restricted to the largest event time.
+
+HYPOTHESIS 2b: Survival Curves for Substance Abuse Onset
+
+Stratified by Parental Depression Status
+
+The LIFETEST Procedure
+
+ 
+
+Stratum 2: Parental Depression (0=No, 1=Yes) = 1
+
+Product-Limit Survival Estimates
+time_subst	 	Survival	Failure	Survival Standard Error	Number
+Failed	Number
+Left
+0.0000	 	1.0000	0	0	0	125
+5.0000	*	.	.	.	0	124
+6.0000	*	.	.	.	0	123
+6.0000	*	.	.	.	0	122
+7.0000	*	.	.	.	0	121
+7.0000	*	.	.	.	0	120
+7.0000	*	.	.	.	0	119
+7.0000	*	.	.	.	0	118
+7.0000	*	.	.	.	0	117
+8.0000	*	.	.	.	0	116
+8.0000	*	.	.	.	0	115
+8.0000	*	.	.	.	0	114
+8.0000	*	.	.	.	0	113
+9.0000	*	.	.	.	0	112
+9.0000	*	.	.	.	0	111
+9.0000	*	.	.	.	0	110
+9.0000	*	.	.	.	0	109
+9.0000	*	.	.	.	0	108
+10.0000	*	.	.	.	0	107
+10.0000	*	.	.	.	0	106
+10.0000	*	.	.	.	0	105
+11.0000	*	.	.	.	0	104
+11.0000	*	.	.	.	0	103
+11.0000	*	.	.	.	0	102
+11.0000	*	.	.	.	0	101
+12.0000	 	.	.	.	1	100
+12.0000	 	0.9802	0.0198	0.0139	2	99
+12.0000	*	.	.	.	2	98
+12.0000	*	.	.	.	2	97
+12.0000	*	.	.	.	2	96
+12.0000	*	.	.	.	2	95
+13.0000	 	0.9699	0.0301	0.0171	3	94
+13.0000	*	.	.	.	3	93
+13.0000	*	.	.	.	3	92
+13.0000	*	.	.	.	3	91
+13.0000	*	.	.	.	3	90
+13.0000	*	.	.	.	3	89
+13.0000	*	.	.	.	3	88
+14.0000	 	.	.	.	4	87
+14.0000	 	.	.	.	5	86
+14.0000	 	0.9368	0.0632	0.0250	6	85
+14.0000	*	.	.	.	6	84
+14.0000	*	.	.	.	6	83
+14.0000	*	.	.	.	6	82
+14.0000	*	.	.	.	6	81
+14.0000	*	.	.	.	6	80
+14.0000	*	.	.	.	6	79
+14.0000	*	.	.	.	6	78
+15.0000	 	.	.	.	7	77
+15.0000	 	.	.	.	8	76
+15.0000	 	0.9008	0.0992	0.0315	9	75
+15.0000	*	.	.	.	9	74
+15.0000	*	.	.	.	9	73
+15.0000	*	.	.	.	9	72
+15.0000	*	.	.	.	9	71
+15.0000	*	.	.	.	9	70
+15.0000	*	.	.	.	9	69
+16.0000	 	.	.	.	10	68
+16.0000	 	0.8747	0.1253	0.0356	11	67
+16.0000	*	.	.	.	11	66
+16.0000	*	.	.	.	11	65
+16.0000	*	.	.	.	11	64
+16.0000	*	.	.	.	11	63
+16.0000	*	.	.	.	11	62
+16.0000	*	.	.	.	11	61
+16.0000	*	.	.	.	11	60
+16.0000	*	.	.	.	11	59
+17.0000	 	0.8598	0.1402	0.0380	12	58
+17.0000	*	.	.	.	12	57
+17.0000	*	.	.	.	12	56
+17.0000	*	.	.	.	12	55
+17.0000	*	.	.	.	12	54
+18.0000	 	0.8439	0.1561	0.0405	13	53
+18.0000	*	.	.	.	13	52
+18.0000	*	.	.	.	13	51
+18.0000	*	.	.	.	13	50
+18.0000	*	.	.	.	13	49
+18.0000	*	.	.	.	13	48
+18.0000	*	.	.	.	13	47
+18.0000	*	.	.	.	13	46
+18.0000	*	.	.	.	13	45
+19.0000	 	0.8252	0.1748	0.0437	14	44
+19.0000	*	.	.	.	14	43
+19.0000	*	.	.	.	14	42
+19.0000	*	.	.	.	14	41
+19.0000	*	.	.	.	14	40
+19.0000	*	.	.	.	14	39
+19.0000	*	.	.	.	14	38
+19.0000	*	.	.	.	14	37
+20.0000	 	0.8029	0.1971	0.0479	15	36
+20.0000	*	.	.	.	15	35
+20.0000	*	.	.	.	15	34
+20.0000	*	.	.	.	15	33
+20.0000	*	.	.	.	15	32
+20.0000	*	.	.	.	15	31
+20.0000	*	.	.	.	15	30
+20.0000	*	.	.	.	15	29
+20.0000	*	.	.	.	15	28
+21.0000	 	0.7742	0.2258	0.0541	16	27
+21.0000	*	.	.	.	16	26
+21.0000	*	.	.	.	16	25
+21.0000	*	.	.	.	16	24
+21.0000	*	.	.	.	16	23
+21.0000	*	.	.	.	16	22
+22.0000	 	.	.	.	17	21
+22.0000	 	0.7038	0.2962	0.0683	18	20
+22.0000	*	.	.	.	18	19
+22.0000	*	.	.	.	18	18
+22.0000	*	.	.	.	18	17
+22.0000	*	.	.	.	18	16
+22.0000	*	.	.	.	18	15
+22.0000	*	.	.	.	18	14
+22.0000	*	.	.	.	18	13
+22.0000	*	.	.	.	18	12
+22.0000	*	.	.	.	18	11
+23.0000	 	0.6398	0.3602	0.0871	19	10
+23.0000	*	.	.	.	19	9
+23.0000	*	.	.	.	19	8
+23.0000	*	.	.	.	19	7
+23.0000	*	.	.	.	19	6
+23.0000	*	.	.	.	19	5
+24.0000	 	0.5119	0.4881	0.1340	20	4
+25.0000	 	0.3839	0.6161	0.1496	21	3
+25.0000	*	.	.	.	21	2
+25.0000	*	.	.	.	21	1
+25.0000	*	.	.	.	21	0
+Note:	The marked survival times are censored observations.
+
+Summary Statistics for Time Variable time_subst
+
+Quartile Estimates
+Percent	Point
+Estimate	95% Confidence Interval
+Transform	[Lower	Upper)
+75	.	LOGLOG	24.0000	.
+50	25.0000	LOGLOG	23.0000	.
+25	22.0000	LOGLOG	18.0000	24.0000
+Mean	Standard
+Error
+22.6239	0.4600
+Note:	The mean survival time and its standard error were underestimated because the largest observation was censored and the estimation was restricted to the largest event time.
+
+Summary of the Number of Censored and Uncensored Values
+Stratum	depress_parent	Total	Failed	Censored	Percent
+Censored
+1	0	95	7	88	92.63
+2	1	125	21	104	83.20
+Total	 	220	28	192	87.27
+HYPOTHESIS 2b: Survival Curves for Substance Abuse Onset
+
+Stratified by Parental Depression Status
+
+The LIFETEST Procedure
+
+Testing Homogeneity of Survival Curves for time_subst over Strata
+
+Rank Statistics
+depress_parent	Log-Rank	Wilcoxon
+0	-4.5325	-561.00
+1	4.5325	561.00
+Covariance Matrix for the Log-Rank Statistics
+depress_parent	0	1
+0	6.54120	-6.54120
+1	-6.54120	6.54120
+Covariance Matrix for the Wilcoxon Statistics
+depress_parent	0	1
+0	95224.0	-95224.0
+1	-95224.0	95224.0
+Test of Equality over Strata
+Test	Chi-Square	DF	Pr >
+Chi-Square
+Log-Rank	3.1406	1	0.0764
+Wilcoxon	3.3051	1	0.0691
+-2Log(LR)	4.3197	1	0.0377
+Product-Limit Survival Curves
+HYPOTHESIS 2b: Cox Regression for Substance Abuse Onset
+
+Effect of PARENTAL DEPRESSION controlling for demographics and social characteristics
+
+The PHREG Procedure
+
+Model Information
+Data Set	WORK.SUBSTANCE_ANALYSIS	 
+Dependent Variable	time_subst	Time to Substance Abuse Onset or Censoring
+Censoring Variable	censor_subst	Censoring Status for Substance Abuse (1=Censored, 0=Event)
+Censoring Value(s)	1	 
+Ties Handling	BRESLOW	 
+Number of Observations Read
+Number of Observations Used
+220
+219
+Class Level Information
+Class	Value	Design Variables
+depress_parent	0	0
+ 	1	1
+gender	1	0
+ 	2	1
+marital_status	1	0
+ 	2	1
+Summary of the Number of Event and Censored Values
+Total	Event	Censored	Percent
+Censored
+219	28	191	87.21
+Convergence Status
+Convergence criterion (GCONV=1E-8) satisfied.
+Model Fit Statistics
+Criterion	Without
+Covariates	With
+Covariates
+-2 LOG L	243.449	234.054
+AIC	243.449	244.054
+SBC	243.449	250.715
+Testing Global Null Hypothesis: BETA=0
+Test	Chi-Square	DF	Pr > ChiSq
+Likelihood Ratio	9.3946	5	0.0943
+Score	9.1222	5	0.1043
+Wald	8.7109	5	0.1212
+Type 3 Tests
+Effect	DF	Wald Chi-Square	Pr > ChiSq
+depress_parent	1	3.8469	0.0498
+gender	1	1.8025	0.1794
+age	1	0.0630	0.8018
+social_class	1	0.3181	0.5728
+marital_status	1	3.0625	0.0801
+Analysis of Maximum Likelihood Estimates
+Parameter	 	DF	Parameter
+Estimate	Standard
+Error	Chi-Square	Pr > ChiSq	Hazard
+Ratio	Label
+depress_parent	1	1	0.90255	0.46017	3.8469	0.0498	2.466	Parental Depression (0=No, 1=Yes) 1
+gender	2	1	-0.52450	0.39067	1.8025	0.1794	0.592	Gender (1=Male, 2=Female) 2
+age	 	1	0.02092	0.08334	0.0630	0.8018	1.021	Age at Interview
+social_class	 	1	0.10203	0.18090	0.3181	0.5728	1.107	Social Class (1=Highest, 5=Lowest)
+marital_status	2	1	-0.97322	0.55612	3.0625	0.0801	0.378	Marital Status (1=Married, 2=Sep/Div) 2
+HYPOTHESIS 2c: Cox Regression for Substance Abuse Onset
+
+Joint effects of PRIOR DEPRESSION and PARENTAL DEPRESSION
+
+The PHREG Procedure
+
+Model Information
+Data Set	WORK.SUBSTANCE_ANALYSIS	 
+Dependent Variable	time_subst	Time to Substance Abuse Onset or Censoring
+Censoring Variable	censor_subst	Censoring Status for Substance Abuse (1=Censored, 0=Event)
+Censoring Value(s)	1	 
+Ties Handling	BRESLOW	 
+Number of Observations Read
+Number of Observations Used
+220
+219
+Class Level Information
+Class	Value	Design Variables
+prior_depression	0	0
+ 	1	1
+depress_parent	0	0
+ 	1	1
+gender	1	0
+ 	2	1
+marital_status	1	0
+ 	2	1
+Summary of the Number of Event and Censored Values
+Total	Event	Censored	Percent
+Censored
+219	28	191	87.21
+Convergence Status
+Convergence criterion (GCONV=1E-8) satisfied.
+Model Fit Statistics
+Criterion	Without
+Covariates	With
+Covariates
+-2 LOG L	243.449	233.815
+AIC	243.449	245.815
+SBC	243.449	253.808
+Testing Global Null Hypothesis: BETA=0
+Test	Chi-Square	DF	Pr > ChiSq
+Likelihood Ratio	9.6338	6	0.1409
+Score	9.1500	6	0.1653
+Wald	8.6812	6	0.1923
+Type 3 Tests
+Effect	DF	Wald Chi-Square	Pr > ChiSq
+prior_depression	1	0.2357	0.6273
+depress_parent	1	4.0965	0.0430
+gender	1	1.6364	0.2008
+age	1	0.0774	0.7809
+social_class	1	0.3522	0.5529
+marital_status	1	3.1918	0.0740
+Analysis of Maximum Likelihood Estimates
+Parameter	 	DF	Parameter
+Estimate	Standard
+Error	Chi-Square	Pr > ChiSq	Hazard
+Ratio	Label
+prior_depression	1	1	-0.19980	0.41156	0.2357	0.6273	0.819	Prior Depression Before Substance Abuse (1=Yes, 0=No) 1
+depress_parent	1	1	0.94996	0.46936	4.0965	0.0430	2.586	Parental Depression (0=No, 1=Yes) 1
+gender	2	1	-0.50220	0.39258	1.6364	0.2008	0.605	Gender (1=Male, 2=Female) 2
+age	 	1	0.02332	0.08382	0.0774	0.7809	1.024	Age at Interview
+social_class	 	1	0.10611	0.17881	0.3522	0.5529	1.112	Social Class (1=Highest, 5=Lowest)
+marital_status	2	1	-1.00641	0.56332	3.1918	0.0740	0.366	Marital Status (1=Married, 2=Sep/Div) 2

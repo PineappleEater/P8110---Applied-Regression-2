@@ -1,0 +1,54 @@
+# LaTeX intermediate files
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+*.nav
+*.snm
+*.vrb
+*.bbl
+*.blg
+*.bcf
+*.run.xml
+
+# LaTeX temporary files
+*.dvi
+*.ps
+
+# Generated PDFs (optional - uncomment if you don't want to track PDFs)
+# *.pdf
+
+# SAS temporary files
+*.lst
+work/
+*.sas7bdat
+*.sas7bcat
+
+# Backup files
+*~
+*.bak
+*.swp
+*.swo
+*#
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.sublime-*
+
+# Temporary output files
+temp/
+tmp/
+out/

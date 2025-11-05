@@ -1,0 +1,431 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{setspace}
+\usepackage[table]{xcolor}
+
+% Page style
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{P8110 Midterm Project - Group 6}
+\lhead{Applied Regression II}
+\rfoot{Page \thepage}
+\setlength{\headheight}{14pt}
+
+% Table caption spacing
+\usepackage{caption}
+% Slightly tighter caption spacing
+\captionsetup[table]{skip=10pt}
+\captionsetup[figure]{skip=10pt}
+% Slightly smaller caption fonts for compactness
+\captionsetup{font=small,labelfont=bf}
+
+% Title formatting
+\titleformat{\section}{\Large\bfseries}{\thesection}{1em}{}[\vspace{0.15em}]
+\titleformat{\subsection}{\large\bfseries}{\thesubsection}{1em}{}[\vspace{0.10em}]
+\titleformat{\subsubsection}{\normalsize\bfseries}{\thesubsubsection}{1em}{}[\vspace{0.08em}]
+
+% Paragraph spacing: tighter paragraphs with a small indent
+\setlength{\parskip}{0.2em}
+\setlength{\parindent}{0.8em}
+
+% Tighter section spacing
+\titlespacing*{\section}{0pt}{1.0ex plus 0.2ex minus 0.2ex}{0.8ex}
+\titlespacing*{\subsection}{0pt}{0.8ex plus 0.2ex minus 0.2ex}{0.6ex}
+\titlespacing*{\subsubsection}{0pt}{0.6ex plus 0.2ex minus 0.2ex}{0.5ex}
+
+% Tighter float spacing
+\setlength{\floatsep}{10pt}
+\setlength{\textfloatsep}{12pt}
+\setlength{\intextsep}{10pt}
+% Allow more floats on a page and higher float/text ratios
+\setcounter{topnumber}{2}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{4}
+\renewcommand{\topfraction}{0.92}
+\renewcommand{\bottomfraction}{0.85}
+\renewcommand{\textfraction}{0.08}
+\renewcommand{\floatpagefraction}{0.9}
+
+% Tighter tables
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.02}
+% Slightly tighten booktabs rules
+\setlength{\aboverulesep}{0.3ex}
+\setlength{\belowrulesep}{0.3ex}
+\setlength{\abovetopsep}{0.3ex}
+\setlength{\belowbottomsep}{0.3ex}
+
+% Tighter lists
+\usepackage{enumitem}
+\setlist{itemsep=0.15em, topsep=0.2em, parsep=0pt}
+
+% Hyperref setup
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=cyan,
+    citecolor=blue
+}
+
+\begin{document}
+
+% Title Page
+\begin{titlepage}
+    \centering
+    \vspace*{1.2cm}
+
+    {\LARGE\bfseries P8110 Applied Regression II\par}
+    \vspace{0.5cm}
+    {\Large Midterm Project Report 1\par}
+    \vspace{1.2cm}
+
+    {\Large\bfseries Survival Analysis of Depression Onset and Substance Abuse in Offspring of Depressed Parents\par}
+    \vspace{1.8cm}
+
+    {\large Group 6\par}
+    \vspace{0.5cm}
+    {\large
+    Leah Li (YL5828)\\
+    Xuange Liang (XL3493)\\
+    Zexuan Yan (ZY2654)\\
+    Yiwen Zhang (YZ4994)\\
+    }
+    \vspace{2cm}
+
+    {\large \today\par}
+
+    \vfill
+\end{titlepage}
+
+% Table of Contents
+\tableofcontents
+% Avoid forcing a new page here to keep sections continuous
+
+\newpage
+% Main Content
+\section{Data Preparation}
+
+\subsection{Survival Outcome Definitions}
+
+\textbf{Depression Onset (Pre-pubertal, age < 13):}
+\begin{itemize}
+    \item Start time: Birth (age = 0); End time: Age of depression onset (\texttt{BEDEPON}) if < 13, otherwise censored at \texttt{PTAGE}
+\end{itemize}
+
+\textbf{Depression Onset (Adolescent/early adulthood, age $\geq$ 13):}
+\begin{itemize}
+    \item Start time: Birth (age = 0); End time: Age of depression onset (\texttt{BEDEPON}) if $\geq$ 13, otherwise censored at \texttt{PTAGE}
+\end{itemize}
+
+\textbf{Substance Abuse Onset:}
+\begin{itemize}
+    \item Start time: Birth (age = 0); End time: Age of substance abuse onset (\texttt{BESUBON}), censored at \texttt{PTAGE} if no event
+\end{itemize}
+
+\subsection{Data Cleaning}
+
+Logical consistency checks were performed on all variables:
+\begin{itemize}
+    \item Records with status=1 (diagnosed) but missing onset age (-1) were removed as incomplete
+    \item Records with onset age present but status=0 were corrected to status=1 for consistency
+    \item This procedure was applied to both depression (\texttt{DSMDEPHR}, \texttt{BEDEPON}) and substance abuse variables (\texttt{DSMSUBHR}, \texttt{BESUBON})
+\end{itemize}
+
+\subsection{Descriptive Statistic Table}
+
+\begin{table}[htbp]
+\centering
+\caption{Demographic and Clinical Characteristics of the Offspring Stratified by Parental Depression Status}
+\label{tab:descriptive}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Variable} & \textbf{Depressed Index Parent} & \textbf{Normal Index Parent} \\
+& \textbf{Group (N=125)} & \textbf{Group (N=95)} \\
+& \textbf{n (\%)} & \textbf{n (\%)} \\
+\midrule
+\textbf{Sex of Child} & & \\
+\quad Male & 63 (50.4\%) & 42 (44.2\%) \\
+\quad Female & 62 (49.6\%) & 53 (55.8\%) \\
+\addlinespace
+\textbf{Child depression status} & & \\
+\quad Ever depressed & 47 (37.6\%) & 22 (23.2\%) \\
+\quad Never depressed & 78 (62.4\%) & 73 (76.8\%) \\
+\addlinespace
+\textbf{Child substance abuse status} & & \\
+\quad Yes & 21 (16.8\%) & 7 (7.4\%) \\
+\quad No & 104 (83.2\%) & 88 (92.6\%) \\
+\addlinespace
+\textbf{Social class of index parent} & & \\
+\quad 1 (Highest) & 16 (12.8\%) & 1 (1.1\%) \\
+\quad 2 & 19 (15.2\%) & 19 (20.0\%) \\
+\quad 3 & 31 (24.8\%) & 16 (16.8\%) \\
+\quad 4 & 50 (40.0\%) & 47 (49.5\%) \\
+\quad 5 (Lowest) & 8 (6.4\%) & 12 (12.6\%) \\
+\addlinespace
+\textbf{Marital status of index parent} & & \\
+\quad Married with spouse & 90 (72.0\%) & 84 (88.4\%) \\
+\quad Separated/Divorced & 35 (28.0\%) & 11 (11.6\%) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Summary Statistics:}
+\begin{itemize}
+    \item Age at interview: Mean = 16.72 years (SD = 4.73, Range: 5--25)
+    \item Age of depression onset (n=69): Mean = 14.00 years (SD = 4.16, Range: 4--23)
+    \item Age of substance abuse onset (n=17): Mean = 15.12 years (SD = 2.32, Range: 12--21)
+\end{itemize}
+
+% Avoid forcing a new page here to keep sections continuous
+\section{Descriptive Statistics Analyses}
+
+\subsection{Sample Characteristics}
+The study included 220 children (125 with depressed parents, 95 with non-depressed parents) aged 5--25 years (Mean = 16.72, SD = 4.73). Depression onset occurred in 69 children (31.4\%, mean age = 14.00 years, SD = 4.16), and substance abuse in 28 children (12.7\%, mean age = 15.12 years, SD = 2.32).
+
+\subsection{Comparison by Parental Depression Status}
+
+Table 1 shows demographic and clinical characteristics stratified by parental depression status. Children of depressed parents had higher rates of depression (37.6\% vs 23.2\%) and substance abuse (16.8\% vs 7.4\%). Separation/divorce was more common among depressed parents (28.0\% vs 11.6\%).
+
+\textbf{Overall Kaplan-Meier Analysis:} Children of depressed parents demonstrated earlier depression onset (median: 20 vs 23 years). Log-rank test: $\chi^2$ = 7.69, p = 0.0056 (statistically significant).
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.75\textwidth]{graph/overall_km_depression_by_parental_status.png}
+    \caption{Overall Kaplan--Meier survival curves of depression onset by parental depression status}
+    \label{fig:km_overall}
+\end{figure}
+
+\newpage
+\section{Analyses to Address Hypothesis 1}
+
+\textbf{Hypothesis 1:} Offspring of a depressed parent are more likely to have pre-pubertal onset (<13 years) depression than offspring of a non-depressed parent, but equally likely to have an onset of adolescent/early adulthood depression, given demographic and social characteristics.
+
+\subsection{Statistical Modeling Approach}
+
+Cox proportional hazards regression models were fit separately for: (a) pre-pubertal onset (age < 13), and (b) adolescent/early adulthood onset (age $\geq$ 13).
+
+\textbf{Cox Model:}
+\begin{equation}
+h(t|X) = h_0(t) \times \exp(\beta_1 \times \text{PARDEP} + \beta_2 \times \text{SEX} + \beta_3 \times \text{AGE} + \beta_4 \times \text{SESCLASS} + \beta_5 \times \text{MSPARENT})
+\end{equation}
+
+Where: $h(t|X)$ = hazard at time $t$; $h_0(t)$ = baseline hazard; PARDEP = parental depression (1=depressed, 0=normal); SEX = child's sex (1=male, 2=female); AGE = age at interview; SESCLASS = social class (1--5); MSPARENT = marital status (1=married, 2=separated/divorced).
+
+Proportional hazards (PH) assumptions were tested using Schoenfeld residuals and supremum tests. Violations were addressed using stratified Cox models.
+
+\subsection{Results}
+
+\subsubsection{Pre-pubertal Onset (Age < 13 years)}
+
+\textbf{Kaplan-Meier:} Log-rank $\chi^2$ = 10.56, p = 0.0012. Children of depressed parents had significantly earlier pre-pubertal depression onset.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.75\textwidth]{graph/h1a_km_prepubertal_by_parental_status.png}
+    \caption{H1a: Kaplan--Meier curves for pre-pubertal depression onset (age $<13$) by parental depression}
+    \label{fig:km_prepub}
+\end{figure}
+
+\textbf{Cox Regression (Table 2a):}
+
+\begin{table}[htbp]
+\centering
+\caption{Cox Regression Results for Pre-pubertal Depression Onset (Age $<$ 13 years)}
+\label{tab:cox_prepub}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Variable} & \textbf{Hazard Ratio} & \textbf{95\% CI} & \textbf{P-value} \\
+\midrule
+Parental Depression & 5.863 & (1.717, 20.019) & 0.0048** \\
+Sex (Female vs Male) & 1.171 & (0.522, 2.626) & 0.7024 \\
+Age at interview & 0.988 & (0.913, 1.069) & 0.7608 \\
+Social class & 0.822 & (0.591, 1.144) & 0.2460 \\
+Marital status (Sep/Div) & 0.585 & (0.198, 1.731) & 0.3328 \\
+\bottomrule
+\multicolumn{4}{l}{\small ** Statistically significant at $\alpha$ = 0.01 level}
+\end{tabular}
+\end{table}
+
+\textbf{Key Findings:} Children of depressed parents have 5.86 times the hazard of pre-pubertal depression (p = 0.0048). No other covariates were significant. PH assumptions satisfied (all p > 0.05).
+
+\subsubsection{Adolescent/Early Adulthood Onset (Age $\geq$ 13 years)}
+
+\textbf{Kaplan-Meier:} Log-rank $\chi^2$ = 0.83, p = 0.3632 (not significant). No difference by parental status, consistent with hypothesis.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.75\textwidth]{graph/h1b_km_adolescent_by_parental_status.png}
+    \caption{H1b: Kaplan--Meier curves for adolescent/early adulthood depression onset (age $\geq 13$) by parental depression}
+    \label{fig:km_adol}
+\end{figure}
+
+\textbf{Cox Regression (Table 2b):}
+
+\begin{table}[htbp]
+\centering
+\caption{Cox Regression Results for Adolescent/Early Adulthood Depression Onset (Age $\geq$ 13 years)}
+\label{tab:cox_adol}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Variable} & \textbf{Hazard Ratio} & \textbf{95\% CI} & \textbf{P-value} \\
+\midrule
+Parental Depression & 1.362 & (0.736, 2.521) & 0.3246 \\
+Sex (Female vs Male) & 2.481 & (1.307, 4.710) & 0.0055** \\
+Age at interview & 0.984 & (0.871, 1.113) & 0.8018 \\
+Social class & 1.140 & (0.855, 1.520) & 0.3722 \\
+Marital status (Sep/Div) & 1.622 & (0.825, 3.188) & 0.1605 \\
+\bottomrule
+\multicolumn{4}{l}{\small ** Statistically significant at $\alpha$ = 0.01 level}
+\end{tabular}
+\end{table}
+
+\textbf{Key Findings:} Parental depression not significant (HR=1.36, p=0.325). Female sex strongly predicts adolescent depression (HR=2.48, p=0.0055). PH assumption violated for parental depression (p=0.014); stratified model confirmed results.
+
+\subsection{Conclusion for Hypothesis 1}
+
+\textbf{Hypothesis 1 is FULLY SUPPORTED.} Parental depression strongly increases pre-pubertal depression risk (HR=5.86, p=0.0048) but not adolescent-onset risk (HR=1.36, p=0.325). The findings demonstrate a clear age-specific pattern of familial transmission, with parental depression being a significant risk factor only for early-onset depression.
+
+\newpage
+\section{Analyses to Address Hypothesis 2}
+
+\textbf{Hypothesis 2:} Is there evidence for the effect of (1) prior depression in offspring, as well as (2) the effect of parent's depression status on the age of onset of substance abuse/dependence in offspring, given demographic and social characteristics?
+
+\subsection{Statistical Modeling Approach}
+
+Three Cox regression models tested: (2a) prior depression effect, (2b) parental depression effect, (2c) joint model. Prior depression defined as depression onset before substance abuse onset.
+
+\textbf{Model Specifications:}
+\begin{align}
+\text{Model 2a: } h(t|X) &= h_0(t) \times \exp(\beta_1 \times \text{PRIORDEP} + \text{covariates}) \\
+\text{Model 2b: } h(t|X) &= h_0(t) \times \exp(\beta_1 \times \text{PARDEP} + \text{covariates}) \\
+\text{Model 2c: } h(t|X) &= h_0(t) \times \exp(\beta_1 \times \text{PRIORDEP} + \beta_2 \times \text{PARDEP} + \text{covariates})
+\end{align}
+
+Where PRIORDEP = prior depression (1=yes, 0=no); PARDEP = parental depression; covariates = sex, age, social class, marital status.
+
+\subsection{Results}
+
+\subsubsection{Model 2a: Effect of Prior Depression}
+
+\textbf{Kaplan-Meier:} Log-rank $\chi^2$ = 0.07, p = 0.7988 (not significant). No difference in substance abuse onset by prior depression status.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.75\textwidth]{graph/h2a_km_substance_onset_by_prior_depression.png}
+    \caption{H2a: Kaplan--Meier curves for substance abuse onset by prior depression in offspring}
+    \label{fig:km_sub_prior}
+\end{figure}
+
+\textbf{Cox Regression (Table 3a):}
+
+\begin{table}[htbp]
+\centering
+\caption{Cox Regression Results for Substance Abuse Onset: Effect of Prior Depression}
+\label{tab:cox_sub_prior}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Variable} & \textbf{Hazard Ratio} & \textbf{95\% CI} & \textbf{P-value} \\
+\midrule
+Prior Depression & 0.999 & (0.454, 2.198) & 0.9981 \\
+Sex (Female vs Male) & 0.538 & (0.247, 1.170) & 0.1155 \\
+Age at interview & 1.045 & (0.889, 1.228) & 0.5981 \\
+Social class & 1.000 & (0.692, 1.445) & 0.9989 \\
+Marital status (Sep/Div) & 0.441 & (0.149, 1.303) & 0.1388 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Key Findings:} Prior depression shows no effect (HR=0.999, p=0.998). No covariates significant.
+
+\subsubsection{Model 2b: Effect of Parental Depression}
+
+\textbf{Kaplan-Meier:} Log-rank $\chi^2$ = 3.14, p = 0.0764 (marginally significant). Trend toward earlier substance abuse in children of depressed parents.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.75\textwidth]{graph/h2b_km_substance_onset_by_parental_depression.png}
+    \caption{H2b: Kaplan--Meier curves for substance abuse onset by parental depression}
+    \label{fig:km_sub_parent}
+\end{figure}
+
+\textbf{Cox Regression (Table 3b):}
+
+\begin{table}[htbp]
+\centering
+\caption{Cox Regression Results for Substance Abuse Onset: Effect of Parental Depression}
+\label{tab:cox_sub_parent}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Variable} & \textbf{Hazard Ratio} & \textbf{95\% CI} & \textbf{P-value} \\
+\midrule
+Parental Depression & 2.466 & (1.001, 6.076) & 0.0498* \\
+Sex (Female vs Male) & 0.592 & (0.271, 1.293) & 0.1794 \\
+Age at interview & 1.021 & (0.869, 1.200) & 0.8018 \\
+Social class & 1.107 & (0.771, 1.591) & 0.5728 \\
+Marital status (Sep/Div) & 0.378 & (0.128, 1.117) & 0.0801 \\
+\bottomrule
+\multicolumn{4}{l}{\small * Statistically significant at $\alpha$ = 0.05 level}
+\end{tabular}
+\end{table}
+
+\textbf{Key Findings:} Parental depression marginally significant (HR=2.47, p=0.0498). Children of depressed parents have 2.5 times the hazard of substance abuse.
+
+\subsubsection{Model 2c: Joint Model}
+
+\textbf{Cox Regression (Table 3c):}
+
+\begin{table}[htbp]
+\centering
+\caption{Cox Regression Results for Substance Abuse Onset: Joint Model (Prior and Parental Depression)}
+\label{tab:cox_sub_joint}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Variable} & \textbf{Hazard Ratio} & \textbf{95\% CI} & \textbf{P-value} \\
+\midrule
+Prior Depression & 0.819 & (0.372, 1.802) & 0.6273 \\
+Parental Depression & 2.586 & (1.023, 6.539) & 0.0430* \\
+Sex (Female vs Male) & 0.605 & (0.277, 1.322) & 0.2008 \\
+Age at interview & 1.024 & (0.871, 1.203) & 0.7809 \\
+Social class & 1.112 & (0.770, 1.606) & 0.5529 \\
+Marital status (Sep/Div) & 0.366 & (0.121, 1.106) & 0.0740 \\
+\bottomrule
+\multicolumn{4}{l}{\small * Statistically significant at $\alpha$ = 0.05 level}
+\end{tabular}
+\end{table}
+
+\textbf{Key Findings:} Parental depression remains significant (HR=2.59, p=0.043) in joint model. Prior depression not significant (HR=0.82, p=0.627). Parental depression is the primary driver of substance abuse risk.
+
+\subsection{Conclusion for Hypothesis 2}
+
+\textbf{Hypothesis 2 is PARTIALLY SUPPORTED.} Prior depression shows no effect on substance abuse (HR=0.999, p=0.998). Parental depression has a marginally significant effect (HR=2.47-2.59, p=0.043-0.050). In the joint model, parental depression remains significant while prior depression does not, indicating parental depression directly affects substance abuse risk independent of offspring's own depression.
+
+\textbf{Clinical Implications:} Findings suggest familial transmission of substance abuse risk operates through pathways beyond offspring psychopathology. Prevention efforts should target children of depressed parents regardless of child's depression status.
+
+\newpage
+\section{Summary}
+
+\subsection{Main Findings}
+\begin{itemize}
+    \item \textbf{Hypothesis 1 (FULLY SUPPORTED):} Parental depression strongly increases pre-pubertal depression risk (HR=5.86, p<0.01) but not adolescent-onset risk (HR=1.36, p=0.32). Age-specific familial transmission pattern identified.
+    \item \textbf{Hypothesis 2 (PARTIALLY SUPPORTED):} Prior depression shows no effect on substance abuse (p=0.998). Parental depression marginally significant (HR=2.47-2.59, p=0.04-0.05), operating independently of offspring depression.
+    \item \textbf{Additional Finding:} Female sex strongly predicts adolescent-onset depression (HR=2.48, p<0.01).
+\end{itemize}
+
+\subsection{Clinical Implications and Limitations}
+Early intervention critical for children of depressed parents, especially before age 13. Substance abuse prevention should target all children of depressed parents regardless of child's depression status.
+
+\textbf{Limitations:} Retrospective assessment may introduce recall bias; small event counts (n=24 pre-pubertal depression, n=28 substance abuse) limit precision and power; PH assumption violated for parental depression in adolescent analysis (addressed via stratified model).
+
+\end{document}

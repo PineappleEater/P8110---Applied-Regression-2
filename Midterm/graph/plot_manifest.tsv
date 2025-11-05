@@ -1,0 +1,16 @@
+index	filename	description
+01	overall_km_depression_by_parental_status.png	Overall sample: Kaplan-Meier curves for depression onset by parental depression status
+02	h1a_km_prepubertal_by_parental_status.png	Hypothesis 1a: Kaplan-Meier curves for pre-pubertal depression onset (<13) by parental depression
+03	h1a_standardized_score_process_plot_1.png	Hypothesis 1a: Standardized score process plot (panel 1)
+04	h1a_standardized_score_process_plot_2.png	Hypothesis 1a: Standardized score process plot (panel 2)
+05	h1a_standardized_score_process_plot_3.png	Hypothesis 1a: Standardized score process plot (panel 3)
+06	h1a_standardized_score_process_plot_4.png	Hypothesis 1a: Standardized score process plot (panel 4)
+07	h1a_standardized_score_process_plot_5.png	Hypothesis 1a: Standardized score process plot (panel 5)
+08	h1b_km_adolescent_by_parental_status.png	Hypothesis 1b: Kaplan-Meier curves for adolescent/early adulthood depression onset (>=13) by parental depression
+09	h1b_standardized_score_process_plot_1.png	Hypothesis 1b: Standardized score process plot (panel 1)
+10	h1b_standardized_score_process_plot_2.png	Hypothesis 1b: Standardized score process plot (panel 2)
+11	h1b_standardized_score_process_plot_3.png	Hypothesis 1b: Standardized score process plot (panel 3)
+12	h1b_standardized_score_process_plot_4.png	Hypothesis 1b: Standardized score process plot (panel 4)
+13	h1b_standardized_score_process_plot_5.png	Hypothesis 1b: Standardized score process plot (panel 5)
+14	h2a_km_substance_onset_by_prior_depression.png	Hypothesis 2a: Kaplan-Meier curves for substance abuse onset by prior depression history
+15	h2b_km_substance_onset_by_parental_depression.png	Hypothesis 2b: Kaplan-Meier curves for substance abuse onset by parental depression status
