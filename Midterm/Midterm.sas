@@ -64,7 +64,7 @@ data survival_data;
         age = "Age at Interview"
         gender = "Gender (1=Male, 2=Female)";
 run;
-/* 计算描述性统计表格（Table 1） */
+/* Calculate descriptive statistics tables (Table 1) */
 proc freq data=survival_data;
     tables gender * parent_label / norow nocol nopercent out=gender_table;
     title "Gender by Parental Depression";
@@ -90,11 +90,6 @@ proc freq data=survival_data;
     title "Marital Status by Parental Depression";
 run;
 
-/*Overall K-M curve*/
-proc lifetest data=survival_data method=KM plots=survival(test);
-time time*censor(1);
-strata parent_label;
-
 /* Basic descriptive statistics */
 proc means data=survival_data n mean std;
     var time age;
@@ -106,6 +101,17 @@ proc freq data=survival_data;
     tables censor*parent_label / norow nocol nopercent;
     title "Censoring by Parental Depression Status";
 run;
+
+/* ===== OVERALL SURVIVAL ANALYSIS: DEPRESSION ONSET BY PARENTAL STATUS ===== */
+/* Visualize overall survival curves for depression onset by parental depression */
+ods graphics on;
+proc lifetest data=survival_data method=KM plots=survival(test);
+    time time*censor(1);
+    strata parent_label;
+    title 'Child Depression by Parental Depression';
+    title2 'Overall Kaplan-Meier Survival Curves';
+run;
+ods graphics off;
 
 /* ===== HYPOTHESIS 1: PRE-PUBERTAL vs ADOLESCENT/EARLY ADULTHOOD ONSET ===== */
 /* Hypothesis: Offspring of depressed parents are more likely to have pre-pubertal
@@ -136,27 +142,27 @@ data prepubertal_data;
 run;
 
 /* Create dataset for adolescent/early adulthood onset analysis (>=13 years) */
+/* Using left truncation: individuals enter the risk set at age 13 */
 data adolescent_data;
     set survival_data;
 
-    /* For adolescent analysis - only those who reached age 13 without event: */
-    /* - If depression onset before 13: EXCLUDE (already had event in pre-pubertal period) */
-    /* - If depression onset at/after 13: event occurred, use onset age */
-    /* - If censored before 13: EXCLUDE (didn't reach age 13) */
-    /* - If censored at/after 13: censored, use censoring age */
+    /* Exclude those who had depression before 13 or were censored before 13 */
+    if time < 13 then delete;
 
-    /* Exclude those who had depression before 13 */
-    if censor = 0 and time < 13 then delete;
+    /* Left truncation: all individuals enter at age 13 */
+    entry_time = 13;              /* Entry time: age 13 */
+    exit_time = time;             /* Exit time: age at event or censoring */
+    event = (censor = 0);         /* Event indicator: 1=event, 0=censored */
 
-    /* Exclude those censored before 13 (didn't reach age 13) */
-    if censor = 1 and time < 13 then delete;
+    /* For KM curves: time since age 13 */
+    time_since_13 = exit_time - 13;
+    censor_km = 1 - event;        /* Censoring indicator for KM (1=censored, 0=event) */
 
-    /* For everyone else (reached age 13 without prior depression event) */
-    time_adol = time;        /* Use actual time */
-    censor_adol = censor;    /* Use actual censoring status */
-
-    label time_adol = "Time to Depression Onset (Age 13+)"
-          censor_adol = "Censoring Status for Adolescent Analysis";
+    label entry_time = "Entry time (age 13)"
+          exit_time = "Exit time (age at event or censoring)"
+          event = "Event indicator (1=depression, 0=censored)"
+          time_since_13 = "Years since age 13"
+          censor_km = "Censoring indicator for KM curves";
 run;
 
 /* Visualize survival curves for pre-pubertal onset by parental depression */
@@ -199,28 +205,26 @@ run;
 proc phreg data=prepubertal_data;
     class gender (ref='1') marital_status (ref='1');
     model time_prepub*censor_prepub(1) = gender age social_class marital_status /rl ties = efron;
-    strata depress_parent; 
+    strata depress_parent;
     title 'HYPOTHESIS 1a: Stratified Cox Model';
 run;
 
-ods graphics on;
-
-
 /* Visualize survival curves for adolescent onset by parental depression */
+/* KM curves show time since age 13 (cannot use left truncation syntax in PROC LIFETEST) */
 ods graphics on;
 proc lifetest data=adolescent_data method=KM plots=survival(test);
-    time time_adol*censor_adol(1);
+    time time_since_13*censor_km(1);
     strata parent_label;
     title 'HYPOTHESIS 1b: Survival Curves for Adolescent/Early Adulthood Depression Onset (>=13 years)';
-    title2 'Stratified by Parental Depression Status';
+    title2 'Stratified by Parental Depression Status - Time since age 13';
 run;
 ods graphics off;
 
 /* Hypothesis 1b: Adolescent/early adulthood onset (>=13 years) */
-/* Cox regression with covariates */
+/* Cox regression with covariates using left truncation */
 proc phreg data=adolescent_data;
     class depress_parent (ref='0') gender (ref='1') marital_status (ref='1');
-    model time_adol*censor_adol(1) = depress_parent gender age social_class marital_status/rl;
+    model (entry_time, exit_time)*event(0) = depress_parent gender age social_class marital_status/rl;
     title 'HYPOTHESIS 1b: Cox Regression for Adolescent/Early Adulthood Depression Onset (>=13 years)';
     title2 'Effect of Parental Depression controlling for demographics and social characteristics';
 run;
@@ -228,17 +232,19 @@ run;
 ods graphics on;
 proc phreg data=adolescent_data;
     class depress_parent (ref='0') gender (ref='1') marital_status (ref='1');
-    model time_adol*censor_adol(1) = depress_parent gender age social_class marital_status / ties = efron;
+    model (entry_time, exit_time)*event(0) = depress_parent gender age social_class marital_status / ties = efron;
     assess PH / resample;
     title 'HYPOTHESIS 1b: Cox Regression with PH Assumption Test';
 run;
 ods graphics off;
 
+/* Sensitivity analysis: time interaction model to handle age PH violation */
 proc phreg data=adolescent_data;
-    class gender (ref='1') marital_status (ref='1');
-    model time_adol*censor_adol(1) = gender age social_class marital_status /rl ties = efron;
-    strata depress_parent; 
-    title 'HYPOTHESIS 1b: Stratified Cox Model';
+    class depress_parent (ref='0') gender (ref='1') marital_status (ref='1');
+    model (entry_time, exit_time)*event(0) = depress_parent gender age social_class marital_status age_time;
+    age_time = age * log(exit_time);
+    title 'HYPOTHESIS 1b: Cox Model with Age*Time Interaction';
+    title2 'Addresses PH violation for age covariate (p=0.021)';
 run;
 
 /* ===== HYPOTHESIS 2: SUBSTANCE ABUSE ONSET ANALYSIS ===== */
@@ -315,6 +321,19 @@ proc freq data=substance_analysis;
     title "Substance Abuse Analysis: Key Variables";
 run;
 
+/* Check substance abuse onset age distribution */
+proc means data=substance_analysis n min max mean median;
+    var time_subst;
+    where censor_subst = 0;  /* Only events */
+    title "Substance Abuse Onset Age Distribution (Events Only)";
+run;
+
+proc freq data=substance_analysis;
+    where censor_subst = 0;
+    tables time_subst;
+    title "Substance Abuse Onset Age Frequencies (Events Only)";
+run;
+
 /* Visualize survival curves for substance abuse by prior depression */
 ods graphics on;
 proc lifetest data=substance_analysis method=KM plots=survival(test);
@@ -332,6 +351,16 @@ proc phreg data=substance_analysis;
     title 'HYPOTHESIS 2a: Cox Regression for Substance Abuse Onset';
     title2 'Effect of PRIOR DEPRESSION in offspring controlling for demographics and social characteristics';
 run;
+
+/* PH assumption test for Hypothesis 2a */
+ods graphics on;
+proc phreg data=substance_analysis;
+    class prior_depression (ref='0') gender (ref='1') marital_status (ref='1');
+    model time_subst*censor_subst(1) = prior_depression gender age social_class marital_status / ties=efron;
+    assess PH / resample;
+    title 'HYPOTHESIS 2a: Cox Regression with PH Assumption Test';
+run;
+ods graphics off;
 
 /* Visualize survival curves for substance abuse by parental depression */
 ods graphics on;
@@ -351,6 +380,16 @@ proc phreg data=substance_analysis;
     title2 'Effect of PARENTAL DEPRESSION controlling for demographics and social characteristics';
 run;
 
+/* PH assumption test for Hypothesis 2b */
+ods graphics on;
+proc phreg data=substance_analysis;
+    class depress_parent (ref='0') gender (ref='1') marital_status (ref='1');
+    model time_subst*censor_subst(1) = depress_parent gender age social_class marital_status / ties=efron;
+    assess PH / resample;
+    title 'HYPOTHESIS 2b: Cox Regression with PH Assumption Test';
+run;
+ods graphics off;
+
 /* Hypothesis 2c: Joint model with both prior depression and parental depression */
 proc phreg data=substance_analysis;
     class prior_depression (ref='0') depress_parent (ref='0') gender (ref='1') marital_status (ref='1');
@@ -358,4 +397,14 @@ proc phreg data=substance_analysis;
     title 'HYPOTHESIS 2c: Cox Regression for Substance Abuse Onset';
     title2 'Joint effects of PRIOR DEPRESSION and PARENTAL DEPRESSION';
 run;
+
+/* PH assumption test for Hypothesis 2c (joint model) */
+ods graphics on;
+proc phreg data=substance_analysis;
+    class prior_depression (ref='0') depress_parent (ref='0') gender (ref='1') marital_status (ref='1');
+    model time_subst*censor_subst(1) = prior_depression depress_parent gender age social_class marital_status / ties=efron;
+    assess PH / resample;
+    title 'HYPOTHESIS 2c: Cox Regression with PH Assumption Test';
+run;
+ods graphics off;
 
