@@ -1,0 +1,439 @@
+---
+title: "P8110 Applied Regression II - Homework 6"
+author: "Xuange Liang"
+date: "`r Sys.Date()`"
+output:
+  pdf_document:
+    toc: true
+    toc_depth: 2
+    latex_engine: xelatex
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+library(MASS)      # For ordinal logistic regression (polr)
+library(nnet)      # For multinomial logistic regression (multinom)
+library(broom)     # For tidy model outputs
+library(dplyr)     # For data manipulation
+library(knitr)     # For tables
+```
+
+# Introduction
+
+This homework analyzes a motor vehicle safety study where 300 drivers were asked to rate the importance of air conditioning and power steering in cars. We will compare ordinal logistic regression and multinomial logistic regression models.
+
+# Data Preparation
+
+```{r load-data}
+# Load the data
+cars <- read.csv("cars.csv", header = FALSE)
+colnames(cars) <- c("sex", "age", "response", "count")
+
+# Convert to factors with appropriate labels
+cars$sex <- factor(cars$sex, levels = c(1, 2),
+                   labels = c("Women", "Men"))
+cars$age <- factor(cars$age, levels = c(1, 2, 3),
+                   labels = c("18-23", "24-40", ">40"))
+cars$response <- factor(cars$response, levels = c(1, 2, 3),
+                        labels = c("No/Little", "Important", "Very Important"),
+                        ordered = TRUE)
+
+# Display the data
+kable(cars, caption = "Motor Vehicle Safety Study Data")
+
+# Expand the data based on count
+cars_expanded <- cars[rep(row.names(cars), cars$count), 1:3]
+rownames(cars_expanded) <- NULL
+
+# Summary statistics
+cat("\nTotal Sample Size:", nrow(cars_expanded), "\n")
+table(cars_expanded$sex, cars_expanded$response)
+```
+
+---
+
+# Question 1: Ordinal Logistic Regression
+
+## 1.1 Model Specification [2 points]
+
+The **ordinal logistic regression model** (proportional odds model) is:
+
+$$\text{logit}[P(Y \leq j)] = \log\left(\frac{P(Y \leq j)}{P(Y > j)}\right) = \alpha_j - \beta_1 \text{sex} - \beta_2 \text{age2} - \beta_3 \text{age3}$$
+
+where:
+
+- $j = 1, 2$ (response categories: 1 = "No/Little", 2 = "Important")
+- $Y$ is the ordinal response variable
+- $\alpha_j$ are the intercepts for each cumulative logit
+- $\beta_1$ is the coefficient for sex (Men vs Women, with Women as reference)
+- $\beta_2$ is the coefficient for age category 24-40 vs 18-23
+- $\beta_3$ is the coefficient for age category >40 vs 18-23
+
+The model assumes **proportional odds**, meaning the effect of predictors is the same across all cumulative logits.
+
+```{r ordinal-model}
+# Fit the ordinal logistic regression model
+ordinal_model <- polr(response ~ sex + age,
+                      data = cars_expanded,
+                      weights = NULL,
+                      Hess = TRUE)
+
+summary(ordinal_model)
+```
+
+## 1.2 Test for Proportional Odds Assumption [2 points]
+
+We test the proportional odds assumption by comparing the ordinal model with a multinomial model.
+
+**Hypotheses:**
+
+- $H_0$: The proportional odds assumption holds (ordinal model is appropriate)
+- $H_a$: The proportional odds assumption does not hold (multinomial model is needed)
+
+```{r test-proportional-odds}
+# Fit multinomial logistic regression for comparison
+multinomial_model <- multinom(response ~ sex + age,
+                              data = cars_expanded,
+                              trace = FALSE)
+
+# Likelihood ratio test
+# Ordinal model has fewer parameters due to proportional odds constraint
+logLik_ordinal <- logLik(ordinal_model)
+logLik_multinomial <- logLik(multinomial_model)
+
+# Test statistic
+G <- -2 * (as.numeric(logLik_ordinal) - as.numeric(logLik_multinomial))
+
+# Degrees of freedom
+# Multinomial has 2*(k-1) coefficients for each predictor
+# Ordinal has (k-1) coefficients for each predictor
+# df = difference in number of parameters
+df_ordinal <- length(coef(ordinal_model)) + length(ordinal_model$zeta)
+df_multinomial <- length(coef(multinomial_model))
+df <- df_multinomial - df_ordinal
+
+# P-value
+p_value <- 1 - pchisq(G, df)
+
+cat("\n=== Test for Proportional Odds Assumption ===\n")
+cat("H0: Proportional odds assumption holds\n")
+cat("Ha: Proportional odds assumption does not hold\n\n")
+cat("Test Statistic (G):", round(G, 4), "\n")
+cat("Degrees of Freedom:", df, "\n")
+cat("P-value:", round(p_value, 4), "\n")
+cat("\nConclusion:",
+    ifelse(p_value > 0.05,
+           "We fail to reject H0 at α=0.05. The proportional odds assumption is reasonable.",
+           "We reject H0 at α=0.05. The proportional odds assumption is violated."))
+```
+
+## 1.3 Odds Ratio for Sex Effect [4 points]
+
+We estimate the odds ratio of a **lower rating** (rating less important) between men and women.
+
+```{r ordinal-or-sex}
+# Get coefficients and confidence intervals
+coef_summary <- summary(ordinal_model)
+coef_sex <- coef(ordinal_model)["sexMen"]
+
+# Calculate 95% CI
+se_sex <- coef_summary$coefficients["sexMen", "Std. Error"]
+ci_lower <- coef_sex - 1.96 * se_sex
+ci_upper <- coef_sex + 1.96 * se_sex
+
+# Odds ratio and CI for LOWER rating
+# Note: polr models logit[P(Y≤j)] = theta - beta*X
+# So exp(-beta) gives OR for lower rating (P(Y≤j))
+or_sex <- exp(-coef_sex)
+or_ci_lower <- exp(-ci_upper)  # Note: CI bounds are reversed when taking negative
+or_ci_upper <- exp(-ci_lower)
+
+cat("\n=== Odds Ratio for Sex (Men vs Women) ===\n")
+cat("Coefficient (β1):", round(coef_sex, 4), "\n")
+cat("Odds Ratio (OR):", round(or_sex, 4), "\n")
+cat("95% CI:", "(", round(or_ci_lower, 4), ",", round(or_ci_upper, 4), ")\n")
+cat("\n")
+
+# Interpretation
+if (or_sex > 1) {
+  cat("Interpretation:\n")
+  cat("Men have", round(or_sex, 2), "times the odds of giving a LOWER rating\n")
+  cat("(less important) compared to women, adjusting for age.\n\n")
+  cat("This means women care MORE about air conditioning and power steering\n")
+  cat("features compared to men, as men are more likely to rate these features\n")
+  cat("as less important.\n\n")
+  if (or_ci_lower > 1) {
+    cat("The 95% CI does not include 1, indicating this difference is\n")
+    cat("statistically significant at α=0.05 level.\n")
+  }
+} else {
+  cat("Interpretation:\n")
+  cat("Men have", round(or_sex, 2), "times the odds of giving a LOWER rating\n")
+  cat("compared to women, adjusting for age.\n\n")
+  cat("This means women care LESS about air conditioning and power steering\n")
+  cat("features compared to men.\n")
+}
+```
+
+## 1.4 Probability of "Very Important" for Women Aged 18-23 [3 points]
+
+We estimate $P(Y = 3)$ for women aged 18-23 using: $P(Y = 3) = 1 - P(Y \leq 2)$.
+
+```{r ordinal-prob}
+# Create data for prediction: Women aged 18-23
+newdata <- data.frame(sex = factor("Women", levels = c("Women", "Men")),
+                      age = factor("18-23", levels = c("18-23", "24-40", ">40")))
+
+# Predict cumulative probabilities
+cumulative_probs <- predict(ordinal_model, newdata = newdata, type = "probs")
+
+# P(Y = 3) = 1 - P(Y <= 2)
+prob_very_important <- cumulative_probs[3]
+
+# Alternative calculation using formula
+# Extract intercepts and coefficients
+alpha1 <- ordinal_model$zeta[1]  # Intercept for Y <= 1
+alpha2 <- ordinal_model$zeta[2]  # Intercept for Y <= 2
+
+# For Women (sex=1, reference) and age 18-23 (reference), all predictors = 0
+# P(Y <= 2) = exp(alpha2) / (1 + exp(alpha2))
+p_Y_le_2 <- exp(alpha2) / (1 + exp(alpha2))
+p_Y_eq_3 <- 1 - p_Y_le_2
+
+cat("\n=== Probability Calculation for Women Aged 18-23 ===\n")
+cat("Cumulative probabilities:\n")
+cat("P(Y = No/Little):", round(cumulative_probs[1], 4), "\n")
+cat("P(Y = Important):", round(cumulative_probs[2], 4), "\n")
+cat("P(Y = Very Important):", round(cumulative_probs[3], 4), "\n\n")
+
+cat("Using formula: P(Y = 3) = 1 - P(Y ≤ 2)\n")
+cat("Intercept α2:", round(alpha2, 4), "\n")
+cat("P(Y ≤ 2) = exp(α2)/(1 + exp(α2)) =", round(p_Y_le_2, 4), "\n")
+cat("P(Y = 3) = 1 - P(Y ≤ 2) =", round(p_Y_eq_3, 4), "\n")
+```
+
+---
+
+# Question 2: Multinomial Logistic Regression
+
+## 2.1 Model Specification [2 points]
+
+The **multinomial logistic regression model** with "No/Little importance" as the reference category:
+
+$$\log\left(\frac{P(Y = j)}{P(Y = 1)}\right) = \beta_{j0} + \beta_{j1} \text{sex} + \beta_{j2} \text{age2} + \beta_{j3} \text{age3}$$
+
+where $j = 2, 3$ (Important, Very Important).
+
+This gives us two equations:
+
+**For "Important" vs "No/Little":**
+$$\log\left(\frac{P(Y = 2)}{P(Y = 1)}\right) = \beta_{20} + \beta_{21} \text{sex} + \beta_{22} \text{age2} + \beta_{23} \text{age3}$$
+
+**For "Very Important" vs "No/Little":**
+$$\log\left(\frac{P(Y = 3)}{P(Y = 1)}\right) = \beta_{30} + \beta_{31} \text{sex} + \beta_{32} \text{age2} + \beta_{33} \text{age3}$$
+
+```{r multinomial-model}
+# Relevel to make "No/Little" the reference category (it already is)
+cars_expanded$response_unordered <- factor(cars_expanded$response,
+                                           ordered = FALSE)
+cars_expanded$response_unordered <- relevel(cars_expanded$response_unordered,
+                                            ref = "No/Little")
+
+# Fit multinomial logistic regression
+multinom_model <- multinom(response_unordered ~ sex + age,
+                           data = cars_expanded,
+                           trace = FALSE)
+
+summary(multinom_model)
+
+# Display coefficients more clearly
+cat("\n=== Model Coefficients ===\n")
+print(round(coef(multinom_model), 4))
+```
+
+## 2.2 Odds Ratio for "Very Important" vs "No/Little" [2 points]
+
+```{r multinomial-or}
+# Get coefficients for "Very Important" (row 2 in the coefficient matrix)
+coef_matrix <- coef(multinom_model)
+se_matrix <- summary(multinom_model)$standard.errors
+
+# Coefficient for sex in "Very Important" equation
+coef_sex_VeryImp <- coef_matrix[2, "sexMen"]
+se_sex_VeryImp <- se_matrix[2, "sexMen"]
+
+# Calculate OR and 95% CI
+or_sex_VeryImp <- exp(coef_sex_VeryImp)
+ci_lower_VeryImp <- exp(coef_sex_VeryImp - 1.96 * se_sex_VeryImp)
+ci_upper_VeryImp <- exp(coef_sex_VeryImp + 1.96 * se_sex_VeryImp)
+
+cat("\n=== Odds Ratio: Very Important vs No/Little (Men vs Women) ===\n")
+cat("Coefficient (β31):", round(coef_sex_VeryImp, 4), "\n")
+cat("Odds Ratio (OR):", round(or_sex_VeryImp, 4), "\n")
+cat("95% CI:", "(", round(ci_lower_VeryImp, 4), ",", round(ci_upper_VeryImp, 4), ")\n\n")
+
+cat("Interpretation:\n")
+if (or_sex_VeryImp < 1) {
+  cat("Men have", round(or_sex_VeryImp, 3), "times the odds of rating 'Very Important'\n")
+  cat("versus 'No/Little importance' compared to women, adjusting for age.\n")
+  cat("This indicates women are more likely to rate these features as 'Very Important'.\n")
+} else {
+  cat("Men have", round(or_sex_VeryImp, 3), "times the odds of rating 'Very Important'\n")
+  cat("versus 'No/Little importance' compared to women, adjusting for age.\n")
+}
+```
+
+## 2.3 Probability of "Very Important" for Women Aged 18-23 [3 points]
+
+```{r multinomial-prob}
+# Create prediction data
+newdata_multinom <- data.frame(
+  sex = factor("Women", levels = c("Women", "Men")),
+  age = factor("18-23", levels = c("18-23", "24-40", ">40"))
+)
+
+# Predict probabilities
+probs_multinom <- predict(multinom_model, newdata = newdata_multinom,
+                          type = "probs")
+
+cat("\n=== Probability from Multinomial Model for Women Aged 18-23 ===\n")
+cat("P(Y = No/Little):", round(probs_multinom[1], 4), "\n")
+cat("P(Y = Important):", round(probs_multinom[2], 4), "\n")
+cat("P(Y = Very Important):", round(probs_multinom[3], 4), "\n\n")
+
+# Manual calculation using coefficients
+# For Women (reference) and age 18-23 (reference), all predictors = 0
+intercept_Important <- coef_matrix[1, "(Intercept)"]
+intercept_VeryImp <- coef_matrix[2, "(Intercept)"]
+
+# exp(linear predictor)
+exp_Important <- exp(intercept_Important)
+exp_VeryImp <- exp(intercept_VeryImp)
+
+# Denominator
+denom <- 1 + exp_Important + exp_VeryImp
+
+# Probabilities
+p_NoLittle <- 1 / denom
+p_Important <- exp_Important / denom
+p_VeryImp <- exp_VeryImp / denom
+
+cat("Manual calculation verification:\n")
+cat("P(Y = No/Little) =", round(p_NoLittle, 4), "\n")
+cat("P(Y = Important) =", round(p_Important, 4), "\n")
+cat("P(Y = Very Important) =", round(p_VeryImp, 4), "\n")
+```
+
+---
+
+# Question 3: Model Selection [2 points]
+
+```{r model-comparison}
+# Compare the two models
+cat("\n=== Model Comparison ===\n\n")
+
+# 1. Proportional odds assumption test result
+cat("1. Proportional Odds Assumption Test:\n")
+cat("   P-value:", round(p_value, 4), "\n")
+if (p_value > 0.05) {
+  cat("   Result: Assumption holds (p > 0.05)\n\n")
+} else {
+  cat("   Result: Assumption violated (p < 0.05)\n\n")
+}
+
+# 2. Model fit comparison
+cat("2. Model Fit Statistics:\n")
+cat("   Ordinal Model:\n")
+cat("     AIC:", round(AIC(ordinal_model), 2), "\n")
+cat("     Log-likelihood:", round(as.numeric(logLik(ordinal_model)), 2), "\n\n")
+cat("   Multinomial Model:\n")
+cat("     AIC:", round(AIC(multinom_model), 2), "\n")
+cat("     Log-likelihood:", round(as.numeric(logLik(multinomial_model)), 2), "\n\n")
+
+# 3. Interpretation
+cat("3. Probability Comparison for Women Aged 18-23:\n")
+cat("   Ordinal Model P(Y=3):", round(prob_very_important, 4), "\n")
+cat("   Multinomial Model P(Y=3):", round(probs_multinom[3], 4), "\n")
+cat("   Difference:", round(abs(prob_very_important - probs_multinom[3]), 4), "\n\n")
+```
+
+## Conclusion and Recommendation
+
+```{r conclusion, echo=FALSE, results='asis'}
+cat("\n**Model Choice:**\n\n")
+
+if (p_value > 0.05 && AIC(ordinal_model) < AIC(multinom_model)) {
+  cat("I would choose the **Ordinal Logistic Regression Model**.\n\n")
+  cat("**Reasons:**\n\n")
+  cat("1. **Proportional Odds Assumption:** The test for proportional odds shows ")
+  cat("p-value = ", round(p_value, 3), ", which is greater than 0.05. ")
+  cat("This indicates that the proportional odds assumption is reasonable for this data.\n\n")
+  cat("2. **Model Parsimony:** The ordinal model is more parsimonious, using fewer parameters ")
+  cat("(", df_ordinal, " vs ", df_multinomial, " parameters). It estimates one set of coefficients ")
+  cat("for the predictors, rather than separate coefficients for each response level.\n\n")
+  cat("3. **Better AIC:** The ordinal model has a lower AIC (", round(AIC(ordinal_model), 2),
+      " vs ", round(AIC(multinom_model), 2), "), suggesting better model fit while ")
+  cat("accounting for model complexity.\n\n")
+  cat("4. **Meaningful Interpretation:** Since the response variable (importance rating) ")
+  cat("has a natural ordering, the ordinal model respects this structure and provides ")
+  cat("a more interpretable cumulative odds ratio across all levels.\n\n")
+  cat("5. **Consistent Results:** Both models yield similar probability estimates ")
+  cat("(e.g., P(Y=3) for women aged 18-23: ", round(prob_very_important, 3),
+      " vs ", round(probs_multinom[3], 3), "), supporting the use of the simpler ordinal model.\n")
+} else if (p_value <= 0.05) {
+  cat("I would choose the **Multinomial Logistic Regression Model**.\n\n")
+  cat("**Reasons:**\n\n")
+  cat("1. **Violated Proportional Odds:** The test shows p-value = ", round(p_value, 3),
+      ", which is less than 0.05. This indicates that the proportional odds assumption ")
+  cat("is violated, making the ordinal model inappropriate.\n\n")
+  cat("2. **Better Model Fit:** The multinomial model provides better fit to the data ")
+  cat("as evidenced by the higher log-likelihood, even though it uses more parameters.\n\n")
+  cat("3. **Flexibility:** The multinomial model allows different covariate effects ")
+  cat("for different response comparisons, which is necessary when proportional odds doesn't hold.\n\n")
+  cat("4. **Valid Inference:** Using the ordinal model when its assumptions are violated ")
+  cat("can lead to biased estimates and invalid inference.\n")
+} else {
+  cat("The choice between models is less clear-cut, but I lean toward the **Ordinal Model**.\n\n")
+  cat("**Considerations:**\n\n")
+  cat("- The proportional odds test is marginal (p = ", round(p_value, 3), ")\n")
+  cat("- The simpler ordinal model is preferred when assumptions are reasonably met\n")
+  cat("- The practical differences in predictions are small\n")
+  cat("- Model parsimony is valuable for interpretation and future predictions\n")
+}
+```
+
+---
+
+# Appendix: Additional Diagnostics
+
+```{r diagnostics}
+# Observed vs predicted frequencies
+cat("\n=== Cross-tabulation of Observed Data ===\n")
+observed <- xtabs(count ~ sex + age + response, data = cars)
+print(ftable(observed))
+
+cat("\n=== Summary by Sex ===\n")
+summary_sex <- cars_expanded %>%
+  group_by(sex, response) %>%
+  summarise(n = n(), .groups = "drop") %>%
+  group_by(sex) %>%
+  mutate(prop = n / sum(n))
+print(summary_sex)
+
+cat("\n=== Summary by Age ===\n")
+summary_age <- cars_expanded %>%
+  group_by(age, response) %>%
+  summarise(n = n(), .groups = "drop") %>%
+  group_by(age) %>%
+  mutate(prop = n / sum(n))
+print(summary_age)
+```
+
+# Session Information
+
+```{r session-info}
+sessionInfo()
+```
