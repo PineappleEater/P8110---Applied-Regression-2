@@ -1,0 +1,266 @@
+---
+title: "P8110 Applied Regression II - Homework 7"
+author: "Your Name"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    code_folding: show
+  pdf_document:
+    toc: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+# Background
+
+School administrators study the attendance behavior of high school juniors at two schools in an academic year. Predictors of the school absence rate include gender of the student and standardized test scores in math and language arts.
+
+## Data Description
+
+The data are saved in "HW7.csv". The columns of variables from left to right are:
+
+- **ID** = student ID
+- **school** = 1 - school A, 2 - school B
+- **male** = 1 - male, 0 - female
+- **math** = standardized test score in math
+- **langarts** = standardized test score in language arts
+- **daysabs** = days absent
+
+```{r load-packages}
+# Load required packages
+library(tidyverse)
+library(MASS)
+library(broom)
+library(knitr)
+```
+
+```{r load-data}
+# Load data
+data <- read.csv("HW7.csv", header = FALSE)
+colnames(data) <- c("ID", "school", "male", "math", "langarts", "daysabs", "daysattend")
+
+# Display first few rows
+head(data)
+
+# Summary statistics
+summary(data)
+```
+
+---
+
+# Question 1 [2 points]
+
+**Fit a Poisson regression model with days of school absence as the outcome and school, gender, and standardized test scores in math and language arts as covariates (model 1). Write the model. Is overdispersion a potential problem for this Poisson model?**
+
+## Model 1: Poisson Regression
+
+```{r q1-fit-poisson}
+# Fit Poisson regression model
+model1 <- glm(daysabs ~ school + male + math + langarts,
+              data = data,
+              family = poisson(link = "log"))
+
+# Model summary
+summary(model1)
+```
+
+## Model Equation
+
+The Poisson regression model can be written as:
+
+$$\log(\mu_i) = \beta_0 + \beta_1 \times \text{school}_i + \beta_2 \times \text{male}_i + \beta_3 \times \text{math}_i + \beta_4 \times \text{langarts}_i$$
+
+where $\mu_i = E(Y_i)$ is the expected number of days absent for student $i$, and $Y_i \sim \text{Poisson}(\mu_i)$.
+
+## Check for Overdispersion
+
+```{r q1-overdispersion}
+# Calculate residual deviance and degrees of freedom
+deviance <- model1$deviance
+df <- model1$df.residual
+
+# Dispersion parameter
+dispersion <- deviance / df
+
+cat("Residual Deviance:", round(deviance, 2), "\n")
+cat("Degrees of Freedom:", df, "\n")
+cat("Dispersion Parameter (Deviance/DF):", round(dispersion, 4), "\n")
+
+# If dispersion >> 1, overdispersion is present
+if (dispersion > 1.5) {
+  cat("\nOverdispersion is likely a problem (dispersion parameter >> 1)\n")
+} else {
+  cat("\nOverdispersion does not appear to be a major problem\n")
+}
+```
+
+## Answer
+
+[Your interpretation here about whether overdispersion is a potential problem based on the dispersion parameter calculated above]
+
+---
+
+# Question 2 [3 points]
+
+**Refit model 1 with the scale parameter being equal to Deviance divided by DF. Estimate the absence rate ratio between male and female students. Provide the 95% confidence interval and interpret.**
+
+## Quasi-Poisson Model
+
+```{r q2-quasi-poisson}
+# Fit quasi-Poisson model (adjusts for overdispersion)
+model2 <- glm(daysabs ~ school + male + math + langarts,
+              data = data,
+              family = quasipoisson(link = "log"))
+
+# Model summary
+summary(model2)
+
+# Extract coefficients for male
+male_coef <- coef(model2)["male"]
+male_se <- summary(model2)$coefficients["male", "Std. Error"]
+
+# Calculate rate ratio and 95% CI
+rate_ratio <- exp(male_coef)
+ci_lower <- exp(male_coef - 1.96 * male_se)
+ci_upper <- exp(male_coef + 1.96 * male_se)
+
+cat("\nAbsence Rate Ratio (Male vs Female):", round(rate_ratio, 4), "\n")
+cat("95% CI: (", round(ci_lower, 4), ",", round(ci_upper, 4), ")\n")
+```
+
+## Answer
+
+The estimated absence rate ratio between male and female students is **`r round(rate_ratio, 4)`** (95% CI: `r round(ci_lower, 4)` - `r round(ci_upper, 4)`).
+
+**Interpretation:** [Your interpretation here - e.g., "Holding school, math score, and language arts score constant, male students have X times the rate of school absence compared to female students. The 95% confidence interval suggests..."]
+
+---
+
+# Question 3 [2 points]
+
+**Refit model 1 using negative binomial regression. Provide a formal test to decide whether a negative binomial model is needed for this data than a Poisson regression model.**
+
+## Negative Binomial Regression
+
+```{r q3-negbin}
+# Fit negative binomial model
+model3 <- glm.nb(daysabs ~ school + male + math + langarts,
+                 data = data)
+
+# Model summary
+summary(model3)
+
+# Extract theta (dispersion parameter)
+theta <- model3$theta
+theta_se <- model3$SE.theta
+
+cat("\nTheta (dispersion parameter):", round(theta, 4), "\n")
+cat("SE(Theta):", round(theta_se, 4), "\n")
+```
+
+## Likelihood Ratio Test
+
+```{r q3-lr-test}
+# Compare Poisson vs Negative Binomial using LRT
+# H0: theta = infinity (Poisson model is adequate)
+# Ha: theta < infinity (Negative Binomial is needed)
+
+# Test statistic: 2 * (log-likelihood of NB - log-likelihood of Poisson)
+loglik_poisson <- logLik(model1)
+loglik_nb <- logLik(model3)
+
+test_stat <- 2 * (loglik_nb - loglik_poisson)
+p_value <- pchisq(test_stat, df = 1, lower.tail = FALSE)
+
+cat("Log-Likelihood (Poisson):", round(loglik_poisson, 4), "\n")
+cat("Log-Likelihood (Negative Binomial):", round(loglik_nb, 4), "\n")
+cat("Test Statistic:", round(test_stat, 4), "\n")
+cat("P-value:", format.pval(p_value, digits = 4), "\n")
+
+if (p_value < 0.05) {
+  cat("\nConclusion: Reject H0. Negative Binomial model is preferred.\n")
+} else {
+  cat("\nConclusion: Fail to reject H0. Poisson model is adequate.\n")
+}
+```
+
+## Answer
+
+**Test:** We use a likelihood ratio test to compare the Poisson model (Model 1) with the Negative Binomial model.
+
+- H€: The Poisson model is adequate (¸ ’ )
+- H: The Negative Binomial model is needed (¸ is finite)
+
+**Results:** Test statistic = `r round(test_stat, 4)`, p-value = `r format.pval(p_value, digits = 4)`
+
+**Conclusion:** [Your conclusion based on the p-value]
+
+---
+
+# Question 4 [3 points]
+
+**Use the negative binomial model to estimate the absence rate ratio between male and female students and provide 95% confidence interval. Is the conclusion different from the Poisson model in part (2)?**
+
+## Rate Ratio from Negative Binomial Model
+
+```{r q4-nb-rate-ratio}
+# Extract coefficients for male from NB model
+male_coef_nb <- coef(model3)["male"]
+male_se_nb <- summary(model3)$coefficients["male", "Std. Error"]
+
+# Calculate rate ratio and 95% CI
+rate_ratio_nb <- exp(male_coef_nb)
+ci_lower_nb <- exp(male_coef_nb - 1.96 * male_se_nb)
+ci_upper_nb <- exp(male_coef_nb + 1.96 * male_se_nb)
+
+cat("Negative Binomial Model:\n")
+cat("Absence Rate Ratio (Male vs Female):", round(rate_ratio_nb, 4), "\n")
+cat("95% CI: (", round(ci_lower_nb, 4), ",", round(ci_upper_nb, 4), ")\n")
+
+cat("\n\nQuasi-Poisson Model (from Q2):\n")
+cat("Absence Rate Ratio (Male vs Female):", round(rate_ratio, 4), "\n")
+cat("95% CI: (", round(ci_lower, 4), ",", round(ci_upper, 4), ")\n")
+```
+
+## Comparison Table
+
+```{r q4-comparison}
+comparison <- data.frame(
+  Model = c("Quasi-Poisson", "Negative Binomial"),
+  Rate_Ratio = c(rate_ratio, rate_ratio_nb),
+  CI_Lower = c(ci_lower, ci_lower_nb),
+  CI_Upper = c(ci_upper, ci_upper_nb),
+  CI_Width = c(ci_upper - ci_lower, ci_upper_nb - ci_lower_nb)
+)
+
+kable(comparison,
+      digits = 4,
+      col.names = c("Model", "Rate Ratio", "95% CI Lower", "95% CI Upper", "CI Width"),
+      caption = "Comparison of Rate Ratios between Models")
+```
+
+## Answer
+
+**Negative Binomial Model:** The estimated absence rate ratio between male and female students is **`r round(rate_ratio_nb, 4)`** (95% CI: `r round(ci_lower_nb, 4)` - `r round(ci_upper_nb, 4)`).
+
+**Interpretation:** [Your interpretation of the rate ratio from the NB model]
+
+**Comparison with Quasi-Poisson Model (Q2):**
+
+[Compare the two models:
+- Are the point estimates similar?
+- How do the confidence intervals compare?
+- Is the conclusion about gender effect different?
+- Which model is more appropriate and why?]
+
+---
+
+# Session Info
+
+```{r session-info}
+sessionInfo()
+```

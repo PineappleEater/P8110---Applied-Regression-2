@@ -1,0 +1,4786 @@
+<!DOCTYPE html>
+<html class="ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317" lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8"/>
+<meta content="SAS 9.4" name="generator"/>
+<title>Results: HW8.sas</title>
+<style>
+/*<![CDATA[*/
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .body.c section > table, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .body.c section > pre, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .body.c div > table,
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .body.c div > pre, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .body.c article > table, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .body.c article > pre,
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .body.j section > table, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .body.j section > pre, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .body.j div > table,
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .body.j div > pre, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .body.j article > table, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .body.j article > pre,
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .body.c p.note, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .body.c p.warning, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .body.c p.error, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .body.c p.fatal,
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .body.j p.note, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .body.j p.warning, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .body.j p.error, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .body.j p.fatal,
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .body.c > table.layoutcontainer, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .body.j > table.layoutcontainer { margin-left: auto; margin-right: auto }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .layoutregion.l table, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .layoutregion.l pre, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .layoutregion.l p.note,
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .layoutregion.l p.warning, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .layoutregion.l p.error, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .layoutregion.l p.fatal { margin-left: 0 }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .layoutregion.c table, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .layoutregion.c pre, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .layoutregion.c p.note,
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .layoutregion.c p.warning, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .layoutregion.c p.error, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .layoutregion.c p.fatal { margin-left: auto; margin-right: auto }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .layoutregion.r table, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .layoutregion.r pre, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .layoutregion.r p.note,
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .layoutregion.r table, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .layoutregion.r pre, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .layoutregion.r p.note,
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .layoutregion.r p.warning, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .layoutregion.r p.error, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .layoutregion.r p.fatal { margin-right: 0 }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 article, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 aside, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 details, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 figcaption, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 figure, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 footer, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 header, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 hgroup, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 nav, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 section { display: block }
+html.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 { font-size: 100% }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .body { margin: 1em; font-size: 13px; line-height: 1.231 }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 sup { position: relative; vertical-align: baseline; bottom: 0.25em; font-size: 0.8em }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 sub { position: relative; vertical-align: baseline; top: 0.25em; font-size: 0.8em }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 ul, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 ol { margin: 1em 0; padding: 0 0 0 40px }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 dd { margin: 0 0 0 40px }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 nav ul, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 nav ol { list-style: none; list-style-image: none; margin: 0; padding: 0 }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 img { border: 0; vertical-align: middle }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 svg:not(:root) { overflow: hidden }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 figure { margin: 0 }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 table { border-collapse: collapse; border-spacing: 0 }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .layoutcontainer { border-collapse: separate; border-spacing: 0 }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 p { margin-top: 0; text-align: left }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 h1.heading1 { text-align: left }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 h2.heading2 { text-align: left }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 h3.heading3 { text-align: left }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 h4.heading4 { text-align: left }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 h5.heading5 { text-align: left }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 h6.heading6 { text-align: left }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 span { text-align: left }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 table { margin-bottom: 1em }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 td, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 th { text-align: left; padding: 3px 6px; vertical-align: top }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 td[class$="fixed"], .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 th[class$="fixed"] { white-space: pre }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 section, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 article { padding-top: 1px; padding-bottom: 8px }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 hr.pagebreak { height: 0px; border: 0; border-bottom: 1px solid #c0c0c0; margin: 1em 0 }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .stacked-value { text-align: left; display: block }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .stacked-cell > .stacked-value, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 td.data > td.data, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 th.data > td.data, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 th.data > th.data, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 td.data > th.data, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 th.header > th.header { border: 0 }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .stacked-cell > div.data { border-width: 0 }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .systitleandfootercontainer { white-space: nowrap; margin-bottom: 1em }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .systitleandfootercontainer > p { margin: 0 }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .systitleandfootercontainer > p > span { display: inline-block; width: 100%; white-space: normal }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .batch { display: table }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .toc { display: none }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .proc_note_group, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .proc_title_group { margin-bottom: 1em }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 p.proctitle { margin: 0 }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 p.note, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 p.warning, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 p.error, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 p.fatal { display: table }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .notebanner, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .warnbanner, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .errorbanner, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .fatalbanner,
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .notecontent, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .warncontent, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .errorcontent, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .fatalcontent { display: table-cell; padding: 0.5em }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .notebanner, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .warnbanner, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .errorbanner, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .fatalbanner { padding-right: 0 }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .body > div > ol li { text-align: left }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .beforecaption > h4 { margin-top: 0; margin-bottom: 0 }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .c { text-align: center }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .r { text-align: right }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .l { text-align: left }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .j { text-align: justify }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .d { text-align: right }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .b { vertical-align: bottom }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .m { vertical-align: middle }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .t { vertical-align: top }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .accessiblecaption {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 a:active { color: #800080 }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .aftercaption {
+    background-color: #fafbfe;
+    border-spacing: 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+    padding-top: 4pt;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .batch > colgroup {
+    border-left: 1px solid #c1c1c1;
+    border-right: 1px solid #c1c1c1;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .batch > tbody, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .batch > thead, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .batch > tfoot {
+    border-top: 1px solid #c1c1c1;
+    border-bottom: 1px solid #c1c1c1;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .batch { border: hidden; }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .batch {
+    background-color: #fafbfe;
+    border: 1px solid #c1c1c1;
+    border-collapse: separate;
+    border-spacing: 1px;
+    color: #000000;
+    font-family: 'SAS Monospace', 'Courier New', Courier, monospace;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    padding: 7px;
+    }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .beforecaption {
+    background-color: #fafbfe;
+    border-spacing: 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .body {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    margin-left: 8px;
+    margin-right: 8px;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .bodydate {
+    background-color: #fafbfe;
+    border-spacing: 0;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    text-align: right;
+    vertical-align: top;
+    width: 100%;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .bycontentfolder {
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    list-style-type: none;
+    margin-left: 6pt;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .byline {
+    background-color: #fafbfe;
+    border-spacing: 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .bylinecontainer > col, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .bylinecontainer > colgroup > col, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .bylinecontainer > colgroup, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .bylinecontainer > tr, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .bylinecontainer > * > tr, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .bylinecontainer > thead, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .bylinecontainer > tbody, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .bylinecontainer > tfoot { border: none; }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .bylinecontainer {
+    background-color: #fafbfe;
+    border: none;
+    border-spacing: 1px;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    width: 100%;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .caption {
+    background-color: #fafbfe;
+    border-spacing: 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .cell, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .container {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .contentfolder, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .contentitem {
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    list-style-type: none;
+    margin-left: 6pt;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .contentproclabel, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .contentprocname {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .contents {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    list-style-type: decimal;
+    margin-left: 8px;
+    margin-right: 8px;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .contentsdate {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    width: 100%;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .contenttitle {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: italic;
+    font-weight: bold;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .continued {
+    background-color: #fafbfe;
+    border-spacing: 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+    width: 100%;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .data, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .dataemphasis {
+    background-color: #ffffff;
+    border-color: #c1c1c1;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .dataemphasisfixed {
+    background-color: #ffffff;
+    border-color: #c1c1c1;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: x-small;
+    font-style: italic;
+    font-weight: normal;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .dataempty {
+    background-color: #ffffff;
+    border-color: #c1c1c1;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .datafixed {
+    background-color: #ffffff;
+    border-color: #c1c1c1;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    font-family: 'Courier New', Courier;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .datastrong {
+    background-color: #ffffff;
+    border-color: #c1c1c1;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .datastrongfixed {
+    background-color: #ffffff;
+    border-color: #c1c1c1;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #000000;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .date {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    width: 100%;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .document {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .errorbanner {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .errorcontent {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .errorcontentfixed {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: 'Courier New', Courier;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .extendedpage {
+    background-color: #fafbfe;
+    border-style: solid;
+    border-width: 1pt;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: italic;
+    font-weight: normal;
+    text-align: center;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .fatalbanner {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .fatalcontent {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .fatalcontentfixed {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: 'Courier New', Courier;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .folderaction {
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    list-style-type: none;
+    margin-left: 6pt;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .footer {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .footeremphasis {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: italic;
+    font-weight: normal;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .footeremphasisfixed {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: x-small;
+    font-style: italic;
+    font-weight: normal;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .footerempty {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .footerfixed {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: 'Courier New', Courier;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .footerstrong {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .footerstrongfixed {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .frame {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .graph > colgroup {
+    border-left: 1px solid #c1c1c1;
+    border-right: 1px solid #c1c1c1;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .graph > tbody, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .graph > thead, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .graph > tfoot {
+    border-top: 1px solid #c1c1c1;
+    border-bottom: 1px solid #c1c1c1;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .graph { border: hidden; }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .graph {
+    background-color: #fafbfe;
+    border: 1px solid #c1c1c1;
+    border-collapse: separate;
+    border-spacing: 1px;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .header {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .headeremphasis {
+    background-color: #d8dbd3;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: italic;
+    font-weight: normal;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .headeremphasisfixed {
+    background-color: #d8dbd3;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #000000;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: x-small;
+    font-style: italic;
+    font-weight: normal;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .headerempty {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .headerfixed {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: 'Courier New', Courier;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .headersandfooters {
+    background-color: #edf2f9;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .headerstrong {
+    background-color: #d8dbd3;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .headerstrongfixed {
+    background-color: #d8dbd3;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #000000;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .heading1, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .heading2, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .heading3, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .heading4, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .heading5, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .heading6 { font-family: Arial, Helvetica, sans-serif }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .index {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .indexaction, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .indexitem {
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    list-style-type: none;
+    margin-left: 6pt;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .indexprocname {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .indextitle {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: italic;
+    font-weight: bold;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .layoutcontainer, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .layoutregion {
+    border-width: 0;
+    border-spacing: 30px;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .linecontent {
+    background-color: #fafbfe;
+    border-color: #c1c1c1;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 a:link { color: #0000ff }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .list {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    list-style-type: disc;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .list10 {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    list-style-type: square;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .list2 {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    list-style-type: circle;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .list3, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .list4, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .list5, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .list6, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .list7, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .list8, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .list9 {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    list-style-type: square;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .listitem {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    list-style-type: disc;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .listitem10 {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    list-style-type: square;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .listitem2 {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    list-style-type: circle;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .listitem3, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .listitem4, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .listitem5, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .listitem6, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .listitem7, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .listitem8, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .listitem9 {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    list-style-type: square;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .note {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .notebanner {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .notecontent {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .notecontentfixed {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: 'Courier New', Courier;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .output > colgroup {
+    border-left: 1px solid #c1c1c1;
+    border-right: 1px solid #c1c1c1;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .output > tbody, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .output > thead, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .output > tfoot {
+    border-top: 1px solid #c1c1c1;
+    border-bottom: 1px solid #c1c1c1;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .output { border: hidden; }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .output {
+    background-color: #fafbfe;
+    border: 1px solid #c1c1c1;
+    border-collapse: separate;
+    border-spacing: 1px;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .pageno {
+    background-color: #fafbfe;
+    border-spacing: 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+    text-align: right;
+    vertical-align: top;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .pages {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    list-style-type: decimal;
+    margin-left: 8px;
+    margin-right: 8px;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .pagesdate {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    width: 100%;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .pagesitem {
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    list-style-type: none;
+    margin-left: 6pt;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .pagesproclabel, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .pagesprocname {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .pagestitle {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: italic;
+    font-weight: bold;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .paragraph {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .parskip > col, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .parskip > colgroup > col, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .parskip > colgroup, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .parskip > tr, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .parskip > * > tr, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .parskip > thead, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .parskip > tbody, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .parskip > tfoot { border: none; }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .parskip {
+    border: none;
+    border-spacing: 0;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+    }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .prepage {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    text-align: left;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .proctitle {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .proctitlefixed {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .rowfooter {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .rowfooteremphasis {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: italic;
+    font-weight: normal;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .rowfooteremphasisfixed {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: x-small;
+    font-style: italic;
+    font-weight: normal;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .rowfooterempty {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .rowfooterfixed {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: 'Courier New', Courier;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .rowfooterstrong {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .rowfooterstrongfixed {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .rowheader {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .rowheaderemphasis {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: italic;
+    font-weight: normal;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .rowheaderemphasisfixed {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: x-small;
+    font-style: italic;
+    font-weight: normal;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .rowheaderempty {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .rowheaderfixed {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: 'Courier New', Courier;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .rowheaderstrong {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .rowheaderstrongfixed {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .systemfooter, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .systemfooter10, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .systemfooter2, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .systemfooter3, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .systemfooter4, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .systemfooter5, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .systemfooter6, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .systemfooter7, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .systemfooter8, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .systemfooter9 {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .systemtitle, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .systemtitle10, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .systemtitle2, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .systemtitle3, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .systemtitle4, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .systemtitle5, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .systemtitle6, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .systemtitle7, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .systemtitle8, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .systemtitle9 {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .systitleandfootercontainer > col, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .systitleandfootercontainer > colgroup > col, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .systitleandfootercontainer > colgroup, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .systitleandfootercontainer > tr, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .systitleandfootercontainer > * > tr, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .systitleandfootercontainer > thead, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .systitleandfootercontainer > tbody, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .systitleandfootercontainer > tfoot { border: none; }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .systitleandfootercontainer {
+    background-color: #fafbfe;
+    border: none;
+    border-spacing: 1px;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    width: 100%;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .table > col, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .table > colgroup > col {
+    border-left: 1px solid #c1c1c1;
+    border-right: 0 solid #c1c1c1;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .table > tr, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .table > * > tr {
+    border-top: 1px solid #c1c1c1;
+    border-bottom: 0 solid #c1c1c1;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .table { border: hidden; }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .table {
+    border-color: #c1c1c1;
+    border-style: solid;
+    border-width: 1px 0 0 1px;
+    border-collapse: collapse;
+    border-spacing: 0;
+    }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .titleandnotecontainer > col, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .titleandnotecontainer > colgroup > col, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .titleandnotecontainer > colgroup, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .titleandnotecontainer > tr, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .titleandnotecontainer > * > tr, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .titleandnotecontainer > thead, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .titleandnotecontainer > tbody, .ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .titleandnotecontainer > tfoot { border: none; }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .titleandnotecontainer {
+    background-color: #fafbfe;
+    border: none;
+    border-spacing: 1px;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    width: 100%;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .titlesandfooters {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .usertext {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 a:visited { color: #800080 }
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .warnbanner {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .warncontent {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_08a5d52c-dedd-4e2b-a15e-55b2c0466317 .warncontentfixed {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: 'Courier New', Courier;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+/*]]>*/
+</style>
+</head>
+<body class="body">
+<div id="div_08a5d52c-dedd-4e2b-a15e-55b2c0466317" class="c body">
+<h1 class="body toc">Results: HW8.sas</h1>
+<section data-name="Print" data-sec-type="proc">
+<div id="IDX" class="systitleandfootercontainer" style="border-spacing: 1px">
+<p><span class="c systemtitle">First 20 Observations</span> </p>
+</div>
+<h1 class="contentprocname toc">The Print Procedure</h1>
+<article aria-label="Data Set WORK.TEMPDATA">
+<h1 class="contentitem toc">Data Set WORK.TEMPDATA</h1>
+<table class="table" style="border-spacing: 0" aria-label="Data Set WORK.TEMPDATA">
+<caption aria-label="Data Set WORK.TEMPDATA"></caption>
+<colgroup><col/></colgroup><colgroup><col/><col/><col/><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="r header" scope="col">Obs</th>
+<th class="r header" scope="col">ID</th>
+<th class="r header" scope="col">temp</th>
+<th class="r header" scope="col">treatment</th>
+<th class="r header" scope="col">apache</th>
+<th class="r header" scope="col">time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="r rowheader" scope="row">1</th>
+<td class="r data">1</td>
+<td class="r data">95.40000153</td>
+<td class="r data">0</td>
+<td class="r data">27</td>
+<td class="r data">0</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">2</th>
+<td class="r data">1</td>
+<td class="r data">93.90000153</td>
+<td class="r data">0</td>
+<td class="r data">27</td>
+<td class="r data">2</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">3</th>
+<td class="r data">1</td>
+<td class="r data">93.59999847</td>
+<td class="r data">0</td>
+<td class="r data">27</td>
+<td class="r data">4</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">4</th>
+<td class="r data">1</td>
+<td class="r data">93</td>
+<td class="r data">0</td>
+<td class="r data">27</td>
+<td class="r data">8</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">5</th>
+<td class="r data">2</td>
+<td class="r data">101.5999985</td>
+<td class="r data">1</td>
+<td class="r data">14</td>
+<td class="r data">0</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">6</th>
+<td class="r data">2</td>
+<td class="r data">99</td>
+<td class="r data">1</td>
+<td class="r data">14</td>
+<td class="r data">2</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">7</th>
+<td class="r data">2</td>
+<td class="r data">99.80000305</td>
+<td class="r data">1</td>
+<td class="r data">14</td>
+<td class="r data">4</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">8</th>
+<td class="r data">2</td>
+<td class="r data">99.80000305</td>
+<td class="r data">1</td>
+<td class="r data">14</td>
+<td class="r data">8</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">9</th>
+<td class="r data">3</td>
+<td class="r data">101</td>
+<td class="r data">0</td>
+<td class="r data">33</td>
+<td class="r data">0</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">10</th>
+<td class="r data">3</td>
+<td class="r data">98.90000153</td>
+<td class="r data">0</td>
+<td class="r data">33</td>
+<td class="r data">2</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">11</th>
+<td class="r data">3</td>
+<td class="r data">97.19999695</td>
+<td class="r data">0</td>
+<td class="r data">33</td>
+<td class="r data">4</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">12</th>
+<td class="r data">3</td>
+<td class="r data">.</td>
+<td class="r data">0</td>
+<td class="r data">33</td>
+<td class="r data">8</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">13</th>
+<td class="r data">4</td>
+<td class="r data">101</td>
+<td class="r data">1</td>
+<td class="r data">3</td>
+<td class="r data">0</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">14</th>
+<td class="r data">4</td>
+<td class="r data">100.1999969</td>
+<td class="r data">1</td>
+<td class="r data">3</td>
+<td class="r data">2</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">15</th>
+<td class="r data">4</td>
+<td class="r data">100</td>
+<td class="r data">1</td>
+<td class="r data">3</td>
+<td class="r data">4</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">16</th>
+<td class="r data">4</td>
+<td class="r data">99.5</td>
+<td class="r data">1</td>
+<td class="r data">3</td>
+<td class="r data">8</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">17</th>
+<td class="r data">5</td>
+<td class="r data">101.4000015</td>
+<td class="r data">0</td>
+<td class="r data">5</td>
+<td class="r data">0</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">18</th>
+<td class="r data">5</td>
+<td class="r data">101.4000015</td>
+<td class="r data">0</td>
+<td class="r data">5</td>
+<td class="r data">2</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">19</th>
+<td class="r data">5</td>
+<td class="r data">101.8000031</td>
+<td class="r data">0</td>
+<td class="r data">5</td>
+<td class="r data">4</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">20</th>
+<td class="r data">5</td>
+<td class="r data">101.4000015</td>
+<td class="r data">0</td>
+<td class="r data">5</td>
+<td class="r data">8</td>
+</tr>
+</tbody>
+</table>
+</article>
+</section>
+<section data-name="Means" data-sec-type="proc">
+<hr class="pagebreak"/>
+<div id="IDX1" class="systitleandfootercontainer" style="border-spacing: 1px">
+<p><span class="c systemtitle">Summary Statistics</span> </p>
+</div>
+<div class="proc_title_group">
+<p class="c proctitle">The MEANS Procedure</p>
+</div>
+<h1 class="contentprocname toc">The Means Procedure</h1>
+<article aria-label="Summary statistics">
+<h1 class="contentitem toc">Summary statistics</h1>
+<table class="table" style="border-spacing: 0" aria-label="Summary statistics">
+<caption aria-label="Summary statistics"></caption>
+<colgroup><col/></colgroup><colgroup><col/><col/><col/><col/><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="b header" scope="col">Variable</th>
+<th class="r b header" scope="col">N</th>
+<th class="r b header" scope="col">N Miss</th>
+<th class="r b header" scope="col">Mean</th>
+<th class="r b header" scope="col">Std Dev</th>
+<th class="r b header" scope="col">Minimum</th>
+<th class="r b header" scope="col">Maximum</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="data">
+<div class="stacked-cell">
+<div>temp</div>
+<div>treatment</div>
+<div>apache</div>
+<div>time</div>
+</div>
+</th>
+<td class="r data">
+<div class="stacked-cell">
+<div class="r">1695</div>
+<div class="r">1820</div>
+<div class="r">1816</div>
+<div class="r">1820</div>
+</div>
+</td>
+<td class="r data">
+<div class="stacked-cell">
+<div class="r">125</div>
+<div class="r">0</div>
+<div class="r">4</div>
+<div class="r">0</div>
+</div>
+</td>
+<td class="r data">
+<div class="stacked-cell">
+<div class="r">99.8159293</div>
+<div class="r">0.4923077</div>
+<div class="r">15.3303965</div>
+<div class="r">3.5000000</div>
+</div>
+</td>
+<td class="r data">
+<div class="stacked-cell">
+<div class="r">2.0215740</div>
+<div class="r">0.5000782</div>
+<div class="r">7.0799356</div>
+<div class="r">2.9588529</div>
+</div>
+</td>
+<td class="r data">
+<div class="stacked-cell">
+<div class="r">90.6800003</div>
+<div class="r">0</div>
+<div class="r">0</div>
+<div class="r">0</div>
+</div>
+</td>
+<td class="r data">
+<div class="stacked-cell">
+<div class="r">107.9000015</div>
+<div class="r">1.0000000</div>
+<div class="r">41.0000000</div>
+<div class="r">8.0000000</div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</article>
+</section>
+<section data-name="SQL" data-sec-type="proc">
+<hr class="pagebreak"/>
+<div id="IDX2" class="systitleandfootercontainer" style="border-spacing: 1px">
+<p><span class="c systemtitle">Summary Statistics</span> </p>
+</div>
+<h1 class="contentprocname toc">The SQL Procedure</h1>
+<article aria-label="Query Results">
+<h1 class="contentitem toc">Query Results</h1>
+<table class="table" style="border-spacing: 0" aria-label="Query Results">
+<caption aria-label="Query Results"></caption>
+<colgroup><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="r b header" scope="col">N_Patients</th>
+<th class="r b header" scope="col">N_Observations</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="r data">455</td>
+<td class="r data">1820</td>
+</tr>
+</tbody>
+</table>
+</article>
+</section>
+<section data-name="Genmod" data-sec-type="proc">
+<hr class="pagebreak"/>
+<div id="IDX3" class="systitleandfootercontainer" style="border-spacing: 1px">
+<p><span class="c systemtitle">Question 1: GEE Model with Time as Categorical Variable</span> </p>
+<p><span class="c systemtitle2">Using Exchangeable (CS) Correlation Structure</span> </p>
+</div>
+<div class="proc_title_group">
+<p class="c proctitle">The GENMOD Procedure</p>
+</div>
+<h1 class="contentprocname toc">The Genmod Procedure</h1>
+<article aria-label="Model Information">
+<h1 class="contentitem toc">Model Information</h1>
+<table class="table" style="border-spacing: 0" aria-label="Model Information">
+<caption aria-label="Model Information"></caption>
+<colgroup><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">Model Information</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">Data Set</th>
+<td class="r data">WORK.TEMPDATA</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Distribution</th>
+<td class="r data">Normal</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Link Function</th>
+<td class="r data">Identity</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Dependent Variable</th>
+<td class="r data">temp</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX4" aria-label="Number of Observations">
+<h1 class="contentitem toc">Number of Observations</h1>
+<table class="table" style="border-spacing: 0" aria-label="Number of Observations">
+<caption aria-label="Number of Observations"></caption>
+<colgroup><col/><col/></colgroup>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">Number of Observations Read</th>
+<td class="r data">1820</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Number of Observations Used</th>
+<td class="r data">1695</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Missing Values</th>
+<td class="r data">125</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX5" aria-label="Class Level Information">
+<h1 class="contentitem toc">Class Level Information</h1>
+<table class="table" style="border-spacing: 0" aria-label="Class Level Information">
+<caption aria-label="Class Level Information"></caption>
+<colgroup><col/><col/><col/><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="5" scope="colgroup">Class Level Information</th>
+</tr>
+<tr>
+<th class="b header" scope="col">Class</th>
+<th class="b header" scope="col">Value</th>
+<th class="c b header" colspan="3" scope="colgroup">Design Variables</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">time</th>
+<th class="rowheader" scope="row">0</th>
+<td class="r data">0</td>
+<td class="r data">0</td>
+<td class="r data">0</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">&#160;</th>
+<th class="rowheader" scope="row">2</th>
+<td class="r data">1</td>
+<td class="r data">0</td>
+<td class="r data">0</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">&#160;</th>
+<th class="rowheader" scope="row">4</th>
+<td class="r data">0</td>
+<td class="r data">1</td>
+<td class="r data">0</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">&#160;</th>
+<th class="rowheader" scope="row">8</th>
+<td class="r data">0</td>
+<td class="r data">0</td>
+<td class="r data">1</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">treatment</th>
+<th class="rowheader" scope="row">0</th>
+<td class="r data">0</td>
+<td class="r data">&#160;</td>
+<td class="r data">&#160;</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">&#160;</th>
+<th class="rowheader" scope="row">1</th>
+<td class="r data">1</td>
+<td class="r data">&#160;</td>
+<td class="r data">&#160;</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX6" aria-label="Parameter Information">
+<h1 class="contentitem toc">Parameter Information</h1>
+<table class="table" style="border-spacing: 0" aria-label="Parameter Information">
+<caption aria-label="Parameter Information"></caption>
+<colgroup><col/></colgroup><colgroup><col/><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="4" scope="colgroup">Parameter Information</th>
+</tr>
+<tr>
+<th class="b header" scope="col">Parameter</th>
+<th class="b header" scope="col">Effect</th>
+<th class="b header" scope="col">time</th>
+<th class="b header" scope="col">treatment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">Prm1</th>
+<td class="data">Intercept</td>
+<td class="data">&#160;</td>
+<td class="data">&#160;</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm2</th>
+<td class="data">time</td>
+<td class="data">2</td>
+<td class="data">&#160;</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm3</th>
+<td class="data">time</td>
+<td class="data">4</td>
+<td class="data">&#160;</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm4</th>
+<td class="data">time</td>
+<td class="data">8</td>
+<td class="data">&#160;</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm5</th>
+<td class="data">treatment</td>
+<td class="data">&#160;</td>
+<td class="data">1</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm6</th>
+<td class="data">time*treatment</td>
+<td class="data">2</td>
+<td class="data">1</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm7</th>
+<td class="data">time*treatment</td>
+<td class="data">4</td>
+<td class="data">1</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm8</th>
+<td class="data">time*treatment</td>
+<td class="data">8</td>
+<td class="data">1</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX7" aria-label="Convergence Status">
+<h1 class="contentitem toc">Convergence Status</h1>
+<table class="table" style="border-spacing: 0" aria-label="Convergence Status">
+<caption aria-label="Convergence Status"></caption>
+<colgroup><col/></colgroup>
+<tbody>
+<tr>
+<td class="data">Algorithm converged.</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX8" aria-label="GEE Model Information">
+<h1 class="contentitem toc">GEE Model Information</h1>
+<table class="table" style="border-spacing: 0" aria-label="GEE Model Information">
+<caption aria-label="GEE Model Information"></caption>
+<colgroup><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">GEE Model Information</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">Correlation Structure</th>
+<td class="r data">Exchangeable</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Subject Effect</th>
+<td class="r data">ID (455 levels)</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Number of Clusters</th>
+<td class="r data">455</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Clusters With Missing Values</th>
+<td class="r data">98</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Correlation Matrix Dimension</th>
+<td class="r data">4</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Maximum Cluster Size</th>
+<td class="r data">4</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Minimum Cluster Size</th>
+<td class="r data">1</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX9" aria-label="Convergence Status">
+<h1 class="contentitem toc">Convergence Status</h1>
+<table class="table" style="border-spacing: 0" aria-label="Convergence Status">
+<caption aria-label="Convergence Status"></caption>
+<colgroup><col/></colgroup>
+<tbody>
+<tr>
+<td class="data">Algorithm converged.</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX10" aria-label="Working Correlation Matrix">
+<h1 class="contentitem toc">Working Correlation Matrix</h1>
+<table class="table" style="border-spacing: 0" aria-label="Working Correlation Matrix">
+<caption aria-label="Working Correlation Matrix"></caption>
+<colgroup><col/></colgroup><colgroup><col/><col/><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="5" scope="colgroup">Working Correlation Matrix</th>
+</tr>
+<tr>
+<th class="c headerempty" scope="col">&#160;</th>
+<th class="r b header" scope="col">Col1</th>
+<th class="r b header" scope="col">Col2</th>
+<th class="r b header" scope="col">Col3</th>
+<th class="r b header" scope="col">Col4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">Row1</th>
+<td class="r data">1.0000</td>
+<td class="r data">0.7368</td>
+<td class="r data">0.7368</td>
+<td class="r data">0.7368</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Row2</th>
+<td class="r data">0.7368</td>
+<td class="r data">1.0000</td>
+<td class="r data">0.7368</td>
+<td class="r data">0.7368</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Row3</th>
+<td class="r data">0.7368</td>
+<td class="r data">0.7368</td>
+<td class="r data">1.0000</td>
+<td class="r data">0.7368</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Row4</th>
+<td class="r data">0.7368</td>
+<td class="r data">0.7368</td>
+<td class="r data">0.7368</td>
+<td class="r data">1.0000</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX11" aria-label="Exchangeable Working Correlation">
+<h1 class="contentitem toc">Exchangeable Working Correlation</h1>
+<table class="table" style="border-spacing: 0" aria-label="Exchangeable Working Correlation">
+<caption aria-label="Exchangeable Working Correlation"></caption>
+<colgroup><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">Exchangeable Working Correlation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">Correlation</th>
+<td class="r data">0.7368155065</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX12" aria-label="Fit Criteria">
+<h1 class="contentitem toc">Fit Criteria</h1>
+<table class="table" style="border-spacing: 0" aria-label="Fit Criteria">
+<caption aria-label="Fit Criteria"></caption>
+<colgroup><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">GEE Fit Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="data">QIC</td>
+<td class="r data">1702.3998</td>
+</tr>
+<tr>
+<td class="data">QICu</td>
+<td class="r data">1703.0000</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX13" aria-label="Analysis Of GEE Parameter Estimates - Empirical Std Errors">
+<h1 class="contentitem toc">Analysis Of GEE Parameter Estimates - Empirical Std Errors</h1>
+<table class="table" style="border-spacing: 0" aria-label="Analysis Of GEE Parameter Estimates - Empirical Std Errors">
+<caption aria-label="Analysis Of GEE Parameter Estimates - Empirical Std Errors"></caption>
+<colgroup><col/><col/><col/><col/><col/><col/><col/><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="9" scope="colgroup">Analysis Of GEE Parameter Estimates</th>
+</tr>
+<tr>
+<th class="c b header" colspan="9" scope="colgroup">Empirical Standard Error Estimates</th>
+</tr>
+<tr>
+<th class="b header" scope="col">Parameter</th>
+<th class="c headerempty" colspan="2" scope="colgroup">&#160;</th>
+<th class="r b header" scope="col">Estimate</th>
+<th class="r b header" scope="col">Standard<br/>Error</th>
+<th class="c b header" colspan="2" scope="colgroup">95% Confidence Limits</th>
+<th class="r b header" scope="col">Z</th>
+<th class="r b header" scope="col">Pr&#160;&gt;&#160;|Z|</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">Intercept</th>
+<td class="data">&#160;</td>
+<td class="data">&#160;</td>
+<td class="r data">100.4902</td>
+<td class="r data">0.1256</td>
+<td class="r data">100.2440</td>
+<td class="r data">100.7364</td>
+<td class="r data">800.07</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">time</th>
+<td class="data">2</td>
+<td class="data">&#160;</td>
+<td class="r data" style="white-space: nowrap">-0.3216</td>
+<td class="r data">0.0718</td>
+<td class="r data" style="white-space: nowrap">-0.4623</td>
+<td class="r data" style="white-space: nowrap">-0.1808</td>
+<td class="r data" style="white-space: nowrap">-4.48</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">time</th>
+<td class="data">4</td>
+<td class="data">&#160;</td>
+<td class="r data" style="white-space: nowrap">-0.3627</td>
+<td class="r data">0.0907</td>
+<td class="r data" style="white-space: nowrap">-0.5404</td>
+<td class="r data" style="white-space: nowrap">-0.1849</td>
+<td class="r data" style="white-space: nowrap">-4.00</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">time</th>
+<td class="data">8</td>
+<td class="data">&#160;</td>
+<td class="r data" style="white-space: nowrap">-0.4503</td>
+<td class="r data">0.1107</td>
+<td class="r data" style="white-space: nowrap">-0.6674</td>
+<td class="r data" style="white-space: nowrap">-0.2333</td>
+<td class="r data" style="white-space: nowrap">-4.07</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">treatment</th>
+<td class="data">1</td>
+<td class="data">&#160;</td>
+<td class="r data" style="white-space: nowrap">-0.1287</td>
+<td class="r data">0.1900</td>
+<td class="r data" style="white-space: nowrap">-0.5011</td>
+<td class="r data">0.2437</td>
+<td class="r data" style="white-space: nowrap">-0.68</td>
+<td class="r data">0.4982</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">time*treatment</th>
+<td class="data">2</td>
+<td class="data">1</td>
+<td class="r data" style="white-space: nowrap">-0.5449</td>
+<td class="r data">0.1106</td>
+<td class="r data" style="white-space: nowrap">-0.7617</td>
+<td class="r data" style="white-space: nowrap">-0.3281</td>
+<td class="r data" style="white-space: nowrap">-4.93</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">time*treatment</th>
+<td class="data">4</td>
+<td class="data">1</td>
+<td class="r data" style="white-space: nowrap">-1.0883</td>
+<td class="r data">0.1454</td>
+<td class="r data" style="white-space: nowrap">-1.3733</td>
+<td class="r data" style="white-space: nowrap">-0.8034</td>
+<td class="r data" style="white-space: nowrap">-7.49</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">time*treatment</th>
+<td class="data">8</td>
+<td class="data">1</td>
+<td class="r data" style="white-space: nowrap">-1.3135</td>
+<td class="r data">0.1609</td>
+<td class="r data" style="white-space: nowrap">-1.6288</td>
+<td class="r data" style="white-space: nowrap">-0.9982</td>
+<td class="r data" style="white-space: nowrap">-8.16</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+</tbody>
+</table>
+</article>
+</section>
+<section data-name="Genmod" data-sec-type="proc">
+<hr class="pagebreak"/>
+<div id="IDX14" class="systitleandfootercontainer" style="border-spacing: 1px">
+<p><span class="c systemtitle">Question 2a: GEE with Compound Symmetry (CS) Correlation</span> </p>
+</div>
+<div class="proc_title_group">
+<p class="c proctitle">The GENMOD Procedure</p>
+</div>
+<h1 class="contentprocname toc">The Genmod Procedure</h1>
+<article aria-label="Model Information">
+<h1 class="contentitem toc">Model Information</h1>
+<table class="table" style="border-spacing: 0" aria-label="Model Information">
+<caption aria-label="Model Information"></caption>
+<colgroup><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">Model Information</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">Data Set</th>
+<td class="r data">WORK.TEMPDATA</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Distribution</th>
+<td class="r data">Normal</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Link Function</th>
+<td class="r data">Identity</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Dependent Variable</th>
+<td class="r data">temp</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX15" aria-label="Number of Observations">
+<h1 class="contentitem toc">Number of Observations</h1>
+<table class="table" style="border-spacing: 0" aria-label="Number of Observations">
+<caption aria-label="Number of Observations"></caption>
+<colgroup><col/><col/></colgroup>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">Number of Observations Read</th>
+<td class="r data">1820</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Number of Observations Used</th>
+<td class="r data">1695</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Missing Values</th>
+<td class="r data">125</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX16" aria-label="Class Level Information">
+<h1 class="contentitem toc">Class Level Information</h1>
+<table class="table" style="border-spacing: 0" aria-label="Class Level Information">
+<caption aria-label="Class Level Information"></caption>
+<colgroup><col/><col/><col/><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="5" scope="colgroup">Class Level Information</th>
+</tr>
+<tr>
+<th class="b header" scope="col">Class</th>
+<th class="b header" scope="col">Value</th>
+<th class="c b header" colspan="3" scope="colgroup">Design Variables</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">time</th>
+<th class="rowheader" scope="row">0</th>
+<td class="r data">0</td>
+<td class="r data">0</td>
+<td class="r data">0</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">&#160;</th>
+<th class="rowheader" scope="row">2</th>
+<td class="r data">1</td>
+<td class="r data">0</td>
+<td class="r data">0</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">&#160;</th>
+<th class="rowheader" scope="row">4</th>
+<td class="r data">0</td>
+<td class="r data">1</td>
+<td class="r data">0</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">&#160;</th>
+<th class="rowheader" scope="row">8</th>
+<td class="r data">0</td>
+<td class="r data">0</td>
+<td class="r data">1</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">treatment</th>
+<th class="rowheader" scope="row">0</th>
+<td class="r data">0</td>
+<td class="r data">&#160;</td>
+<td class="r data">&#160;</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">&#160;</th>
+<th class="rowheader" scope="row">1</th>
+<td class="r data">1</td>
+<td class="r data">&#160;</td>
+<td class="r data">&#160;</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX17" aria-label="Parameter Information">
+<h1 class="contentitem toc">Parameter Information</h1>
+<table class="table" style="border-spacing: 0" aria-label="Parameter Information">
+<caption aria-label="Parameter Information"></caption>
+<colgroup><col/></colgroup><colgroup><col/><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="4" scope="colgroup">Parameter Information</th>
+</tr>
+<tr>
+<th class="b header" scope="col">Parameter</th>
+<th class="b header" scope="col">Effect</th>
+<th class="b header" scope="col">time</th>
+<th class="b header" scope="col">treatment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">Prm1</th>
+<td class="data">Intercept</td>
+<td class="data">&#160;</td>
+<td class="data">&#160;</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm2</th>
+<td class="data">time</td>
+<td class="data">2</td>
+<td class="data">&#160;</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm3</th>
+<td class="data">time</td>
+<td class="data">4</td>
+<td class="data">&#160;</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm4</th>
+<td class="data">time</td>
+<td class="data">8</td>
+<td class="data">&#160;</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm5</th>
+<td class="data">treatment</td>
+<td class="data">&#160;</td>
+<td class="data">1</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm6</th>
+<td class="data">time*treatment</td>
+<td class="data">2</td>
+<td class="data">1</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm7</th>
+<td class="data">time*treatment</td>
+<td class="data">4</td>
+<td class="data">1</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm8</th>
+<td class="data">time*treatment</td>
+<td class="data">8</td>
+<td class="data">1</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX18" aria-label="Convergence Status">
+<h1 class="contentitem toc">Convergence Status</h1>
+<table class="table" style="border-spacing: 0" aria-label="Convergence Status">
+<caption aria-label="Convergence Status"></caption>
+<colgroup><col/></colgroup>
+<tbody>
+<tr>
+<td class="data">Algorithm converged.</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX19" aria-label="GEE Model Information">
+<h1 class="contentitem toc">GEE Model Information</h1>
+<table class="table" style="border-spacing: 0" aria-label="GEE Model Information">
+<caption aria-label="GEE Model Information"></caption>
+<colgroup><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">GEE Model Information</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">Correlation Structure</th>
+<td class="r data">Exchangeable</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Subject Effect</th>
+<td class="r data">ID (455 levels)</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Number of Clusters</th>
+<td class="r data">455</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Clusters With Missing Values</th>
+<td class="r data">98</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Correlation Matrix Dimension</th>
+<td class="r data">4</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Maximum Cluster Size</th>
+<td class="r data">4</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Minimum Cluster Size</th>
+<td class="r data">1</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX20" aria-label="Convergence Status">
+<h1 class="contentitem toc">Convergence Status</h1>
+<table class="table" style="border-spacing: 0" aria-label="Convergence Status">
+<caption aria-label="Convergence Status"></caption>
+<colgroup><col/></colgroup>
+<tbody>
+<tr>
+<td class="data">Algorithm converged.</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX21" aria-label="Working Correlation Matrix">
+<h1 class="contentitem toc">Working Correlation Matrix</h1>
+<table class="table" style="border-spacing: 0" aria-label="Working Correlation Matrix">
+<caption aria-label="Working Correlation Matrix"></caption>
+<colgroup><col/></colgroup><colgroup><col/><col/><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="5" scope="colgroup">Working Correlation Matrix</th>
+</tr>
+<tr>
+<th class="c headerempty" scope="col">&#160;</th>
+<th class="r b header" scope="col">Col1</th>
+<th class="r b header" scope="col">Col2</th>
+<th class="r b header" scope="col">Col3</th>
+<th class="r b header" scope="col">Col4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">Row1</th>
+<td class="r data">1.0000</td>
+<td class="r data">0.7368</td>
+<td class="r data">0.7368</td>
+<td class="r data">0.7368</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Row2</th>
+<td class="r data">0.7368</td>
+<td class="r data">1.0000</td>
+<td class="r data">0.7368</td>
+<td class="r data">0.7368</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Row3</th>
+<td class="r data">0.7368</td>
+<td class="r data">0.7368</td>
+<td class="r data">1.0000</td>
+<td class="r data">0.7368</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Row4</th>
+<td class="r data">0.7368</td>
+<td class="r data">0.7368</td>
+<td class="r data">0.7368</td>
+<td class="r data">1.0000</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX22" aria-label="Exchangeable Working Correlation">
+<h1 class="contentitem toc">Exchangeable Working Correlation</h1>
+<table class="table" style="border-spacing: 0" aria-label="Exchangeable Working Correlation">
+<caption aria-label="Exchangeable Working Correlation"></caption>
+<colgroup><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">Exchangeable Working Correlation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">Correlation</th>
+<td class="r data">0.7368155065</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX23" aria-label="Fit Criteria">
+<h1 class="contentitem toc">Fit Criteria</h1>
+<table class="table" style="border-spacing: 0" aria-label="Fit Criteria">
+<caption aria-label="Fit Criteria"></caption>
+<colgroup><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">GEE Fit Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="data">QIC</td>
+<td class="r data">1702.3998</td>
+</tr>
+<tr>
+<td class="data">QICu</td>
+<td class="r data">1703.0000</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX24" aria-label="Analysis Of GEE Parameter Estimates - Empirical Std Errors">
+<h1 class="contentitem toc">Analysis Of GEE Parameter Estimates - Empirical Std Errors</h1>
+<table class="table" style="border-spacing: 0" aria-label="Analysis Of GEE Parameter Estimates - Empirical Std Errors">
+<caption aria-label="Analysis Of GEE Parameter Estimates - Empirical Std Errors"></caption>
+<colgroup><col/><col/><col/><col/><col/><col/><col/><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="9" scope="colgroup">Analysis Of GEE Parameter Estimates</th>
+</tr>
+<tr>
+<th class="c b header" colspan="9" scope="colgroup">Empirical Standard Error Estimates</th>
+</tr>
+<tr>
+<th class="b header" scope="col">Parameter</th>
+<th class="c headerempty" colspan="2" scope="colgroup">&#160;</th>
+<th class="r b header" scope="col">Estimate</th>
+<th class="r b header" scope="col">Standard<br/>Error</th>
+<th class="c b header" colspan="2" scope="colgroup">95% Confidence Limits</th>
+<th class="r b header" scope="col">Z</th>
+<th class="r b header" scope="col">Pr&#160;&gt;&#160;|Z|</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">Intercept</th>
+<td class="data">&#160;</td>
+<td class="data">&#160;</td>
+<td class="r data">100.4902</td>
+<td class="r data">0.1256</td>
+<td class="r data">100.2440</td>
+<td class="r data">100.7364</td>
+<td class="r data">800.07</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">time</th>
+<td class="data">2</td>
+<td class="data">&#160;</td>
+<td class="r data" style="white-space: nowrap">-0.3216</td>
+<td class="r data">0.0718</td>
+<td class="r data" style="white-space: nowrap">-0.4623</td>
+<td class="r data" style="white-space: nowrap">-0.1808</td>
+<td class="r data" style="white-space: nowrap">-4.48</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">time</th>
+<td class="data">4</td>
+<td class="data">&#160;</td>
+<td class="r data" style="white-space: nowrap">-0.3627</td>
+<td class="r data">0.0907</td>
+<td class="r data" style="white-space: nowrap">-0.5404</td>
+<td class="r data" style="white-space: nowrap">-0.1849</td>
+<td class="r data" style="white-space: nowrap">-4.00</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">time</th>
+<td class="data">8</td>
+<td class="data">&#160;</td>
+<td class="r data" style="white-space: nowrap">-0.4503</td>
+<td class="r data">0.1107</td>
+<td class="r data" style="white-space: nowrap">-0.6674</td>
+<td class="r data" style="white-space: nowrap">-0.2333</td>
+<td class="r data" style="white-space: nowrap">-4.07</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">treatment</th>
+<td class="data">1</td>
+<td class="data">&#160;</td>
+<td class="r data" style="white-space: nowrap">-0.1287</td>
+<td class="r data">0.1900</td>
+<td class="r data" style="white-space: nowrap">-0.5011</td>
+<td class="r data">0.2437</td>
+<td class="r data" style="white-space: nowrap">-0.68</td>
+<td class="r data">0.4982</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">time*treatment</th>
+<td class="data">2</td>
+<td class="data">1</td>
+<td class="r data" style="white-space: nowrap">-0.5449</td>
+<td class="r data">0.1106</td>
+<td class="r data" style="white-space: nowrap">-0.7617</td>
+<td class="r data" style="white-space: nowrap">-0.3281</td>
+<td class="r data" style="white-space: nowrap">-4.93</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">time*treatment</th>
+<td class="data">4</td>
+<td class="data">1</td>
+<td class="r data" style="white-space: nowrap">-1.0883</td>
+<td class="r data">0.1454</td>
+<td class="r data" style="white-space: nowrap">-1.3733</td>
+<td class="r data" style="white-space: nowrap">-0.8034</td>
+<td class="r data" style="white-space: nowrap">-7.49</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">time*treatment</th>
+<td class="data">8</td>
+<td class="data">1</td>
+<td class="r data" style="white-space: nowrap">-1.3135</td>
+<td class="r data">0.1609</td>
+<td class="r data" style="white-space: nowrap">-1.6288</td>
+<td class="r data" style="white-space: nowrap">-0.9982</td>
+<td class="r data" style="white-space: nowrap">-8.16</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+</tbody>
+</table>
+</article>
+</section>
+<section data-name="Genmod" data-sec-type="proc">
+<hr class="pagebreak"/>
+<div id="IDX25" class="systitleandfootercontainer" style="border-spacing: 1px">
+<p><span class="c systemtitle">Question 2b: GEE with AR(1) Correlation</span> </p>
+</div>
+<div class="proc_title_group">
+<p class="c proctitle">The GENMOD Procedure</p>
+</div>
+<h1 class="contentprocname toc">The Genmod Procedure</h1>
+<article aria-label="Model Information">
+<h1 class="contentitem toc">Model Information</h1>
+<table class="table" style="border-spacing: 0" aria-label="Model Information">
+<caption aria-label="Model Information"></caption>
+<colgroup><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">Model Information</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">Data Set</th>
+<td class="r data">WORK.TEMPDATA</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Distribution</th>
+<td class="r data">Normal</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Link Function</th>
+<td class="r data">Identity</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Dependent Variable</th>
+<td class="r data">temp</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX26" aria-label="Number of Observations">
+<h1 class="contentitem toc">Number of Observations</h1>
+<table class="table" style="border-spacing: 0" aria-label="Number of Observations">
+<caption aria-label="Number of Observations"></caption>
+<colgroup><col/><col/></colgroup>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">Number of Observations Read</th>
+<td class="r data">1820</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Number of Observations Used</th>
+<td class="r data">1695</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Missing Values</th>
+<td class="r data">125</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX27" aria-label="Class Level Information">
+<h1 class="contentitem toc">Class Level Information</h1>
+<table class="table" style="border-spacing: 0" aria-label="Class Level Information">
+<caption aria-label="Class Level Information"></caption>
+<colgroup><col/><col/><col/><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="5" scope="colgroup">Class Level Information</th>
+</tr>
+<tr>
+<th class="b header" scope="col">Class</th>
+<th class="b header" scope="col">Value</th>
+<th class="c b header" colspan="3" scope="colgroup">Design Variables</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">time</th>
+<th class="rowheader" scope="row">0</th>
+<td class="r data">0</td>
+<td class="r data">0</td>
+<td class="r data">0</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">&#160;</th>
+<th class="rowheader" scope="row">2</th>
+<td class="r data">1</td>
+<td class="r data">0</td>
+<td class="r data">0</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">&#160;</th>
+<th class="rowheader" scope="row">4</th>
+<td class="r data">0</td>
+<td class="r data">1</td>
+<td class="r data">0</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">&#160;</th>
+<th class="rowheader" scope="row">8</th>
+<td class="r data">0</td>
+<td class="r data">0</td>
+<td class="r data">1</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">treatment</th>
+<th class="rowheader" scope="row">0</th>
+<td class="r data">0</td>
+<td class="r data">&#160;</td>
+<td class="r data">&#160;</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">&#160;</th>
+<th class="rowheader" scope="row">1</th>
+<td class="r data">1</td>
+<td class="r data">&#160;</td>
+<td class="r data">&#160;</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX28" aria-label="Parameter Information">
+<h1 class="contentitem toc">Parameter Information</h1>
+<table class="table" style="border-spacing: 0" aria-label="Parameter Information">
+<caption aria-label="Parameter Information"></caption>
+<colgroup><col/></colgroup><colgroup><col/><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="4" scope="colgroup">Parameter Information</th>
+</tr>
+<tr>
+<th class="b header" scope="col">Parameter</th>
+<th class="b header" scope="col">Effect</th>
+<th class="b header" scope="col">time</th>
+<th class="b header" scope="col">treatment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">Prm1</th>
+<td class="data">Intercept</td>
+<td class="data">&#160;</td>
+<td class="data">&#160;</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm2</th>
+<td class="data">time</td>
+<td class="data">2</td>
+<td class="data">&#160;</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm3</th>
+<td class="data">time</td>
+<td class="data">4</td>
+<td class="data">&#160;</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm4</th>
+<td class="data">time</td>
+<td class="data">8</td>
+<td class="data">&#160;</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm5</th>
+<td class="data">treatment</td>
+<td class="data">&#160;</td>
+<td class="data">1</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm6</th>
+<td class="data">time*treatment</td>
+<td class="data">2</td>
+<td class="data">1</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm7</th>
+<td class="data">time*treatment</td>
+<td class="data">4</td>
+<td class="data">1</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm8</th>
+<td class="data">time*treatment</td>
+<td class="data">8</td>
+<td class="data">1</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX29" aria-label="Convergence Status">
+<h1 class="contentitem toc">Convergence Status</h1>
+<table class="table" style="border-spacing: 0" aria-label="Convergence Status">
+<caption aria-label="Convergence Status"></caption>
+<colgroup><col/></colgroup>
+<tbody>
+<tr>
+<td class="data">Algorithm converged.</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX30" aria-label="GEE Model Information">
+<h1 class="contentitem toc">GEE Model Information</h1>
+<table class="table" style="border-spacing: 0" aria-label="GEE Model Information">
+<caption aria-label="GEE Model Information"></caption>
+<colgroup><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">GEE Model Information</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">Correlation Structure</th>
+<td class="r data">AR(1)</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Subject Effect</th>
+<td class="r data">ID (455 levels)</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Number of Clusters</th>
+<td class="r data">455</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Clusters With Missing Values</th>
+<td class="r data">98</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Correlation Matrix Dimension</th>
+<td class="r data">4</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Maximum Cluster Size</th>
+<td class="r data">4</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Minimum Cluster Size</th>
+<td class="r data">1</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX31" aria-label="Convergence Status">
+<h1 class="contentitem toc">Convergence Status</h1>
+<table class="table" style="border-spacing: 0" aria-label="Convergence Status">
+<caption aria-label="Convergence Status"></caption>
+<colgroup><col/></colgroup>
+<tbody>
+<tr>
+<td class="data">Algorithm converged.</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX32" aria-label="Working Correlation Matrix">
+<h1 class="contentitem toc">Working Correlation Matrix</h1>
+<table class="table" style="border-spacing: 0" aria-label="Working Correlation Matrix">
+<caption aria-label="Working Correlation Matrix"></caption>
+<colgroup><col/></colgroup><colgroup><col/><col/><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="5" scope="colgroup">Working Correlation Matrix</th>
+</tr>
+<tr>
+<th class="c headerempty" scope="col">&#160;</th>
+<th class="r b header" scope="col">Col1</th>
+<th class="r b header" scope="col">Col2</th>
+<th class="r b header" scope="col">Col3</th>
+<th class="r b header" scope="col">Col4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">Row1</th>
+<td class="r data">1.0000</td>
+<td class="r data">0.8222</td>
+<td class="r data">0.6760</td>
+<td class="r data">0.5559</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Row2</th>
+<td class="r data">0.8222</td>
+<td class="r data">1.0000</td>
+<td class="r data">0.8222</td>
+<td class="r data">0.6760</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Row3</th>
+<td class="r data">0.6760</td>
+<td class="r data">0.8222</td>
+<td class="r data">1.0000</td>
+<td class="r data">0.8222</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Row4</th>
+<td class="r data">0.5559</td>
+<td class="r data">0.6760</td>
+<td class="r data">0.8222</td>
+<td class="r data">1.0000</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX33" aria-label="Fit Criteria">
+<h1 class="contentitem toc">Fit Criteria</h1>
+<table class="table" style="border-spacing: 0" aria-label="Fit Criteria">
+<caption aria-label="Fit Criteria"></caption>
+<colgroup><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">GEE Fit Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="data">QIC</td>
+<td class="r data">1702.2653</td>
+</tr>
+<tr>
+<td class="data">QICu</td>
+<td class="r data">1703.0000</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX34" aria-label="Analysis Of GEE Parameter Estimates - Empirical Std Errors">
+<h1 class="contentitem toc">Analysis Of GEE Parameter Estimates - Empirical Std Errors</h1>
+<table class="table" style="border-spacing: 0" aria-label="Analysis Of GEE Parameter Estimates - Empirical Std Errors">
+<caption aria-label="Analysis Of GEE Parameter Estimates - Empirical Std Errors"></caption>
+<colgroup><col/><col/><col/><col/><col/><col/><col/><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="9" scope="colgroup">Analysis Of GEE Parameter Estimates</th>
+</tr>
+<tr>
+<th class="c b header" colspan="9" scope="colgroup">Empirical Standard Error Estimates</th>
+</tr>
+<tr>
+<th class="b header" scope="col">Parameter</th>
+<th class="c headerempty" colspan="2" scope="colgroup">&#160;</th>
+<th class="r b header" scope="col">Estimate</th>
+<th class="r b header" scope="col">Standard<br/>Error</th>
+<th class="c b header" colspan="2" scope="colgroup">95% Confidence Limits</th>
+<th class="r b header" scope="col">Z</th>
+<th class="r b header" scope="col">Pr&#160;&gt;&#160;|Z|</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">Intercept</th>
+<td class="data">&#160;</td>
+<td class="data">&#160;</td>
+<td class="r data">100.4902</td>
+<td class="r data">0.1256</td>
+<td class="r data">100.2440</td>
+<td class="r data">100.7364</td>
+<td class="r data">800.07</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">time</th>
+<td class="data">2</td>
+<td class="data">&#160;</td>
+<td class="r data" style="white-space: nowrap">-0.3286</td>
+<td class="r data">0.0722</td>
+<td class="r data" style="white-space: nowrap">-0.4700</td>
+<td class="r data" style="white-space: nowrap">-0.1871</td>
+<td class="r data" style="white-space: nowrap">-4.55</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">time</th>
+<td class="data">4</td>
+<td class="data">&#160;</td>
+<td class="r data" style="white-space: nowrap">-0.3752</td>
+<td class="r data">0.0912</td>
+<td class="r data" style="white-space: nowrap">-0.5540</td>
+<td class="r data" style="white-space: nowrap">-0.1964</td>
+<td class="r data" style="white-space: nowrap">-4.11</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">time</th>
+<td class="data">8</td>
+<td class="data">&#160;</td>
+<td class="r data" style="white-space: nowrap">-0.4324</td>
+<td class="r data">0.1113</td>
+<td class="r data" style="white-space: nowrap">-0.6506</td>
+<td class="r data" style="white-space: nowrap">-0.2142</td>
+<td class="r data" style="white-space: nowrap">-3.88</td>
+<td class="r data">0.0001</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">treatment</th>
+<td class="data">1</td>
+<td class="data">&#160;</td>
+<td class="r data" style="white-space: nowrap">-0.1287</td>
+<td class="r data">0.1900</td>
+<td class="r data" style="white-space: nowrap">-0.5011</td>
+<td class="r data">0.2437</td>
+<td class="r data" style="white-space: nowrap">-0.68</td>
+<td class="r data">0.4982</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">time*treatment</th>
+<td class="data">2</td>
+<td class="data">1</td>
+<td class="r data" style="white-space: nowrap">-0.5395</td>
+<td class="r data">0.1111</td>
+<td class="r data" style="white-space: nowrap">-0.7572</td>
+<td class="r data" style="white-space: nowrap">-0.3218</td>
+<td class="r data" style="white-space: nowrap">-4.86</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">time*treatment</th>
+<td class="data">4</td>
+<td class="data">1</td>
+<td class="r data" style="white-space: nowrap">-1.0850</td>
+<td class="r data">0.1453</td>
+<td class="r data" style="white-space: nowrap">-1.3698</td>
+<td class="r data" style="white-space: nowrap">-0.8003</td>
+<td class="r data" style="white-space: nowrap">-7.47</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">time*treatment</th>
+<td class="data">8</td>
+<td class="data">1</td>
+<td class="r data" style="white-space: nowrap">-1.2962</td>
+<td class="r data">0.1615</td>
+<td class="r data" style="white-space: nowrap">-1.6127</td>
+<td class="r data" style="white-space: nowrap">-0.9798</td>
+<td class="r data" style="white-space: nowrap">-8.03</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+</tbody>
+</table>
+</article>
+</section>
+<section data-name="Genmod" data-sec-type="proc">
+<hr class="pagebreak"/>
+<div id="IDX35" class="systitleandfootercontainer" style="border-spacing: 1px">
+<p><span class="c systemtitle">Question 2c: GEE with Unstructured Correlation</span> </p>
+</div>
+<div class="proc_title_group">
+<p class="c proctitle">The GENMOD Procedure</p>
+</div>
+<h1 class="contentprocname toc">The Genmod Procedure</h1>
+<article aria-label="Model Information">
+<h1 class="contentitem toc">Model Information</h1>
+<table class="table" style="border-spacing: 0" aria-label="Model Information">
+<caption aria-label="Model Information"></caption>
+<colgroup><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">Model Information</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">Data Set</th>
+<td class="r data">WORK.TEMPDATA</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Distribution</th>
+<td class="r data">Normal</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Link Function</th>
+<td class="r data">Identity</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Dependent Variable</th>
+<td class="r data">temp</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX36" aria-label="Number of Observations">
+<h1 class="contentitem toc">Number of Observations</h1>
+<table class="table" style="border-spacing: 0" aria-label="Number of Observations">
+<caption aria-label="Number of Observations"></caption>
+<colgroup><col/><col/></colgroup>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">Number of Observations Read</th>
+<td class="r data">1820</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Number of Observations Used</th>
+<td class="r data">1695</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Missing Values</th>
+<td class="r data">125</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX37" aria-label="Class Level Information">
+<h1 class="contentitem toc">Class Level Information</h1>
+<table class="table" style="border-spacing: 0" aria-label="Class Level Information">
+<caption aria-label="Class Level Information"></caption>
+<colgroup><col/><col/><col/><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="5" scope="colgroup">Class Level Information</th>
+</tr>
+<tr>
+<th class="b header" scope="col">Class</th>
+<th class="b header" scope="col">Value</th>
+<th class="c b header" colspan="3" scope="colgroup">Design Variables</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">time</th>
+<th class="rowheader" scope="row">0</th>
+<td class="r data">0</td>
+<td class="r data">0</td>
+<td class="r data">0</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">&#160;</th>
+<th class="rowheader" scope="row">2</th>
+<td class="r data">1</td>
+<td class="r data">0</td>
+<td class="r data">0</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">&#160;</th>
+<th class="rowheader" scope="row">4</th>
+<td class="r data">0</td>
+<td class="r data">1</td>
+<td class="r data">0</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">&#160;</th>
+<th class="rowheader" scope="row">8</th>
+<td class="r data">0</td>
+<td class="r data">0</td>
+<td class="r data">1</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">treatment</th>
+<th class="rowheader" scope="row">0</th>
+<td class="r data">0</td>
+<td class="r data">&#160;</td>
+<td class="r data">&#160;</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">&#160;</th>
+<th class="rowheader" scope="row">1</th>
+<td class="r data">1</td>
+<td class="r data">&#160;</td>
+<td class="r data">&#160;</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX38" aria-label="Parameter Information">
+<h1 class="contentitem toc">Parameter Information</h1>
+<table class="table" style="border-spacing: 0" aria-label="Parameter Information">
+<caption aria-label="Parameter Information"></caption>
+<colgroup><col/></colgroup><colgroup><col/><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="4" scope="colgroup">Parameter Information</th>
+</tr>
+<tr>
+<th class="b header" scope="col">Parameter</th>
+<th class="b header" scope="col">Effect</th>
+<th class="b header" scope="col">time</th>
+<th class="b header" scope="col">treatment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">Prm1</th>
+<td class="data">Intercept</td>
+<td class="data">&#160;</td>
+<td class="data">&#160;</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm2</th>
+<td class="data">time</td>
+<td class="data">2</td>
+<td class="data">&#160;</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm3</th>
+<td class="data">time</td>
+<td class="data">4</td>
+<td class="data">&#160;</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm4</th>
+<td class="data">time</td>
+<td class="data">8</td>
+<td class="data">&#160;</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm5</th>
+<td class="data">treatment</td>
+<td class="data">&#160;</td>
+<td class="data">1</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm6</th>
+<td class="data">time*treatment</td>
+<td class="data">2</td>
+<td class="data">1</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm7</th>
+<td class="data">time*treatment</td>
+<td class="data">4</td>
+<td class="data">1</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm8</th>
+<td class="data">time*treatment</td>
+<td class="data">8</td>
+<td class="data">1</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX39" aria-label="Convergence Status">
+<h1 class="contentitem toc">Convergence Status</h1>
+<table class="table" style="border-spacing: 0" aria-label="Convergence Status">
+<caption aria-label="Convergence Status"></caption>
+<colgroup><col/></colgroup>
+<tbody>
+<tr>
+<td class="data">Algorithm converged.</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX40" aria-label="GEE Model Information">
+<h1 class="contentitem toc">GEE Model Information</h1>
+<table class="table" style="border-spacing: 0" aria-label="GEE Model Information">
+<caption aria-label="GEE Model Information"></caption>
+<colgroup><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">GEE Model Information</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">Correlation Structure</th>
+<td class="r data">Unstructured</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Subject Effect</th>
+<td class="r data">ID (455 levels)</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Number of Clusters</th>
+<td class="r data">455</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Clusters With Missing Values</th>
+<td class="r data">98</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Correlation Matrix Dimension</th>
+<td class="r data">4</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Maximum Cluster Size</th>
+<td class="r data">4</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Minimum Cluster Size</th>
+<td class="r data">1</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX41" aria-label="Convergence Status">
+<h1 class="contentitem toc">Convergence Status</h1>
+<table class="table" style="border-spacing: 0" aria-label="Convergence Status">
+<caption aria-label="Convergence Status"></caption>
+<colgroup><col/></colgroup>
+<tbody>
+<tr>
+<td class="data">Algorithm converged.</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX42" aria-label="Working Correlation Matrix">
+<h1 class="contentitem toc">Working Correlation Matrix</h1>
+<table class="table" style="border-spacing: 0" aria-label="Working Correlation Matrix">
+<caption aria-label="Working Correlation Matrix"></caption>
+<colgroup><col/></colgroup><colgroup><col/><col/><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="5" scope="colgroup">Working Correlation Matrix</th>
+</tr>
+<tr>
+<th class="c headerempty" scope="col">&#160;</th>
+<th class="r b header" scope="col">Col1</th>
+<th class="r b header" scope="col">Col2</th>
+<th class="r b header" scope="col">Col3</th>
+<th class="r b header" scope="col">Col4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">Row1</th>
+<td class="r data">1.0000</td>
+<td class="r data">0.9283</td>
+<td class="r data">0.7177</td>
+<td class="r data">0.6035</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Row2</th>
+<td class="r data">0.9283</td>
+<td class="r data">1.0000</td>
+<td class="r data">0.8374</td>
+<td class="r data">0.6842</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Row3</th>
+<td class="r data">0.7177</td>
+<td class="r data">0.8374</td>
+<td class="r data">1.0000</td>
+<td class="r data">0.7249</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Row4</th>
+<td class="r data">0.6035</td>
+<td class="r data">0.6842</td>
+<td class="r data">0.7249</td>
+<td class="r data">1.0000</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX43" aria-label="Fit Criteria">
+<h1 class="contentitem toc">Fit Criteria</h1>
+<table class="table" style="border-spacing: 0" aria-label="Fit Criteria">
+<caption aria-label="Fit Criteria"></caption>
+<colgroup><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">GEE Fit Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="data">QIC</td>
+<td class="r data">1702.2859</td>
+</tr>
+<tr>
+<td class="data">QICu</td>
+<td class="r data">1703.0000</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX44" aria-label="Analysis Of GEE Parameter Estimates - Empirical Std Errors">
+<h1 class="contentitem toc">Analysis Of GEE Parameter Estimates - Empirical Std Errors</h1>
+<table class="table" style="border-spacing: 0" aria-label="Analysis Of GEE Parameter Estimates - Empirical Std Errors">
+<caption aria-label="Analysis Of GEE Parameter Estimates - Empirical Std Errors"></caption>
+<colgroup><col/><col/><col/><col/><col/><col/><col/><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="9" scope="colgroup">Analysis Of GEE Parameter Estimates</th>
+</tr>
+<tr>
+<th class="c b header" colspan="9" scope="colgroup">Empirical Standard Error Estimates</th>
+</tr>
+<tr>
+<th class="b header" scope="col">Parameter</th>
+<th class="c headerempty" colspan="2" scope="colgroup">&#160;</th>
+<th class="r b header" scope="col">Estimate</th>
+<th class="r b header" scope="col">Standard<br/>Error</th>
+<th class="c b header" colspan="2" scope="colgroup">95% Confidence Limits</th>
+<th class="r b header" scope="col">Z</th>
+<th class="r b header" scope="col">Pr&#160;&gt;&#160;|Z|</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">Intercept</th>
+<td class="data">&#160;</td>
+<td class="data">&#160;</td>
+<td class="r data">100.4902</td>
+<td class="r data">0.1256</td>
+<td class="r data">100.2440</td>
+<td class="r data">100.7364</td>
+<td class="r data">800.07</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">time</th>
+<td class="data">2</td>
+<td class="data">&#160;</td>
+<td class="r data" style="white-space: nowrap">-0.3209</td>
+<td class="r data">0.0723</td>
+<td class="r data" style="white-space: nowrap">-0.4627</td>
+<td class="r data" style="white-space: nowrap">-0.1792</td>
+<td class="r data" style="white-space: nowrap">-4.44</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">time</th>
+<td class="data">4</td>
+<td class="data">&#160;</td>
+<td class="r data" style="white-space: nowrap">-0.4030</td>
+<td class="r data">0.0925</td>
+<td class="r data" style="white-space: nowrap">-0.5843</td>
+<td class="r data" style="white-space: nowrap">-0.2218</td>
+<td class="r data" style="white-space: nowrap">-4.36</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">time</th>
+<td class="data">8</td>
+<td class="data">&#160;</td>
+<td class="r data" style="white-space: nowrap">-0.4382</td>
+<td class="r data">0.1108</td>
+<td class="r data" style="white-space: nowrap">-0.6553</td>
+<td class="r data" style="white-space: nowrap">-0.2211</td>
+<td class="r data" style="white-space: nowrap">-3.96</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">treatment</th>
+<td class="data">1</td>
+<td class="data">&#160;</td>
+<td class="r data" style="white-space: nowrap">-0.1287</td>
+<td class="r data">0.1900</td>
+<td class="r data" style="white-space: nowrap">-0.5011</td>
+<td class="r data">0.2437</td>
+<td class="r data" style="white-space: nowrap">-0.68</td>
+<td class="r data">0.4982</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">time*treatment</th>
+<td class="data">2</td>
+<td class="data">1</td>
+<td class="r data" style="white-space: nowrap">-0.5539</td>
+<td class="r data">0.1115</td>
+<td class="r data" style="white-space: nowrap">-0.7725</td>
+<td class="r data" style="white-space: nowrap">-0.3354</td>
+<td class="r data" style="white-space: nowrap">-4.97</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">time*treatment</th>
+<td class="data">4</td>
+<td class="data">1</td>
+<td class="r data" style="white-space: nowrap">-1.0646</td>
+<td class="r data">0.1461</td>
+<td class="r data" style="white-space: nowrap">-1.3509</td>
+<td class="r data" style="white-space: nowrap">-0.7782</td>
+<td class="r data" style="white-space: nowrap">-7.29</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">time*treatment</th>
+<td class="data">8</td>
+<td class="data">1</td>
+<td class="r data" style="white-space: nowrap">-1.3090</td>
+<td class="r data">0.1604</td>
+<td class="r data" style="white-space: nowrap">-1.6233</td>
+<td class="r data" style="white-space: nowrap">-0.9947</td>
+<td class="r data" style="white-space: nowrap">-8.16</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+</tbody>
+</table>
+</article>
+</section>
+<section data-name="Genmod" data-sec-type="proc">
+<hr class="pagebreak"/>
+<div id="IDX45" class="systitleandfootercontainer" style="border-spacing: 1px">
+<p><span class="c systemtitle">Question 3: Test for Treatment-Time Interaction</span> </p>
+<p><span class="c systemtitle2">Using Best Model from Q2 (Replace TYPE= as needed)</span> </p>
+</div>
+<div class="proc_title_group">
+<p class="c proctitle">The GENMOD Procedure</p>
+</div>
+<h1 class="contentprocname toc">The Genmod Procedure</h1>
+<article aria-label="Model Information">
+<h1 class="contentitem toc">Model Information</h1>
+<table class="table" style="border-spacing: 0" aria-label="Model Information">
+<caption aria-label="Model Information"></caption>
+<colgroup><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">Model Information</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">Data Set</th>
+<td class="r data">WORK.TEMPDATA</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Distribution</th>
+<td class="r data">Normal</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Link Function</th>
+<td class="r data">Identity</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Dependent Variable</th>
+<td class="r data">temp</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX46" aria-label="Number of Observations">
+<h1 class="contentitem toc">Number of Observations</h1>
+<table class="table" style="border-spacing: 0" aria-label="Number of Observations">
+<caption aria-label="Number of Observations"></caption>
+<colgroup><col/><col/></colgroup>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">Number of Observations Read</th>
+<td class="r data">1820</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Number of Observations Used</th>
+<td class="r data">1695</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Missing Values</th>
+<td class="r data">125</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX47" aria-label="Class Level Information">
+<h1 class="contentitem toc">Class Level Information</h1>
+<table class="table" style="border-spacing: 0" aria-label="Class Level Information">
+<caption aria-label="Class Level Information"></caption>
+<colgroup><col/><col/><col/><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="5" scope="colgroup">Class Level Information</th>
+</tr>
+<tr>
+<th class="b header" scope="col">Class</th>
+<th class="b header" scope="col">Value</th>
+<th class="c b header" colspan="3" scope="colgroup">Design Variables</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">time</th>
+<th class="rowheader" scope="row">0</th>
+<td class="r data">0</td>
+<td class="r data">0</td>
+<td class="r data">0</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">&#160;</th>
+<th class="rowheader" scope="row">2</th>
+<td class="r data">1</td>
+<td class="r data">0</td>
+<td class="r data">0</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">&#160;</th>
+<th class="rowheader" scope="row">4</th>
+<td class="r data">0</td>
+<td class="r data">1</td>
+<td class="r data">0</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">&#160;</th>
+<th class="rowheader" scope="row">8</th>
+<td class="r data">0</td>
+<td class="r data">0</td>
+<td class="r data">1</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">treatment</th>
+<th class="rowheader" scope="row">0</th>
+<td class="r data">0</td>
+<td class="r data">&#160;</td>
+<td class="r data">&#160;</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">&#160;</th>
+<th class="rowheader" scope="row">1</th>
+<td class="r data">1</td>
+<td class="r data">&#160;</td>
+<td class="r data">&#160;</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX48" aria-label="Parameter Information">
+<h1 class="contentitem toc">Parameter Information</h1>
+<table class="table" style="border-spacing: 0" aria-label="Parameter Information">
+<caption aria-label="Parameter Information"></caption>
+<colgroup><col/></colgroup><colgroup><col/><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="4" scope="colgroup">Parameter Information</th>
+</tr>
+<tr>
+<th class="b header" scope="col">Parameter</th>
+<th class="b header" scope="col">Effect</th>
+<th class="b header" scope="col">time</th>
+<th class="b header" scope="col">treatment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">Prm1</th>
+<td class="data">Intercept</td>
+<td class="data">&#160;</td>
+<td class="data">&#160;</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm2</th>
+<td class="data">time</td>
+<td class="data">2</td>
+<td class="data">&#160;</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm3</th>
+<td class="data">time</td>
+<td class="data">4</td>
+<td class="data">&#160;</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm4</th>
+<td class="data">time</td>
+<td class="data">8</td>
+<td class="data">&#160;</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm5</th>
+<td class="data">treatment</td>
+<td class="data">&#160;</td>
+<td class="data">1</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm6</th>
+<td class="data">time*treatment</td>
+<td class="data">2</td>
+<td class="data">1</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm7</th>
+<td class="data">time*treatment</td>
+<td class="data">4</td>
+<td class="data">1</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm8</th>
+<td class="data">time*treatment</td>
+<td class="data">8</td>
+<td class="data">1</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX49" aria-label="Convergence Status">
+<h1 class="contentitem toc">Convergence Status</h1>
+<table class="table" style="border-spacing: 0" aria-label="Convergence Status">
+<caption aria-label="Convergence Status"></caption>
+<colgroup><col/></colgroup>
+<tbody>
+<tr>
+<td class="data">Algorithm converged.</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX50" aria-label="GEE Model Information">
+<h1 class="contentitem toc">GEE Model Information</h1>
+<table class="table" style="border-spacing: 0" aria-label="GEE Model Information">
+<caption aria-label="GEE Model Information"></caption>
+<colgroup><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">GEE Model Information</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">Correlation Structure</th>
+<td class="r data">AR(1)</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Subject Effect</th>
+<td class="r data">ID (455 levels)</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Number of Clusters</th>
+<td class="r data">455</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Clusters With Missing Values</th>
+<td class="r data">98</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Correlation Matrix Dimension</th>
+<td class="r data">4</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Maximum Cluster Size</th>
+<td class="r data">4</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Minimum Cluster Size</th>
+<td class="r data">1</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX51" aria-label="Convergence Status">
+<h1 class="contentitem toc">Convergence Status</h1>
+<table class="table" style="border-spacing: 0" aria-label="Convergence Status">
+<caption aria-label="Convergence Status"></caption>
+<colgroup><col/></colgroup>
+<tbody>
+<tr>
+<td class="data">Algorithm converged.</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX52" aria-label="Working Correlation Matrix">
+<h1 class="contentitem toc">Working Correlation Matrix</h1>
+<table class="table" style="border-spacing: 0" aria-label="Working Correlation Matrix">
+<caption aria-label="Working Correlation Matrix"></caption>
+<colgroup><col/></colgroup><colgroup><col/><col/><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="5" scope="colgroup">Working Correlation Matrix</th>
+</tr>
+<tr>
+<th class="c headerempty" scope="col">&#160;</th>
+<th class="r b header" scope="col">Col1</th>
+<th class="r b header" scope="col">Col2</th>
+<th class="r b header" scope="col">Col3</th>
+<th class="r b header" scope="col">Col4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">Row1</th>
+<td class="r data">1.0000</td>
+<td class="r data">0.8222</td>
+<td class="r data">0.6760</td>
+<td class="r data">0.5559</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Row2</th>
+<td class="r data">0.8222</td>
+<td class="r data">1.0000</td>
+<td class="r data">0.8222</td>
+<td class="r data">0.6760</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Row3</th>
+<td class="r data">0.6760</td>
+<td class="r data">0.8222</td>
+<td class="r data">1.0000</td>
+<td class="r data">0.8222</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Row4</th>
+<td class="r data">0.5559</td>
+<td class="r data">0.6760</td>
+<td class="r data">0.8222</td>
+<td class="r data">1.0000</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX53" aria-label="Fit Criteria">
+<h1 class="contentitem toc">Fit Criteria</h1>
+<table class="table" style="border-spacing: 0" aria-label="Fit Criteria">
+<caption aria-label="Fit Criteria"></caption>
+<colgroup><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">GEE Fit Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="data">QIC</td>
+<td class="r data">1702.2653</td>
+</tr>
+<tr>
+<td class="data">QICu</td>
+<td class="r data">1703.0000</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX54" aria-label="Analysis Of GEE Parameter Estimates - Empirical Std Errors">
+<h1 class="contentitem toc">Analysis Of GEE Parameter Estimates - Empirical Std Errors</h1>
+<table class="table" style="border-spacing: 0" aria-label="Analysis Of GEE Parameter Estimates - Empirical Std Errors">
+<caption aria-label="Analysis Of GEE Parameter Estimates - Empirical Std Errors"></caption>
+<colgroup><col/><col/><col/><col/><col/><col/><col/><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="9" scope="colgroup">Analysis Of GEE Parameter Estimates</th>
+</tr>
+<tr>
+<th class="c b header" colspan="9" scope="colgroup">Empirical Standard Error Estimates</th>
+</tr>
+<tr>
+<th class="b header" scope="col">Parameter</th>
+<th class="c headerempty" colspan="2" scope="colgroup">&#160;</th>
+<th class="r b header" scope="col">Estimate</th>
+<th class="r b header" scope="col">Standard<br/>Error</th>
+<th class="c b header" colspan="2" scope="colgroup">95% Confidence Limits</th>
+<th class="r b header" scope="col">Z</th>
+<th class="r b header" scope="col">Pr&#160;&gt;&#160;|Z|</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">Intercept</th>
+<td class="data">&#160;</td>
+<td class="data">&#160;</td>
+<td class="r data">100.4902</td>
+<td class="r data">0.1256</td>
+<td class="r data">100.2440</td>
+<td class="r data">100.7364</td>
+<td class="r data">800.07</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">time</th>
+<td class="data">2</td>
+<td class="data">&#160;</td>
+<td class="r data" style="white-space: nowrap">-0.3286</td>
+<td class="r data">0.0722</td>
+<td class="r data" style="white-space: nowrap">-0.4700</td>
+<td class="r data" style="white-space: nowrap">-0.1871</td>
+<td class="r data" style="white-space: nowrap">-4.55</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">time</th>
+<td class="data">4</td>
+<td class="data">&#160;</td>
+<td class="r data" style="white-space: nowrap">-0.3752</td>
+<td class="r data">0.0912</td>
+<td class="r data" style="white-space: nowrap">-0.5540</td>
+<td class="r data" style="white-space: nowrap">-0.1964</td>
+<td class="r data" style="white-space: nowrap">-4.11</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">time</th>
+<td class="data">8</td>
+<td class="data">&#160;</td>
+<td class="r data" style="white-space: nowrap">-0.4324</td>
+<td class="r data">0.1113</td>
+<td class="r data" style="white-space: nowrap">-0.6506</td>
+<td class="r data" style="white-space: nowrap">-0.2142</td>
+<td class="r data" style="white-space: nowrap">-3.88</td>
+<td class="r data">0.0001</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">treatment</th>
+<td class="data">1</td>
+<td class="data">&#160;</td>
+<td class="r data" style="white-space: nowrap">-0.1287</td>
+<td class="r data">0.1900</td>
+<td class="r data" style="white-space: nowrap">-0.5011</td>
+<td class="r data">0.2437</td>
+<td class="r data" style="white-space: nowrap">-0.68</td>
+<td class="r data">0.4982</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">time*treatment</th>
+<td class="data">2</td>
+<td class="data">1</td>
+<td class="r data" style="white-space: nowrap">-0.5395</td>
+<td class="r data">0.1111</td>
+<td class="r data" style="white-space: nowrap">-0.7572</td>
+<td class="r data" style="white-space: nowrap">-0.3218</td>
+<td class="r data" style="white-space: nowrap">-4.86</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">time*treatment</th>
+<td class="data">4</td>
+<td class="data">1</td>
+<td class="r data" style="white-space: nowrap">-1.0850</td>
+<td class="r data">0.1453</td>
+<td class="r data" style="white-space: nowrap">-1.3698</td>
+<td class="r data" style="white-space: nowrap">-0.8003</td>
+<td class="r data" style="white-space: nowrap">-7.47</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">time*treatment</th>
+<td class="data">8</td>
+<td class="data">1</td>
+<td class="r data" style="white-space: nowrap">-1.2962</td>
+<td class="r data">0.1615</td>
+<td class="r data" style="white-space: nowrap">-1.6127</td>
+<td class="r data" style="white-space: nowrap">-0.9798</td>
+<td class="r data" style="white-space: nowrap">-8.03</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX55" aria-label="Contrast Analysis for GEEs">
+<h1 class="contentitem toc">Contrast Analysis for GEEs</h1>
+<table class="table" style="border-spacing: 0" aria-label="Contrast Analysis for GEEs">
+<caption aria-label="Contrast Analysis for GEEs"></caption>
+<colgroup><col/><col/><col/><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="5" scope="colgroup">Contrast Results for GEE Analysis</th>
+</tr>
+<tr>
+<th class="b header" scope="col">Contrast</th>
+<th class="r b header" scope="col">DF</th>
+<th class="r b header" scope="col">Chi-Square</th>
+<th class="r b header" scope="col">Pr&#160;&gt;&#160;ChiSq</th>
+<th class="b header" scope="col">Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">Treatment x Time Interaction</th>
+<td class="r data">3</td>
+<td class="r data">69.37</td>
+<td class="r data">&lt;.0001</td>
+<td class="data">Wald</td>
+</tr>
+</tbody>
+</table>
+</article>
+</section>
+<section data-name="Genmod" data-sec-type="proc">
+<hr class="pagebreak"/>
+<div id="IDX56" class="systitleandfootercontainer" style="border-spacing: 1px">
+<p><span class="c systemtitle">Question 4: Mean Temperature Change from Baseline to 2 Hours</span> </p>
+</div>
+<div class="proc_title_group">
+<p class="c proctitle">The GENMOD Procedure</p>
+</div>
+<h1 class="contentprocname toc">The Genmod Procedure</h1>
+<article aria-label="Model Information">
+<h1 class="contentitem toc">Model Information</h1>
+<table class="table" style="border-spacing: 0" aria-label="Model Information">
+<caption aria-label="Model Information"></caption>
+<colgroup><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">Model Information</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">Data Set</th>
+<td class="r data">WORK.TEMPDATA</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Distribution</th>
+<td class="r data">Normal</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Link Function</th>
+<td class="r data">Identity</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Dependent Variable</th>
+<td class="r data">temp</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX57" aria-label="Number of Observations">
+<h1 class="contentitem toc">Number of Observations</h1>
+<table class="table" style="border-spacing: 0" aria-label="Number of Observations">
+<caption aria-label="Number of Observations"></caption>
+<colgroup><col/><col/></colgroup>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">Number of Observations Read</th>
+<td class="r data">1820</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Number of Observations Used</th>
+<td class="r data">1695</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Missing Values</th>
+<td class="r data">125</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX58" aria-label="Class Level Information">
+<h1 class="contentitem toc">Class Level Information</h1>
+<table class="table" style="border-spacing: 0" aria-label="Class Level Information">
+<caption aria-label="Class Level Information"></caption>
+<colgroup><col/><col/><col/><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="5" scope="colgroup">Class Level Information</th>
+</tr>
+<tr>
+<th class="b header" scope="col">Class</th>
+<th class="b header" scope="col">Value</th>
+<th class="c b header" colspan="3" scope="colgroup">Design Variables</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">time</th>
+<th class="rowheader" scope="row">0</th>
+<td class="r data">0</td>
+<td class="r data">0</td>
+<td class="r data">0</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">&#160;</th>
+<th class="rowheader" scope="row">2</th>
+<td class="r data">1</td>
+<td class="r data">0</td>
+<td class="r data">0</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">&#160;</th>
+<th class="rowheader" scope="row">4</th>
+<td class="r data">0</td>
+<td class="r data">1</td>
+<td class="r data">0</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">&#160;</th>
+<th class="rowheader" scope="row">8</th>
+<td class="r data">0</td>
+<td class="r data">0</td>
+<td class="r data">1</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">treatment</th>
+<th class="rowheader" scope="row">0</th>
+<td class="r data">0</td>
+<td class="r data">&#160;</td>
+<td class="r data">&#160;</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">&#160;</th>
+<th class="rowheader" scope="row">1</th>
+<td class="r data">1</td>
+<td class="r data">&#160;</td>
+<td class="r data">&#160;</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX59" aria-label="Parameter Information">
+<h1 class="contentitem toc">Parameter Information</h1>
+<table class="table" style="border-spacing: 0" aria-label="Parameter Information">
+<caption aria-label="Parameter Information"></caption>
+<colgroup><col/></colgroup><colgroup><col/><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="4" scope="colgroup">Parameter Information</th>
+</tr>
+<tr>
+<th class="b header" scope="col">Parameter</th>
+<th class="b header" scope="col">Effect</th>
+<th class="b header" scope="col">time</th>
+<th class="b header" scope="col">treatment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">Prm1</th>
+<td class="data">Intercept</td>
+<td class="data">&#160;</td>
+<td class="data">&#160;</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm2</th>
+<td class="data">time</td>
+<td class="data">2</td>
+<td class="data">&#160;</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm3</th>
+<td class="data">time</td>
+<td class="data">4</td>
+<td class="data">&#160;</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm4</th>
+<td class="data">time</td>
+<td class="data">8</td>
+<td class="data">&#160;</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm5</th>
+<td class="data">treatment</td>
+<td class="data">&#160;</td>
+<td class="data">1</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm6</th>
+<td class="data">time*treatment</td>
+<td class="data">2</td>
+<td class="data">1</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm7</th>
+<td class="data">time*treatment</td>
+<td class="data">4</td>
+<td class="data">1</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm8</th>
+<td class="data">time*treatment</td>
+<td class="data">8</td>
+<td class="data">1</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX60" aria-label="Convergence Status">
+<h1 class="contentitem toc">Convergence Status</h1>
+<table class="table" style="border-spacing: 0" aria-label="Convergence Status">
+<caption aria-label="Convergence Status"></caption>
+<colgroup><col/></colgroup>
+<tbody>
+<tr>
+<td class="data">Algorithm converged.</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX61" aria-label="GEE Model Information">
+<h1 class="contentitem toc">GEE Model Information</h1>
+<table class="table" style="border-spacing: 0" aria-label="GEE Model Information">
+<caption aria-label="GEE Model Information"></caption>
+<colgroup><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">GEE Model Information</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">Correlation Structure</th>
+<td class="r data">AR(1)</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Subject Effect</th>
+<td class="r data">ID (455 levels)</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Number of Clusters</th>
+<td class="r data">455</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Clusters With Missing Values</th>
+<td class="r data">98</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Correlation Matrix Dimension</th>
+<td class="r data">4</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Maximum Cluster Size</th>
+<td class="r data">4</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Minimum Cluster Size</th>
+<td class="r data">1</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX62" aria-label="Convergence Status">
+<h1 class="contentitem toc">Convergence Status</h1>
+<table class="table" style="border-spacing: 0" aria-label="Convergence Status">
+<caption aria-label="Convergence Status"></caption>
+<colgroup><col/></colgroup>
+<tbody>
+<tr>
+<td class="data">Algorithm converged.</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX63" aria-label="Working Correlation Matrix">
+<h1 class="contentitem toc">Working Correlation Matrix</h1>
+<table class="table" style="border-spacing: 0" aria-label="Working Correlation Matrix">
+<caption aria-label="Working Correlation Matrix"></caption>
+<colgroup><col/></colgroup><colgroup><col/><col/><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="5" scope="colgroup">Working Correlation Matrix</th>
+</tr>
+<tr>
+<th class="c headerempty" scope="col">&#160;</th>
+<th class="r b header" scope="col">Col1</th>
+<th class="r b header" scope="col">Col2</th>
+<th class="r b header" scope="col">Col3</th>
+<th class="r b header" scope="col">Col4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">Row1</th>
+<td class="r data">1.0000</td>
+<td class="r data">0.8222</td>
+<td class="r data">0.6760</td>
+<td class="r data">0.5559</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Row2</th>
+<td class="r data">0.8222</td>
+<td class="r data">1.0000</td>
+<td class="r data">0.8222</td>
+<td class="r data">0.6760</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Row3</th>
+<td class="r data">0.6760</td>
+<td class="r data">0.8222</td>
+<td class="r data">1.0000</td>
+<td class="r data">0.8222</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Row4</th>
+<td class="r data">0.5559</td>
+<td class="r data">0.6760</td>
+<td class="r data">0.8222</td>
+<td class="r data">1.0000</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX64" aria-label="Fit Criteria">
+<h1 class="contentitem toc">Fit Criteria</h1>
+<table class="table" style="border-spacing: 0" aria-label="Fit Criteria">
+<caption aria-label="Fit Criteria"></caption>
+<colgroup><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">GEE Fit Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="data">QIC</td>
+<td class="r data">1702.2653</td>
+</tr>
+<tr>
+<td class="data">QICu</td>
+<td class="r data">1703.0000</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX65" aria-label="Analysis Of GEE Parameter Estimates - Empirical Std Errors">
+<h1 class="contentitem toc">Analysis Of GEE Parameter Estimates - Empirical Std Errors</h1>
+<table class="table" style="border-spacing: 0" aria-label="Analysis Of GEE Parameter Estimates - Empirical Std Errors">
+<caption aria-label="Analysis Of GEE Parameter Estimates - Empirical Std Errors"></caption>
+<colgroup><col/><col/><col/><col/><col/><col/><col/><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="9" scope="colgroup">Analysis Of GEE Parameter Estimates</th>
+</tr>
+<tr>
+<th class="c b header" colspan="9" scope="colgroup">Empirical Standard Error Estimates</th>
+</tr>
+<tr>
+<th class="b header" scope="col">Parameter</th>
+<th class="c headerempty" colspan="2" scope="colgroup">&#160;</th>
+<th class="r b header" scope="col">Estimate</th>
+<th class="r b header" scope="col">Standard<br/>Error</th>
+<th class="c b header" colspan="2" scope="colgroup">95% Confidence Limits</th>
+<th class="r b header" scope="col">Z</th>
+<th class="r b header" scope="col">Pr&#160;&gt;&#160;|Z|</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">Intercept</th>
+<td class="data">&#160;</td>
+<td class="data">&#160;</td>
+<td class="r data">100.4902</td>
+<td class="r data">0.1256</td>
+<td class="r data">100.2440</td>
+<td class="r data">100.7364</td>
+<td class="r data">800.07</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">time</th>
+<td class="data">2</td>
+<td class="data">&#160;</td>
+<td class="r data" style="white-space: nowrap">-0.3286</td>
+<td class="r data">0.0722</td>
+<td class="r data" style="white-space: nowrap">-0.4700</td>
+<td class="r data" style="white-space: nowrap">-0.1871</td>
+<td class="r data" style="white-space: nowrap">-4.55</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">time</th>
+<td class="data">4</td>
+<td class="data">&#160;</td>
+<td class="r data" style="white-space: nowrap">-0.3752</td>
+<td class="r data">0.0912</td>
+<td class="r data" style="white-space: nowrap">-0.5540</td>
+<td class="r data" style="white-space: nowrap">-0.1964</td>
+<td class="r data" style="white-space: nowrap">-4.11</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">time</th>
+<td class="data">8</td>
+<td class="data">&#160;</td>
+<td class="r data" style="white-space: nowrap">-0.4324</td>
+<td class="r data">0.1113</td>
+<td class="r data" style="white-space: nowrap">-0.6506</td>
+<td class="r data" style="white-space: nowrap">-0.2142</td>
+<td class="r data" style="white-space: nowrap">-3.88</td>
+<td class="r data">0.0001</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">treatment</th>
+<td class="data">1</td>
+<td class="data">&#160;</td>
+<td class="r data" style="white-space: nowrap">-0.1287</td>
+<td class="r data">0.1900</td>
+<td class="r data" style="white-space: nowrap">-0.5011</td>
+<td class="r data">0.2437</td>
+<td class="r data" style="white-space: nowrap">-0.68</td>
+<td class="r data">0.4982</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">time*treatment</th>
+<td class="data">2</td>
+<td class="data">1</td>
+<td class="r data" style="white-space: nowrap">-0.5395</td>
+<td class="r data">0.1111</td>
+<td class="r data" style="white-space: nowrap">-0.7572</td>
+<td class="r data" style="white-space: nowrap">-0.3218</td>
+<td class="r data" style="white-space: nowrap">-4.86</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">time*treatment</th>
+<td class="data">4</td>
+<td class="data">1</td>
+<td class="r data" style="white-space: nowrap">-1.0850</td>
+<td class="r data">0.1453</td>
+<td class="r data" style="white-space: nowrap">-1.3698</td>
+<td class="r data" style="white-space: nowrap">-0.8003</td>
+<td class="r data" style="white-space: nowrap">-7.47</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">time*treatment</th>
+<td class="data">8</td>
+<td class="data">1</td>
+<td class="r data" style="white-space: nowrap">-1.2962</td>
+<td class="r data">0.1615</td>
+<td class="r data" style="white-space: nowrap">-1.6127</td>
+<td class="r data" style="white-space: nowrap">-0.9798</td>
+<td class="r data" style="white-space: nowrap">-8.03</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX66" aria-label="ESTIMATE Statement Results">
+<h1 class="contentitem toc">ESTIMATE Statement Results</h1>
+<table class="table" style="border-spacing: 0" aria-label="ESTIMATE Statement Results">
+<caption aria-label="ESTIMATE Statement Results"></caption>
+<colgroup><col/></colgroup><colgroup><col/><col/><col/><col/><col/><col/><col/><col/><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="11" scope="colgroup">Contrast Estimate Results</th>
+</tr>
+<tr>
+<th class="b header" rowspan="2" scope="col">Label</th>
+<th class="r b header" rowspan="2" scope="col">Mean Estimate</th>
+<th class="c b header" colspan="2" scope="colgroup">Mean</th>
+<th class="r b header" rowspan="2" scope="col">L&apos;Beta Estimate</th>
+<th class="r b header" rowspan="2" scope="col">Standard<br/>Error</th>
+<th class="r b header" rowspan="2" scope="col">Alpha</th>
+<th class="c b header" colspan="2" scope="colgroup">L&apos;Beta</th>
+<th class="r b header" rowspan="2" scope="col">Chi-Square</th>
+<th class="r b header" rowspan="2" scope="col">Pr&#160;&gt;&#160;ChiSq</th>
+</tr>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">Confidence Limits</th>
+<th class="c b header" colspan="2" scope="colgroup">Confidence Limits</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">Change 0-&gt;2hr, Treatment A</th>
+<td class="r data" style="white-space: nowrap">-0.3286</td>
+<td class="r data" style="white-space: nowrap">-0.4700</td>
+<td class="r data" style="white-space: nowrap">-0.1871</td>
+<td class="r data" style="white-space: nowrap">-0.3286</td>
+<td class="r data">0.0722</td>
+<td class="r data">0.05</td>
+<td class="r data" style="white-space: nowrap">-0.4700</td>
+<td class="r data" style="white-space: nowrap">-0.1871</td>
+<td class="r data">20.72</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Exp(Change 0-&gt;2hr, Treatment A)</th>
+<td class="r data">&#160;</td>
+<td class="r data">&#160;</td>
+<td class="r data">&#160;</td>
+<td class="r data">0.7200</td>
+<td class="r data">0.0520</td>
+<td class="r data">0.05</td>
+<td class="r data">0.6250</td>
+<td class="r data">0.8294</td>
+<td class="r data">&#160;</td>
+<td class="r data">&#160;</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Change 0-&gt;2hr, Treatment B</th>
+<td class="r data" style="white-space: nowrap">-0.8680</td>
+<td class="r data" style="white-space: nowrap">-1.0335</td>
+<td class="r data" style="white-space: nowrap">-0.7026</td>
+<td class="r data" style="white-space: nowrap">-0.8680</td>
+<td class="r data">0.0844</td>
+<td class="r data">0.05</td>
+<td class="r data" style="white-space: nowrap">-1.0335</td>
+<td class="r data" style="white-space: nowrap">-0.7026</td>
+<td class="r data">105.70</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Exp(Change 0-&gt;2hr, Treatment B)</th>
+<td class="r data">&#160;</td>
+<td class="r data">&#160;</td>
+<td class="r data">&#160;</td>
+<td class="r data">0.4198</td>
+<td class="r data">0.0354</td>
+<td class="r data">0.05</td>
+<td class="r data">0.3558</td>
+<td class="r data">0.4953</td>
+<td class="r data">&#160;</td>
+<td class="r data">&#160;</td>
+</tr>
+</tbody>
+</table>
+</article>
+</section>
+<section data-name="Genmod" data-sec-type="proc">
+<hr class="pagebreak"/>
+<div id="IDX67" class="systitleandfootercontainer" style="border-spacing: 1px">
+<p><span class="c systemtitle">Question 5: Difference in Temperature Change (DIFF)</span> </p>
+</div>
+<div class="proc_title_group">
+<p class="c proctitle">The GENMOD Procedure</p>
+</div>
+<h1 class="contentprocname toc">The Genmod Procedure</h1>
+<article aria-label="Model Information">
+<h1 class="contentitem toc">Model Information</h1>
+<table class="table" style="border-spacing: 0" aria-label="Model Information">
+<caption aria-label="Model Information"></caption>
+<colgroup><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">Model Information</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">Data Set</th>
+<td class="r data">WORK.TEMPDATA</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Distribution</th>
+<td class="r data">Normal</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Link Function</th>
+<td class="r data">Identity</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Dependent Variable</th>
+<td class="r data">temp</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX68" aria-label="Number of Observations">
+<h1 class="contentitem toc">Number of Observations</h1>
+<table class="table" style="border-spacing: 0" aria-label="Number of Observations">
+<caption aria-label="Number of Observations"></caption>
+<colgroup><col/><col/></colgroup>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">Number of Observations Read</th>
+<td class="r data">1820</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Number of Observations Used</th>
+<td class="r data">1695</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Missing Values</th>
+<td class="r data">125</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX69" aria-label="Class Level Information">
+<h1 class="contentitem toc">Class Level Information</h1>
+<table class="table" style="border-spacing: 0" aria-label="Class Level Information">
+<caption aria-label="Class Level Information"></caption>
+<colgroup><col/><col/><col/><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="5" scope="colgroup">Class Level Information</th>
+</tr>
+<tr>
+<th class="b header" scope="col">Class</th>
+<th class="b header" scope="col">Value</th>
+<th class="c b header" colspan="3" scope="colgroup">Design Variables</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">time</th>
+<th class="rowheader" scope="row">0</th>
+<td class="r data">0</td>
+<td class="r data">0</td>
+<td class="r data">0</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">&#160;</th>
+<th class="rowheader" scope="row">2</th>
+<td class="r data">1</td>
+<td class="r data">0</td>
+<td class="r data">0</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">&#160;</th>
+<th class="rowheader" scope="row">4</th>
+<td class="r data">0</td>
+<td class="r data">1</td>
+<td class="r data">0</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">&#160;</th>
+<th class="rowheader" scope="row">8</th>
+<td class="r data">0</td>
+<td class="r data">0</td>
+<td class="r data">1</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">treatment</th>
+<th class="rowheader" scope="row">0</th>
+<td class="r data">0</td>
+<td class="r data">&#160;</td>
+<td class="r data">&#160;</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">&#160;</th>
+<th class="rowheader" scope="row">1</th>
+<td class="r data">1</td>
+<td class="r data">&#160;</td>
+<td class="r data">&#160;</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX70" aria-label="Parameter Information">
+<h1 class="contentitem toc">Parameter Information</h1>
+<table class="table" style="border-spacing: 0" aria-label="Parameter Information">
+<caption aria-label="Parameter Information"></caption>
+<colgroup><col/></colgroup><colgroup><col/><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="4" scope="colgroup">Parameter Information</th>
+</tr>
+<tr>
+<th class="b header" scope="col">Parameter</th>
+<th class="b header" scope="col">Effect</th>
+<th class="b header" scope="col">time</th>
+<th class="b header" scope="col">treatment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">Prm1</th>
+<td class="data">Intercept</td>
+<td class="data">&#160;</td>
+<td class="data">&#160;</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm2</th>
+<td class="data">time</td>
+<td class="data">2</td>
+<td class="data">&#160;</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm3</th>
+<td class="data">time</td>
+<td class="data">4</td>
+<td class="data">&#160;</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm4</th>
+<td class="data">time</td>
+<td class="data">8</td>
+<td class="data">&#160;</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm5</th>
+<td class="data">treatment</td>
+<td class="data">&#160;</td>
+<td class="data">1</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm6</th>
+<td class="data">time*treatment</td>
+<td class="data">2</td>
+<td class="data">1</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm7</th>
+<td class="data">time*treatment</td>
+<td class="data">4</td>
+<td class="data">1</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Prm8</th>
+<td class="data">time*treatment</td>
+<td class="data">8</td>
+<td class="data">1</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX71" aria-label="Convergence Status">
+<h1 class="contentitem toc">Convergence Status</h1>
+<table class="table" style="border-spacing: 0" aria-label="Convergence Status">
+<caption aria-label="Convergence Status"></caption>
+<colgroup><col/></colgroup>
+<tbody>
+<tr>
+<td class="data">Algorithm converged.</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX72" aria-label="GEE Model Information">
+<h1 class="contentitem toc">GEE Model Information</h1>
+<table class="table" style="border-spacing: 0" aria-label="GEE Model Information">
+<caption aria-label="GEE Model Information"></caption>
+<colgroup><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">GEE Model Information</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">Correlation Structure</th>
+<td class="r data">AR(1)</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Subject Effect</th>
+<td class="r data">ID (455 levels)</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Number of Clusters</th>
+<td class="r data">455</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Clusters With Missing Values</th>
+<td class="r data">98</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Correlation Matrix Dimension</th>
+<td class="r data">4</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Maximum Cluster Size</th>
+<td class="r data">4</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Minimum Cluster Size</th>
+<td class="r data">1</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX73" aria-label="Convergence Status">
+<h1 class="contentitem toc">Convergence Status</h1>
+<table class="table" style="border-spacing: 0" aria-label="Convergence Status">
+<caption aria-label="Convergence Status"></caption>
+<colgroup><col/></colgroup>
+<tbody>
+<tr>
+<td class="data">Algorithm converged.</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX74" aria-label="Working Correlation Matrix">
+<h1 class="contentitem toc">Working Correlation Matrix</h1>
+<table class="table" style="border-spacing: 0" aria-label="Working Correlation Matrix">
+<caption aria-label="Working Correlation Matrix"></caption>
+<colgroup><col/></colgroup><colgroup><col/><col/><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="5" scope="colgroup">Working Correlation Matrix</th>
+</tr>
+<tr>
+<th class="c headerempty" scope="col">&#160;</th>
+<th class="r b header" scope="col">Col1</th>
+<th class="r b header" scope="col">Col2</th>
+<th class="r b header" scope="col">Col3</th>
+<th class="r b header" scope="col">Col4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">Row1</th>
+<td class="r data">1.0000</td>
+<td class="r data">0.8222</td>
+<td class="r data">0.6760</td>
+<td class="r data">0.5559</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Row2</th>
+<td class="r data">0.8222</td>
+<td class="r data">1.0000</td>
+<td class="r data">0.8222</td>
+<td class="r data">0.6760</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Row3</th>
+<td class="r data">0.6760</td>
+<td class="r data">0.8222</td>
+<td class="r data">1.0000</td>
+<td class="r data">0.8222</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">Row4</th>
+<td class="r data">0.5559</td>
+<td class="r data">0.6760</td>
+<td class="r data">0.8222</td>
+<td class="r data">1.0000</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX75" aria-label="Fit Criteria">
+<h1 class="contentitem toc">Fit Criteria</h1>
+<table class="table" style="border-spacing: 0" aria-label="Fit Criteria">
+<caption aria-label="Fit Criteria"></caption>
+<colgroup><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">GEE Fit Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="data">QIC</td>
+<td class="r data">1702.2653</td>
+</tr>
+<tr>
+<td class="data">QICu</td>
+<td class="r data">1703.0000</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX76" aria-label="Analysis Of GEE Parameter Estimates - Empirical Std Errors">
+<h1 class="contentitem toc">Analysis Of GEE Parameter Estimates - Empirical Std Errors</h1>
+<table class="table" style="border-spacing: 0" aria-label="Analysis Of GEE Parameter Estimates - Empirical Std Errors">
+<caption aria-label="Analysis Of GEE Parameter Estimates - Empirical Std Errors"></caption>
+<colgroup><col/><col/><col/><col/><col/><col/><col/><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="9" scope="colgroup">Analysis Of GEE Parameter Estimates</th>
+</tr>
+<tr>
+<th class="c b header" colspan="9" scope="colgroup">Empirical Standard Error Estimates</th>
+</tr>
+<tr>
+<th class="b header" scope="col">Parameter</th>
+<th class="c headerempty" colspan="2" scope="colgroup">&#160;</th>
+<th class="r b header" scope="col">Estimate</th>
+<th class="r b header" scope="col">Standard<br/>Error</th>
+<th class="c b header" colspan="2" scope="colgroup">95% Confidence Limits</th>
+<th class="r b header" scope="col">Z</th>
+<th class="r b header" scope="col">Pr&#160;&gt;&#160;|Z|</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">Intercept</th>
+<td class="data">&#160;</td>
+<td class="data">&#160;</td>
+<td class="r data">100.4902</td>
+<td class="r data">0.1256</td>
+<td class="r data">100.2440</td>
+<td class="r data">100.7364</td>
+<td class="r data">800.07</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">time</th>
+<td class="data">2</td>
+<td class="data">&#160;</td>
+<td class="r data" style="white-space: nowrap">-0.3286</td>
+<td class="r data">0.0722</td>
+<td class="r data" style="white-space: nowrap">-0.4700</td>
+<td class="r data" style="white-space: nowrap">-0.1871</td>
+<td class="r data" style="white-space: nowrap">-4.55</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">time</th>
+<td class="data">4</td>
+<td class="data">&#160;</td>
+<td class="r data" style="white-space: nowrap">-0.3752</td>
+<td class="r data">0.0912</td>
+<td class="r data" style="white-space: nowrap">-0.5540</td>
+<td class="r data" style="white-space: nowrap">-0.1964</td>
+<td class="r data" style="white-space: nowrap">-4.11</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">time</th>
+<td class="data">8</td>
+<td class="data">&#160;</td>
+<td class="r data" style="white-space: nowrap">-0.4324</td>
+<td class="r data">0.1113</td>
+<td class="r data" style="white-space: nowrap">-0.6506</td>
+<td class="r data" style="white-space: nowrap">-0.2142</td>
+<td class="r data" style="white-space: nowrap">-3.88</td>
+<td class="r data">0.0001</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">treatment</th>
+<td class="data">1</td>
+<td class="data">&#160;</td>
+<td class="r data" style="white-space: nowrap">-0.1287</td>
+<td class="r data">0.1900</td>
+<td class="r data" style="white-space: nowrap">-0.5011</td>
+<td class="r data">0.2437</td>
+<td class="r data" style="white-space: nowrap">-0.68</td>
+<td class="r data">0.4982</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">time*treatment</th>
+<td class="data">2</td>
+<td class="data">1</td>
+<td class="r data" style="white-space: nowrap">-0.5395</td>
+<td class="r data">0.1111</td>
+<td class="r data" style="white-space: nowrap">-0.7572</td>
+<td class="r data" style="white-space: nowrap">-0.3218</td>
+<td class="r data" style="white-space: nowrap">-4.86</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">time*treatment</th>
+<td class="data">4</td>
+<td class="data">1</td>
+<td class="r data" style="white-space: nowrap">-1.0850</td>
+<td class="r data">0.1453</td>
+<td class="r data" style="white-space: nowrap">-1.3698</td>
+<td class="r data" style="white-space: nowrap">-0.8003</td>
+<td class="r data" style="white-space: nowrap">-7.47</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+<tr>
+<th class="rowheader" scope="row">time*treatment</th>
+<td class="data">8</td>
+<td class="data">1</td>
+<td class="r data" style="white-space: nowrap">-1.2962</td>
+<td class="r data">0.1615</td>
+<td class="r data" style="white-space: nowrap">-1.6127</td>
+<td class="r data" style="white-space: nowrap">-0.9798</td>
+<td class="r data" style="white-space: nowrap">-8.03</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article id="IDX77" aria-label="ESTIMATE Statement Results">
+<h1 class="contentitem toc">ESTIMATE Statement Results</h1>
+<table class="table" style="border-spacing: 0" aria-label="ESTIMATE Statement Results">
+<caption aria-label="ESTIMATE Statement Results"></caption>
+<colgroup><col/></colgroup><colgroup><col/><col/><col/><col/><col/><col/><col/><col/><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="11" scope="colgroup">Contrast Estimate Results</th>
+</tr>
+<tr>
+<th class="b header" rowspan="2" scope="col">Label</th>
+<th class="r b header" rowspan="2" scope="col">Mean Estimate</th>
+<th class="c b header" colspan="2" scope="colgroup">Mean</th>
+<th class="r b header" rowspan="2" scope="col">L&apos;Beta Estimate</th>
+<th class="r b header" rowspan="2" scope="col">Standard<br/>Error</th>
+<th class="r b header" rowspan="2" scope="col">Alpha</th>
+<th class="c b header" colspan="2" scope="colgroup">L&apos;Beta</th>
+<th class="r b header" rowspan="2" scope="col">Chi-Square</th>
+<th class="r b header" rowspan="2" scope="col">Pr&#160;&gt;&#160;ChiSq</th>
+</tr>
+<tr>
+<th class="c b header" colspan="2" scope="colgroup">Confidence Limits</th>
+<th class="c b header" colspan="2" scope="colgroup">Confidence Limits</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="rowheader" scope="row">DIFF: Change_B - Change_A</th>
+<td class="r data" style="white-space: nowrap">-0.5395</td>
+<td class="r data" style="white-space: nowrap">-0.7572</td>
+<td class="r data" style="white-space: nowrap">-0.3218</td>
+<td class="r data" style="white-space: nowrap">-0.5395</td>
+<td class="r data">0.1111</td>
+<td class="r data">0.05</td>
+<td class="r data" style="white-space: nowrap">-0.7572</td>
+<td class="r data" style="white-space: nowrap">-0.3218</td>
+<td class="r data">23.59</td>
+<td class="r data">&lt;.0001</td>
+</tr>
+</tbody>
+</table>
+</article>
+</section>
+<section data-name="Means" data-sec-type="proc">
+<hr class="pagebreak"/>
+<div id="IDX78" class="systitleandfootercontainer" style="border-spacing: 1px">
+<p><span class="c systemtitle">Additional: Mean Temperature by Time and Treatment</span> </p>
+</div>
+<div class="proc_title_group">
+<p class="c proctitle">The MEANS Procedure</p>
+</div>
+<h1 class="contentprocname toc">The Means Procedure</h1>
+<article aria-label="Summary statistics">
+<h1 class="contentitem toc">Summary statistics</h1>
+<table class="table" style="border-spacing: 0" aria-label="Summary statistics">
+<caption aria-label="Summary statistics"></caption>
+<colgroup><col/><col/><col/></colgroup><colgroup><col/><col/></colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="5" scope="colgroup">Analysis Variable : temp</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">treatment</th>
+<th class="r b header" scope="col">time</th>
+<th class="r b header" scope="col">N Obs</th>
+<th class="r b header" scope="col">Mean</th>
+<th class="r b header" scope="col">Std Error</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="r t data">0</th>
+<th class="r t data">0</th>
+<th class="r t data">231</th>
+<td class="r data">100.4902166</td>
+<td class="r data">0.1258744</td>
+</tr>
+<tr>
+<th class="r t data">&#160;</th>
+<th class="r t data">2</th>
+<th class="r t data">231</th>
+<td class="r data">100.1600945</td>
+<td class="r data">0.1415242</td>
+</tr>
+<tr>
+<th class="r t data">&#160;</th>
+<th class="r t data">4</th>
+<th class="r t data">231</th>
+<td class="r data">100.1275960</td>
+<td class="r data">0.1276351</td>
+</tr>
+<tr>
+<th class="r t data">&#160;</th>
+<th class="r t data">8</th>
+<th class="r t data">231</th>
+<td class="r data">100.1148817</td>
+<td class="r data">0.1317201</td>
+</tr>
+<tr>
+<th class="r t data">1</th>
+<th class="r t data">0</th>
+<th class="r t data">224</th>
+<td class="r data">100.3615180</td>
+<td class="r data">0.1428986</td>
+</tr>
+<tr>
+<th class="r t data">&#160;</th>
+<th class="r t data">2</th>
+<th class="r t data">224</th>
+<td class="r data">99.5210577</td>
+<td class="r data">0.1285554</td>
+</tr>
+<tr>
+<th class="r t data">&#160;</th>
+<th class="r t data">4</th>
+<th class="r t data">224</th>
+<td class="r data">98.9168041</td>
+<td class="r data">0.1312747</td>
+</tr>
+<tr>
+<th class="r t data">&#160;</th>
+<th class="r t data">8</th>
+<th class="r t data">224</th>
+<td class="r data">98.6416427</td>
+<td class="r data">0.1226970</td>
+</tr>
+</tbody>
+</table>
+</article>
+</section>
+<section data-name="SGPlot" data-sec-type="proc">
+<hr class="pagebreak"/>
+<h1 class="contentprocname toc">The SGPlot Procedure</h1>
+<article id="IDX79" aria-label="The SGPlot Procedure">
+<h1 class="contentitem toc">The SGPlot Procedure</h1>
+<div class="c">
+<img style="height: 480px; width: 640px" alt="The SGPlot Procedure" src="data:image/png;base64,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"/>
+</div>
+</article>
+</section>
+</div>
+</body>
+</html>

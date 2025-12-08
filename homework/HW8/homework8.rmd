@@ -1,0 +1,543 @@
+---
+title: "P8110 Applied Regression II - Homework 8"
+author: "Your Name"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    code_folding: show
+  pdf_document:
+    toc: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+# Background
+
+In a study of septic patients, each patient's temperature was measured at baseline, and 2, 4, and 8 hours after entry into study. Patients were randomly assigned to two treatment groups at baseline. Patients' APACHE scores were also measured.
+
+## Data Description
+
+The data are saved in "HW8.csv". The columns of variables from left to right are:
+
+- **ID** = patient ID
+- **temp** = patient's temperature
+- **treatment** = 1 - treatment B, 0 - treatment A
+- **apache** = APACHE score at baseline
+- **time** = 0, 2, 4, 8 hours after entry into study
+
+```{r load-packages}
+# Load required packages
+library(tidyverse)
+library(geepack)
+library(broom)
+library(knitr)
+library(doBy)
+```
+
+```{r load-data}
+# Load data
+data <- read.csv("HW8.csv", header = FALSE)
+colnames(data) <- c("ID", "temp", "treatment", "apache", "time")
+
+# Convert time to factor for categorical analysis
+data$time_cat <- factor(data$time, levels = c(0, 2, 4, 8))
+
+# Convert treatment to factor
+data$treatment <- factor(data$treatment, levels = c(0, 1), 
+                         labels = c("Treatment A", "Treatment B"))
+
+# Display first few rows
+head(data, 12)
+
+# Summary statistics
+summary(data)
+
+# Check data structure
+cat("\nNumber of patients:", length(unique(data$ID)))
+cat("\nNumber of observations:", nrow(data))
+cat("\nMissing values in temp:", sum(is.na(data$temp)))
+```
+
+---
+
+# Question 1 [2 points]
+
+**Fit a GEE model with temperature as outcome and time, treatment, and their interactions as covariates. Write the mean response of the GEE model and treat time as a categorical variable.**
+
+## GEE Model with Time as Categorical
+
+```{r q1-gee-model}
+# Remove missing values
+data_complete <- data %>% filter(!is.na(temp))
+
+# Fit GEE model with exchangeable (CS) correlation structure as initial choice
+# Time treated as categorical with interactions
+gee_model1 <- geeglm(temp ~ time_cat * treatment,
+                     data = data_complete,
+                     id = ID,
+                     family = gaussian,
+                     corstr = "exchangeable")
+
+# Model summary with robust standard errors (default in geeglm)
+summary(gee_model1)
+```
+
+## Model Equation
+
+The mean response of the GEE model treating time as a categorical variable is:
+
+$$E(Y_{ij}) = \mu_{ij} = \beta_0 + \beta_1 \cdot I(\text{time}_{ij}=2) + \beta_2 \cdot I(\text{time}_{ij}=4) + \beta_3 \cdot I(\text{time}_{ij}=8)$$
+$$+ \beta_4 \cdot I(\text{treatment}_{i}=B) + \beta_5 \cdot I(\text{time}_{ij}=2) \cdot I(\text{treatment}_{i}=B)$$
+$$+ \beta_6 \cdot I(\text{time}_{ij}=4) \cdot I(\text{treatment}_{i}=B) + \beta_7 \cdot I(\text{time}_{ij}=8) \cdot I(\text{treatment}_{i}=B)$$
+
+Where:
+
+- $Y_{ij}$ = temperature for patient $i$ at time point $j$
+- $I(\cdot)$ = indicator function
+- $\beta_0$ = mean temperature at baseline (time=0) for Treatment A
+- $\beta_1, \beta_2, \beta_3$ = effects of time 2, 4, 8 (vs baseline) for Treatment A
+- $\beta_4$ = effect of Treatment B vs A at baseline
+- $\beta_5, \beta_6, \beta_7$ = interaction effects (difference in time effects between treatments)
+
+---
+
+# Question 2 [2 points]
+
+**Try different working correlation structures (CS, AR(1), and UN) for the GEE model in (1). Which model yields the best QIC value? Show the SAS code and relevant SAS output.**
+
+## Fit GEE Models with Different Correlation Structures
+
+```{r q2-different-corstr}
+# Compound Symmetry (CS) / Exchangeable
+gee_cs <- geeglm(temp ~ time_cat * treatment,
+                 data = data_complete,
+                 id = ID,
+                 family = gaussian,
+                 corstr = "exchangeable")
+
+# AR(1)
+gee_ar1 <- geeglm(temp ~ time_cat * treatment,
+                  data = data_complete,
+                  id = ID,
+                  family = gaussian,
+                  corstr = "ar1")
+
+# Unstructured
+gee_un <- geeglm(temp ~ time_cat * treatment,
+                 data = data_complete,
+                 id = ID,
+                 family = gaussian,
+                 corstr = "unstructured")
+
+# Display summaries
+cat("=== Compound Symmetry (CS/Exchangeable) ===\n")
+summary(gee_cs)
+
+cat("\n=== AR(1) ===\n")
+summary(gee_ar1)
+
+cat("\n=== Unstructured ===\n")
+summary(gee_un)
+```
+
+## QIC Comparison
+
+```{r q2-qic}
+# Calculate QIC for each model
+qic_cs <- QIC(gee_cs)
+qic_ar1 <- QIC(gee_ar1)
+qic_un <- QIC(gee_un)
+
+# Create comparison table
+qic_table <- data.frame(
+  Correlation_Structure = c("Compound Symmetry (CS)", "AR(1)", "Unstructured"),
+  QIC = c(qic_cs[1], qic_ar1[1], qic_un[1]),
+  QICu = c(qic_cs[2], qic_ar1[2], qic_un[2])
+)
+
+kable(qic_table, 
+      digits = 4,
+      col.names = c("Correlation Structure", "QIC", "QICu"),
+      caption = "QIC Comparison for Different Correlation Structures")
+
+# Identify best model
+best_model <- qic_table$Correlation_Structure[which.min(qic_table$QIC)]
+cat("\nBest model based on QIC:", best_model, "\n")
+```
+
+## Working Correlation Matrices
+
+```{r q2-corr-matrices}
+cat("=== Correlation Matrix: Compound Symmetry ===\n")
+print(gee_cs$geese$correlation)
+
+cat("\n=== Correlation Matrix: AR(1) ===\n")
+print(gee_ar1$geese$correlation)
+
+cat("\n=== Correlation Matrix: Unstructured ===\n")
+print(gee_un$geese$correlation)
+```
+
+## Equivalent SAS Code
+
+```
+/* SAS Code for GEE with different correlation structures */
+
+/* Import data */
+PROC IMPORT DATAFILE="HW8.csv" OUT=hw8 DBMS=CSV REPLACE;
+    GETNAMES=NO;
+RUN;
+
+DATA hw8;
+    SET hw8;
+    RENAME VAR1=ID VAR2=temp VAR3=treatment VAR4=apache VAR5=time;
+RUN;
+
+/* Create time as categorical */
+DATA hw8;
+    SET hw8;
+    time_cat = time;
+RUN;
+
+/* GEE with Compound Symmetry (CS) */
+PROC GENMOD DATA=hw8;
+    CLASS ID time_cat(REF='0') treatment(REF='0');
+    MODEL temp = time_cat treatment time_cat*treatment / DIST=NORMAL;
+    REPEATED SUBJECT=ID / TYPE=CS CORRW;
+RUN;
+
+/* GEE with AR(1) */
+PROC GENMOD DATA=hw8;
+    CLASS ID time_cat(REF='0') treatment(REF='0');
+    MODEL temp = time_cat treatment time_cat*treatment / DIST=NORMAL;
+    REPEATED SUBJECT=ID / TYPE=AR(1) CORRW;
+RUN;
+
+/* GEE with Unstructured */
+PROC GENMOD DATA=hw8;
+    CLASS ID time_cat(REF='0') treatment(REF='0');
+    MODEL temp = time_cat treatment time_cat*treatment / DIST=NORMAL;
+    REPEATED SUBJECT=ID / TYPE=UN CORRW;
+RUN;
+```
+
+## Answer
+
+Based on the QIC values, the **`r best_model`** correlation structure yields the best (lowest) QIC value. Lower QIC indicates better model fit with appropriate penalization for model complexity.
+
+---
+
+# Question 3 [3 points]
+
+**Use the model selected in (2) to test whether the trajectory of temperature over time is different between the two treatments. Write down the hypothesis, test statistic, p-value, and conclusion.**
+
+## Testing Interaction Effects
+
+```{r q3-select-best-model}
+# Select the best model based on QIC (using the model with lowest QIC)
+# Store in gee_best for subsequent analyses
+qic_values <- c(qic_cs[1], qic_ar1[1], qic_un[1])
+best_index <- which.min(qic_values)
+
+if (best_index == 1) {
+  gee_best <- gee_cs
+  best_corstr <- "Compound Symmetry (CS)"
+} else if (best_index == 2) {
+  gee_best <- gee_ar1
+  best_corstr <- "AR(1)"
+} else {
+  gee_best <- gee_un
+  best_corstr <- "Unstructured"
+}
+
+cat("Selected model:", best_corstr, "\n\n")
+summary(gee_best)
+```
+
+## Wald Test for Interaction Terms
+
+```{r q3-wald-test}
+# The trajectory difference is tested by testing the interaction terms
+# H0: beta5 = beta6 = beta7 = 0 (no treatment-time interaction)
+# Ha: At least one of beta5, beta6, beta7 != 0
+
+# Use anova with type II/III tests for joint test of interactions
+# Wald test for interaction terms
+
+library(aod)
+
+# Get coefficient names
+coef_names <- names(coef(gee_best))
+coef_names
+
+# Identify interaction terms (indices for time_cat:treatment interactions)
+# These are typically the last 3 coefficients
+n_coef <- length(coef_names)
+interaction_indices <- grep("time_cat.*treatment|treatment.*time_cat", coef_names)
+
+cat("Interaction term indices:", interaction_indices, "\n")
+cat("Interaction terms:", coef_names[interaction_indices], "\n")
+
+# Perform Wald test for interaction terms
+# Create contrast matrix for testing interaction terms = 0
+L <- matrix(0, nrow = length(interaction_indices), ncol = n_coef)
+for (i in seq_along(interaction_indices)) {
+  L[i, interaction_indices[i]] <- 1
+}
+
+# Wald test
+wald_result <- wald.test(b = coef(gee_best), 
+                         Sigma = vcov(gee_best), 
+                         L = L)
+
+print(wald_result)
+
+# Extract test statistic and p-value
+chi_sq <- wald_result$result$chi2[1]
+df <- wald_result$result$chi2[2]
+p_value <- wald_result$result$chi2[3]
+```
+
+## Alternative: Using anova for GEE
+
+```{r q3-anova}
+# Fit reduced model without interactions
+gee_reduced <- geeglm(temp ~ time_cat + treatment,
+                      data = data_complete,
+                      id = ID,
+                      family = gaussian,
+                      corstr = ifelse(best_index == 1, "exchangeable",
+                                     ifelse(best_index == 2, "ar1", "unstructured")))
+
+# Compare models using anova
+anova_result <- anova(gee_reduced, gee_best)
+print(anova_result)
+```
+
+## Answer
+
+**Hypothesis:**
+
+- $H_0$: $\beta_5 = \beta_6 = \beta_7 = 0$ (The trajectory of temperature over time is the same for both treatments, i.e., no treatment-by-time interaction)
+
+- $H_a$: At least one of $\beta_5, \beta_6, \beta_7 \neq 0$ (The trajectory of temperature over time differs between the two treatments)
+
+**Test Statistic:** Wald chi-square = `r round(chi_sq, 4)` with `r df` degrees of freedom
+
+**P-value:** `r format.pval(p_value, digits = 4)`
+
+**Conclusion:** At the $\alpha = 0.05$ significance level, `r if(p_value < 0.05) {"we reject the null hypothesis and conclude that there is a statistically significant difference in the trajectory of temperature over time between the two treatment groups."} else {"we fail to reject the null hypothesis. There is insufficient evidence to conclude that the trajectory of temperature over time differs between the two treatment groups."}`
+
+---
+
+# Question 4 [4 points]
+
+**Use the model selected in (2) to estimate the mean temperature change from baseline to two hours after entry into study for patients in treatment A group and those in treatment B group, respectively.**
+
+## Extract Coefficients
+
+```{r q4-coefficients}
+# Get coefficients and covariance matrix
+betas <- coef(gee_best)
+vcov_mat <- vcov(gee_best)
+
+# Display coefficients
+kable(data.frame(
+  Parameter = names(betas),
+  Estimate = betas,
+  SE = sqrt(diag(vcov_mat))
+), digits = 4, row.names = FALSE,
+caption = "GEE Model Coefficients")
+```
+
+## Mean Temperature Change for Treatment A
+
+```{r q4-treatment-a}
+# For Treatment A (treatment = 0):
+# Mean at time 0: E(Y|time=0, trt=A) = beta0
+# Mean at time 2: E(Y|time=2, trt=A) = beta0 + beta1
+# Change from baseline to time 2: beta1
+
+# Get the coefficient for time_cat2 (which is beta1)
+beta1 <- betas["time_cat2"]
+se_beta1 <- sqrt(vcov_mat["time_cat2", "time_cat2"])
+
+cat("Treatment A - Mean Temperature Change from Baseline to 2 Hours:\n")
+cat("Estimate:", round(beta1, 4), "\n")
+cat("Standard Error:", round(se_beta1, 4), "\n")
+
+# 95% CI
+ci_lower_a <- beta1 - 1.96 * se_beta1
+ci_upper_a <- beta1 + 1.96 * se_beta1
+cat("95% CI: (", round(ci_lower_a, 4), ",", round(ci_upper_a, 4), ")\n")
+```
+
+## Mean Temperature Change for Treatment B
+
+```{r q4-treatment-b}
+# For Treatment B (treatment = 1):
+# Mean at time 0: E(Y|time=0, trt=B) = beta0 + beta4
+# Mean at time 2: E(Y|time=2, trt=B) = beta0 + beta1 + beta4 + beta5
+# Change from baseline to time 2: beta1 + beta5
+
+# Get the interaction term name
+interaction_name <- names(betas)[grep("time_cat2.*Treatment B|Treatment B.*time_cat2", names(betas))]
+cat("Interaction term name:", interaction_name, "\n")
+
+# Calculate the change for Treatment B
+beta1 <- betas["time_cat2"]
+beta5 <- betas[interaction_name]
+
+change_b <- beta1 + beta5
+
+# Calculate SE using delta method
+# Var(beta1 + beta5) = Var(beta1) + Var(beta5) + 2*Cov(beta1, beta5)
+var_change_b <- vcov_mat["time_cat2", "time_cat2"] + 
+                vcov_mat[interaction_name, interaction_name] + 
+                2 * vcov_mat["time_cat2", interaction_name]
+se_change_b <- sqrt(var_change_b)
+
+cat("\nTreatment B - Mean Temperature Change from Baseline to 2 Hours:\n")
+cat("Estimate:", round(change_b, 4), "\n")
+cat("Standard Error:", round(se_change_b, 4), "\n")
+
+# 95% CI
+ci_lower_b <- change_b - 1.96 * se_change_b
+ci_upper_b <- change_b + 1.96 * se_change_b
+cat("95% CI: (", round(ci_lower_b, 4), ",", round(ci_upper_b, 4), ")\n")
+```
+
+## Summary Table
+
+```{r q4-summary}
+summary_table <- data.frame(
+  Treatment = c("Treatment A", "Treatment B"),
+  Change = c(beta1, change_b),
+  SE = c(se_beta1, se_change_b),
+  CI_Lower = c(ci_lower_a, ci_lower_b),
+  CI_Upper = c(ci_upper_a, ci_upper_b)
+)
+
+kable(summary_table, 
+      digits = 4,
+      col.names = c("Treatment Group", "Mean Change", "SE", "95% CI Lower", "95% CI Upper"),
+      caption = "Mean Temperature Change from Baseline to 2 Hours")
+```
+
+## Answer
+
+- **Treatment A:** The estimated mean temperature change from baseline (time=0) to 2 hours after entry is **`r round(beta1, 4)`** degrees (95% CI: `r round(ci_lower_a, 4)`, `r round(ci_upper_a, 4)`).
+
+- **Treatment B:** The estimated mean temperature change from baseline (time=0) to 2 hours after entry is **`r round(change_b, 4)`** degrees (95% CI: `r round(ci_lower_b, 4)`, `r round(ci_upper_b, 4)`).
+
+---
+
+# Question 5 [3 points]
+
+**Calculate the difference of the two estimates in (4). Denote the difference as DIFF. Which β coefficient does DIFF represent? Interpret this β coefficient.**
+
+## Calculate DIFF
+
+```{r q5-diff}
+# DIFF = Change_B - Change_A
+# DIFF = (beta1 + beta5) - beta1 = beta5
+
+DIFF <- change_b - as.numeric(beta1)
+cat("DIFF = Change_B - Change_A =", round(DIFF, 4), "\n")
+
+# This equals beta5 (the interaction term)
+cat("Beta5 (interaction term time_cat2:Treatment B) =", round(beta5, 4), "\n")
+
+# SE of DIFF = SE of beta5
+se_diff <- sqrt(vcov_mat[interaction_name, interaction_name])
+cat("SE of DIFF:", round(se_diff, 4), "\n")
+
+# 95% CI for DIFF
+ci_lower_diff <- DIFF - 1.96 * se_diff
+ci_upper_diff <- DIFF + 1.96 * se_diff
+cat("95% CI for DIFF: (", round(ci_lower_diff, 4), ",", round(ci_upper_diff, 4), ")\n")
+```
+
+## Answer
+
+**DIFF Calculation:**
+
+$$\text{DIFF} = \text{Change}_B - \text{Change}_A = (\beta_1 + \beta_5) - \beta_1 = \beta_5$$
+
+The difference DIFF = **`r round(DIFF, 4)`** degrees (95% CI: `r round(ci_lower_diff, 4)`, `r round(ci_upper_diff, 4)`).
+
+**Which β coefficient does DIFF represent?**
+
+DIFF represents $\beta_5$, the coefficient for the interaction term between time (at 2 hours) and treatment. In the model notation, this is the coefficient for $I(\text{time}=2) \times I(\text{treatment}=B)$.
+
+**Interpretation of β₅:**
+
+$\beta_5$ represents the **difference in mean temperature change from baseline to 2 hours between Treatment B and Treatment A**. 
+
+- If $\beta_5 < 0$: Treatment B has a greater decrease (or smaller increase) in temperature from baseline to 2 hours compared to Treatment A.
+- If $\beta_5 > 0$: Treatment B has a smaller decrease (or greater increase) in temperature from baseline to 2 hours compared to Treatment A.
+
+Specifically, $\beta_5 =$ `r round(beta5, 4)` means that the mean temperature change from baseline to 2 hours for patients receiving Treatment B is `r abs(round(beta5, 4))` degrees `r ifelse(beta5 < 0, "lower", "higher")` than for patients receiving Treatment A.
+
+---
+
+# Additional Visualizations
+
+```{r visualizations, fig.width=10, fig.height=6}
+# Calculate mean temperature by time and treatment
+mean_temp <- data_complete %>%
+  group_by(time, treatment) %>%
+  summarise(
+    mean_temp = mean(temp, na.rm = TRUE),
+    se = sd(temp, na.rm = TRUE) / sqrt(n()),
+    n = n(),
+    .groups = "drop"
+  )
+
+# Trajectory plot
+ggplot(mean_temp, aes(x = time, y = mean_temp, color = treatment, group = treatment)) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 3) +
+  geom_errorbar(aes(ymin = mean_temp - 1.96*se, ymax = mean_temp + 1.96*se), 
+                width = 0.2) +
+  labs(
+    title = "Mean Temperature Trajectory by Treatment Group",
+    x = "Time (hours after entry)",
+    y = "Mean Temperature",
+    color = "Treatment"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+```{r spaghetti-plot, fig.width=10, fig.height=6}
+# Individual trajectory (spaghetti) plot
+# Sample subset of patients for visualization
+set.seed(123)
+sample_ids <- sample(unique(data_complete$ID), min(50, length(unique(data_complete$ID))))
+
+ggplot(data_complete %>% filter(ID %in% sample_ids), 
+       aes(x = time, y = temp, group = ID, color = treatment)) +
+  geom_line(alpha = 0.5) +
+  geom_point(alpha = 0.5, size = 1) +
+  facet_wrap(~treatment) +
+  labs(
+    title = "Individual Temperature Trajectories (Sample of 50 Patients)",
+    x = "Time (hours after entry)",
+    y = "Temperature"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+---
+
+# Session Info
+
+```{r session-info}
+sessionInfo()
+```
