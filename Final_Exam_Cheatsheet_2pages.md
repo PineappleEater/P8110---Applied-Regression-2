@@ -17,12 +17,24 @@ $$\hat{S}(t) = \prod_{t_i \le t}\left(1 - \frac{d_i}{n_i}\right) \quad \text{其
 
 **95% CI (log-log):** $\left[\hat{S}(t)^{\exp(C_u)}, \hat{S}(t)^{\exp(C_l)}\right]$ 其中 $C_{u/l} = \pm\frac{1.96}{\log\hat{S}(t)}\sqrt{\frac{\sum d_i}{n_i(n_i-d_i)}}$
 
+**Nelson-Aalen:** $\hat{H}(t) = \sum_{t_i \le t} \frac{d_i}{n_i}$; $\tilde{S}(t) = \exp[-\hat{H}(t)]$
+
 **中位数:** $\hat{t}_{0.5} = \min\{t: \hat{S}(t) < 0.5\}$
+
+**均值:** ⚠️ 当最大时间删失时会低估 → 用RMST: $\hat{\mu}(\tau) = \int_0^\tau \hat{S}(t) dt$
 
 ### 生存曲线比较
 **Log-rank (PH假设):** $\chi^2 = \frac{[\sum_j(O_{1j}-E_{1j})]^2}{\sum_j V_{1j}}$ 其中 $E_{1j}=\frac{n_{1j}d_j}{n_j}$, $V_{1j}=\frac{n_{1j}n_{0j}d_j(n_j-d_j)}{n_j^2(n_j-1)}$
 
 **Wilcoxon (早期差异):** 权重 $w_j = n_j$
+
+**SAS LIFETEST:**
+```sas
+proc lifetest data=ds plots=survival(cb test) conftype=loglog;
+   time time*status(0);
+   strata group / test=logrank;  /* or test=wilcoxon */
+run;
+```
 
 ### Cox比例风险模型
 $$h(t,\mathbf{x}) = h_0(t)\exp(\boldsymbol{\beta}^T\mathbf{x})$$
@@ -44,11 +56,11 @@ $$h(t,\mathbf{x}) = h_0(t)\exp(\boldsymbol{\beta}^T\mathbf{x})$$
 **非PH解决:**
 - 分层: `strata Z;` (无法估计Z的HR)
 - 时变系数: $X \times t$ 或 $X \times \log(t)$
-- 时变协变量 (TDC): `model (tstart,tstop)*status(0) = ...;`
+- 时变协变量 (TDC): `model (tstart,tstop)*status(0) = ...;` (每人拆成多行，每行=起止时间+该期协变量)
 
 **残差诊断:**
-- Martingale $(−∞,1]$: 检查函数形式 (plot vs 协变量+lowess)
-- Deviance: 异常值识别 ($|D_i| > 3$)
+- Martingale $(−∞,1]$: 检查函数形式 (plot vs 协变量+lowess)；lowess应为**水平线**，非水平→需要变换
+- Deviance: 异常值识别 ($|D_i| > 2$ 值得注意，$> 3$ 为异常值)
 - Dfbeta: 影响点 ($|dfbeta| > 2/\sqrt{n}$)
 
 **SAS代码模板:**
@@ -83,10 +95,10 @@ $$\text{logit}[P(Y \le j)] = \alpha_j + \boldsymbol{\beta}^T\mathbf{X}, \quad j=
 - $p > 0.05$: 使用Ordinal ✓
 - $p < 0.05$: 改用Multinomial (`link=glogit`)
 
-**解释 (SAS默认 $P(Y \le j)$):**
-- $\beta > 0$: 倾向**低**等级 (protective)
-- $\beta < 0$: 倾向**高**等级 (risk)
-- ⚠️ 检查"Probabilities modeled are cumulated over..."
+**解释:**
+- **默认 $P(Y \le j)$:** $\beta > 0$ → 倾向**低**等级 (protective)；$\beta < 0$ → 倾向**高**等级 (risk)
+- **descending $P(Y \ge j)$:** $\beta > 0$ → 倾向**高**等级 ⚠️ **解释相反！**
+- 务必检查"Probabilities modeled are cumulated over..."
 
 **SAS:** `model severity = X / scale=none aggregate;` (检验PO)
 
@@ -103,9 +115,10 @@ $$\log(\mu/t) = \boldsymbol{\beta}^T\mathbf{X} \implies \log(\mu) = \log(t) + \b
 **过度离散诊断:** Deviance/df 或 Pearson χ²/df >> 1 (如 > 1.5)
 
 **解决方案:**
-1. Quasi-Poisson: `scale=pearson` (调整SE，$\beta$不变)
+1. Quasi-Poisson: `scale=pearson` ($\beta$不变，$SE_{new} = SE_{old} \times \sqrt{\text{Scale}}$)
 2. Negative Binomial: `dist=negbin` (新模型)
    - $Var(Y) = \mu + \alpha\mu^2$ (额外变异参数)
+3. ZIP/ZINB: 当0过多时使用（两部分模型）
 
 ---
 
@@ -140,9 +153,9 @@ run;
 $$Y_{ij} = \beta_0 + \beta_1 X_{ij} + b_{0i} + \epsilon_{ij}$$
 其中 $b_{0i} \sim N(0,\tau^2)$, $\epsilon_{ij} \sim N(0,\sigma^2)$
 
-**ICC:** $\rho = \frac{\tau^2}{\tau^2+\sigma^2}$ (个体间变异占比)
+**ICC:** $\rho = \frac{\tau^2}{\tau^2+\sigma^2}$ (组间变异占比；ICC↑ → 个体内观测高度相关)
 
-**随机截距+斜率:**
+**随机截距+斜率:** (当变化速度因人而异时使用)
 $$Y_{ij} = (\beta_0+b_{0i}) + (\beta_1+b_{1i})X_{ij} + \epsilon_{ij}$$
 
 **SAS:**
@@ -169,7 +182,7 @@ run;
 | $\beta$解释 | Marginal | Conditional |
 | 非线性模型系数 | 较小 | 较大 |
 
-⚠️ **重要:** Logistic中 $|\beta_{Mixed}| > |\beta_{GEE}|$
+⚠️ **重要:** Logistic中 $|\beta_{Mixed}| > |\beta_{GEE}|$ (原因: 平均S型曲线变平缓 → 效应减弱)
 
 ---
 
