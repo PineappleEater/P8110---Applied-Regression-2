@@ -57,7 +57,7 @@
 *   **区间删失 (Interval Censoring):** 事件发生在两个观察时间点之间 $(L, R]$。
     *   *例子:* 定期复查，上次复查无病，这次复查有病。
 
-**关键假设:** **独立删失 (Independent Censoring)**。即删失机制包含有关 $T$ 的任何信息。如果病情越重的病人越容易失访，则违反此假设，导致结果偏差。
+**关键假设:** **独立删失 (Independent Censoring)**。即删失机制**不**包含有关 $T$ 的任何信息（Non-informative censoring）。如果病情越重的病人越容易失访，则违反此假设，导致结果偏差。
 
 #### C. 核心函数关系 (Mathematical Functions)
 
@@ -67,8 +67,8 @@
     *   性质: $S(0)=1$, $S(\infty)=0$, 单调递减。
 
 2.  **概率密度函数 (PDF), $f(t)$:**
-    *   定义: 事件在时间 $t$ 发的“瞬间”概率密度。
-    *   公式: $f(t) = \lim_{\Delta t \to 0} \frac{P(t \le T < t + \Delta t)}{\Delta t} = - \frac{dS(t)}{dt}$。
+    *   定义: 事件在时间 $t$ 发生的"瞬间"概率密度。
+    *   公式: $f(t) = \lim_{\Delta t \to 0} \frac{P(t \le T < t + \Delta t)}{\Delta t} = \frac{dF(t)}{dt} = - \frac{dS(t)}{dt}$。
 
 3.  **风险函数 (Hazard Function), $h(t)$:**
     *   定义: 给定存活到时间 $t$ 的条件下，在下一瞬间死亡的**瞬时速率 (Rate)**。注意：它不是概率，可以大于 1。
@@ -115,11 +115,28 @@
     *   **Log-Log Transformation (Standard):** SAS 默认推荐。保证 CI 在 $[0, 1]$ 内。
         $$ \hat{S}(t)^{\exp(\pm 1.96 \hat{\sigma})} \quad \text{where } \hat{\sigma} \text{ comes from SE of } \log(-\log S(t)) $$
 
-#### C. 均值与中位数
+#### C. Nelson-Aalen 估计量 (NA Estimator)
+另一种估计累积风险函数的方法：
+*   **累积风险估计:**
+    $$ \hat{H}(t) = \sum_{t_i \le t} \frac{d_i}{n_i} $$
+*   **生存函数估计:**
+    $$ \tilde{S}(t) = \exp[-\hat{H}(t)] $$
+*   **性质:**
+    *   渐近等价于 KM 估计量 (Asymptotically equivalent to KM)
+    *   对直接估计累积风险很有用
+    *   方差: $\widehat{Var}[\hat{H}(t)] = \sum_{t_i \le t} \frac{d_i}{n_i^2}$
+*   **与 KM 的关系:** 在大样本下，$\tilde{S}(t) \approx \hat{S}(t)$
+
+#### D. 均值与中位数
 *   **中位生存时间 (Median Survival Time):** $\hat{S}(t) \le 0.5$ 的最小 $t$。
     *   如果在研究结束时 $\hat{S}(t) > 0.5$，则中位数无法估计 (Undefined)。
+    *   **SAS 特殊规则:** 当 $\hat{S}(t_j) = 1-p$ 精确等于目标值时，SAS 定义分位数为 $(t_j + t_{j+1})/2$
 *   **平均生存时间 (Mean Survival Time):** 曲线下面积 (Area Under Curve)。
-    *   **RMST (Restricted Mean Survival Time):** 当尾部有删失时，通常计算受限均值（积分到某个时间点 $\tau$），如 5年平均生存期。
+    *   公式: $\hat{\mu} = \sum_{i=1}^m \hat{S}(t_{i-1})(t_i - t_{i-1})$，其中 $t_0=0$, $\hat{S}(t_0)=1$
+    *   **问题:** 如果最大时间是删失的，$\hat{\mu}$ 会低估真实均值
+    *   **RMST (Restricted Mean Survival Time):** 当尾部有删失时，通常计算受限均值（积分到某个时间点 $\tau$），如 5年平均生存期
+        $$ \hat{\mu}(\tau) = \int_0^\tau \hat{S}(t) dt $$
+    *   **优点:** 比中位数更稳健，特别是在有大量删失时
 
 ---
 
@@ -184,9 +201,9 @@ $$ L(\beta) = \prod_{i=1}^{D} \frac{\exp(\boldsymbol{\beta}^T \mathbf{X}_i)}{\su
 
 #### E. 结 (Ties) 的处理
 当多个事件发生在同一记录时间时，偏似然需要调整。
-1.  **BRESLOW (SAS Default):** 简单，计算快。假设没有结，只是顺序非常接近。当结很多时，估计会有偏差（偏向于 0）。
-2.  **EFRON (Recommended):** 更精确的近似，特别是结较多时。**课程推荐使用此选项。**
-3.  **EXACT:** 数学上最精确，但计算量巨大。
+1.  **BRESLOW (SAS Default):** 简单，计算快。假设没有真正的结，只是顺序非常接近。当结很多时，估计会有偏差（系数偏向于 0）。
+2.  **EFRON (Recommended):** 更精确的近似，特别是结较多时。**课程推荐使用此选项。**在作业和考试中应使用 `ties=EFRON`。
+3.  **EXACT / DISCRETE:** 数学上最精确，但计算量巨大，仅用于小样本或结非常多的情况。
 
 ---
 
@@ -216,16 +233,46 @@ Cox 模型最关键的假设是 PH。必须检验！
 
 #### B. 其他残差诊断
 1.  **Martingale Residuals (马丁格尔残差):**
-    *   用于: 检查连续变量的**函数形式 (Functional Form)**。比如 Age 是否应该加平方项？
-    *   范围: $(-\infty, 1]$。
-    *   方法: Plot Residual vs Covariate。如果需要加非线性项，图会显示弯曲。
+    *   **公式:** $M_i = \delta_i - \hat{H}(Y_i, \mathbf{x}_i)$，其中 $\hat{H}(Y_i, \mathbf{x}_i) = \hat{H}_0(Y_i) \exp(\hat{\boldsymbol{\beta}}^T \mathbf{x}_i)$
+    *   **用途:** 检查连续变量的**函数形式 (Functional Form)**。比如 Age 是否应该加平方项？是否需要对数变换？
+    *   **范围:** $(-\infty, 1]$，平均值接近 0
+    *   **方法:**
+        *   Plot Residual vs Covariate，加上 lowess 平滑曲线
+        *   如果平滑曲线不是水平的（显示非线性模式），说明需要变换该协变量
+        *   向上弯曲 → 考虑平方项或多项式
+        *   非单调 → 考虑样条或分类
+    *   **SAS:** `output out=resid resmart=mres;`
+
 2.  **Deviance Residuals (偏差残差):**
-    *   用于: 检查**异常值 (Outliers)**。
-    *   它是 Martingale 残差的标准化转换，使其更像正态分布。
-    *   标准: 绝对值 $> 3$ 的点可能是异常值。
-3.  **Dfbeta:**
-    *   用于: 检查**强影响点 (Influential Points)**。
-    *   含义: 删除第 $i$ 个观测后，$\beta$ 系数改变了多少。
+    *   **公式:** $D_i = \text{sign}(M_i) \sqrt{-2[M_i + \delta_i \log(\delta_i - M_i)]}$
+    *   **用途:** 检查**异常值 (Outliers)**
+    *   **优点:** 它是 Martingale 残差的标准化转换，使其更对称，更接近正态分布
+    *   **判断标准:**
+        *   $|D_i| > 3$ 的点可能是异常值，需要调查
+        *   $|D_i| > 2$ 值得注意
+    *   **操作:** 识别后检查原始数据是否有录入错误，或者这些点是否代表特殊的临床情况
+    *   **SAS:** `output out=resid resdev=dres;`
+
+3.  **Dfbeta (影响诊断):**
+    *   **公式:** $\text{dfbeta}_{ij} = \hat{\beta}_j - \hat{\beta}_{j(-i)}$
+    *   **用途:** 检查**强影响点 (Influential Points)**
+    *   **含义:** 删除第 $i$ 个观测后，第 $j$ 个回归系数 $\beta_j$ 改变了多少
+    *   **判断标准:**
+        *   $|\text{dfbeta}_{ij}| > 2/\sqrt{n}$ → 该观测对 $\beta_j$ 有较大影响
+        *   或者直观检查：绘制 dfbeta 图，寻找突出的点
+    *   **操作:** 对有影响的点做敏感性分析（拟合时包含/排除该点，比较结果）
+    *   **SAS:** `output out=resid dfbeta=dfb_;`
+
+4.  **Score Residuals:**
+    *   用于影响分析，贡献到 score 函数
+    *   较少在实践中单独使用，主要用于理论推导
+
+**残差诊断的一般流程：**
+1. 先用 Schoenfeld 残差检查 PH 假设
+2. 用 Martingale 残差检查连续协变量的函数形式
+3. 用 Deviance 残差识别异常值
+4. 用 Dfbeta 检查强影响点
+5. 对所有可疑观测进行敏感性分析
 
 ---
 
@@ -1108,6 +1155,159 @@ run;
 - 模型选择与解释：  
   - 通过比较仅随机截距 vs 随机截距+随机斜率模型的拟合优度，判断是否需要随机斜率。  
   - 解释时区分“群体平均斜率 $\beta_1$”与“个体特异斜率 $\beta_1+b_{1i}$”。
+
+---
+
+## 第六部分：常见错误与考试重点 (Common Pitfalls & Exam Focus)
+
+### 6.1 常见错误 (Common Mistakes)
+
+#### A. 生存分析中的常见错误
+1.  **Immortal Time Bias (不死时间偏倚)**
+    *   **错误做法:** 将时变治疗（如器官移植）当作基线固定协变量
+    *   **为什么错:** 接受移植的患者必须先活到移植那天，人为增加了该组的生存时间
+    *   **正确做法:** 使用时变协变量 (TDC) 或 counting process 格式
+    *   **考试警示:** 这是最常见的严重错误！
+
+2.  **忽略 PH 假设检验**
+    *   **错误:** 直接使用 Cox 模型而不检查 PH 假设
+    *   **后果:** 如果 PH 违反，HR 的解释失去意义
+    *   **正确做法:**
+        *   总是使用 `assess ph / resample;`
+        *   检查 log-log 图
+        *   如果违反，使用分层、时间交互或 TDC
+
+3.  **Ties 处理方法选择不当**
+    *   **错误:** 使用默认的 BRESLOW（当 ties 很多时）
+    *   **正确:** **课程要求使用 `ties=EFRON`**
+    *   **记忆:** 作业和考试中**必须**明确写 `ties=EFRON`
+
+4.  **删失后的外推**
+    *   **错误:** 当最大观测时间是删失时，仍然报告均值或高分位数
+    *   **后果:** 严重低估
+    *   **正确:** 报告 RMST 或明确说明无法估计
+
+#### B. 分类数据分析中的常见错误
+
+1.  **Multinomial vs Ordinal Logit 混淆**
+    *   **Multinomial (link=glogit):** 用于**无序**类别（如交通方式选择）
+    *   **Ordinal (默认 link):** 用于**有序**类别（如疾病严重程度）
+    *   **检验:** Ordinal 需检验 Proportional Odds 假设
+    *   **如果违反:** 改用 Multinomial
+
+2.  **Poisson 过度离散未处理**
+    *   **识别:** Deviance/df 或 Pearson χ²/df >> 1 (如 > 1.5)
+    *   **后果:** SE 被低估，p 值过小，假阳性增加
+    *   **解决方案:**
+        *   Quasi-Poisson: `scale=pearson`
+        *   Negative Binomial: `dist=negbin`
+
+3.  **Offset 使用错误**
+    *   **场景:** 不同个体有不同的暴露时间/人数
+    *   **错误:** 忘记包含 offset
+    *   **正确:** `offset=log_time` 其中 `log_time = log(exposure_time)`
+    *   **注意:** Offset 的系数固定为 1，不需要估计
+
+#### C. 纵向数据分析中的常见错误
+
+1.  **GEE vs Mixed Model 选择错误**
+    *   **GEE (边际模型):**
+        *   研究问题是"人群平均效应"
+        *   不关心个体轨迹
+        *   稳健性好（工作相关矩阵可以选错）
+        *   **解释:** Population-averaged effect
+    *   **Mixed Model (条件模型):**
+        *   研究问题是"个体特异效应"
+        *   关心个体间变异
+        *   需要正确指定随机效应结构
+        *   **解释:** Subject-specific effect
+    *   **重要:** 对于非线性模型（如 logistic），两者的系数**数值不同**！
+
+2.  **相关结构选择**
+    *   **Independence:** 几乎总是错的（除非用于对比）
+    *   **Exchangeable (CS):** 适用于无明确时间顺序的聚类数据
+    *   **AR(1):** 适用于等间隔时间序列
+    *   **Unstructured:** 最灵活但参数多，小样本难收敛
+
+3.  **ML vs REML 混淆**
+    *   **REML (默认):**
+        *   用于估计方差成分（无偏）
+        *   用于比较不同随机效应结构
+    *   **ML:**
+        *   用于比较不同固定效应（嵌套模型）
+        *   用于 LRT
+    *   **记忆:** 比较固定效应用 ML，比较随机效应用 REML
+
+#### D. SAS 代码中的常见错误
+
+1.  **CLASS 变量的参考组未指定**
+    *   **后果:** 使用默认参考组，可能不是你想要的
+    *   **正确:** `class sex(ref='Male') / param=ref;`
+
+2.  **忘记指定链接函数**
+    *   Multinomial: **必须** `link=glogit`
+    *   Poisson: **必须** `link=log`
+
+3.  **时变协变量放在 CLASS 中**
+    *   **错误:** `class transplant;` (当 transplant 是 TDC 时)
+    *   **正确:** TDC 不能放在 CLASS 语句中
+
+4.  **PROC 选择错误**
+    *   LIFETEST: KM 曲线，非参数比较
+    *   PHREG: Cox 模型
+    *   LOGISTIC: Binary/Multinomial/Ordinal logit
+    *   GENMOD: GLM, GEE, Poisson, NegBin
+    *   MIXED: 线性混合效应模型
+
+### 6.2 考试重点提示 (Exam Focus)
+
+#### 重点公式（必须记住）
+1.  $S(t) = \exp[-H(t)]$
+2.  $h(t) = f(t)/S(t) = -d\log S(t)/dt$
+3.  KM: $\hat{S}(t) = \prod_{t_i \le t}(1 - d_i/n_i)$
+4.  Cox HR: $HR = \exp(\beta)$
+5.  Greenwood 方差: $\widehat{Var}(\hat{S}(t)) = \hat{S}(t)^2 \sum_{t_i \le t} \frac{d_i}{n_i(n_i-d_i)}$
+
+#### 解释模板（考试必用）
+1.  **HR 解释:**
+    *   "Adjusted for [其他变量], the hazard of [事件] for [组A] is [HR] times that of [组B] (95% CI: [L, U])."
+    *   如果 HR < 1: "...is [100×(1-HR)]% lower..."
+    *   如果 HR > 1: "...is [100×(HR-1)]% higher..."
+
+2.  **OR 解释 (Logistic):**
+    *   "The odds of [结局] for [组A] are [OR] times the odds for [组B]."
+
+3.  **RR 解释 (Poisson):**
+    *   "The rate of [事件] for [组A] is [RR] times the rate for [组B]."
+
+#### 快速决策树
+```
+因变量类型？
+├─ 时间 → 生存分析 (Cox, KM)
+│   └─ 检查 PH? → 是：Cox；否：分层/TDC
+├─ 二分类 → Logistic
+├─ 多分类
+│   ├─ 无序 → Multinomial (link=glogit)
+│   └─ 有序 → Ordinal (检查 PO 假设)
+├─ 计数
+│   ├─ 无过度离散 → Poisson
+│   └─ 过度离散 → Negative Binomial / Quasi-Poisson
+└─ 连续 + 纵向
+    ├─ 群体平均 → GEE
+    └─ 个体特异 → Mixed Model
+```
+
+#### 检查清单 (Checklist)
+在提交答案前检查：
+- [ ] 所有 PROC PHREG 都用了 `ties=EFRON`
+- [ ] 检查了 PH 假设 (`assess ph`)
+- [ ] CLASS 变量指定了参考组
+- [ ] Multinomial 用了 `link=glogit`
+- [ ] Poisson 有 offset 时用了 `offset=log_time`
+- [ ] 时变协变量使用了正确的数据格式
+- [ ] 解释 HR/OR/RR 时包含了 95% CI
+- [ ] GEE 使用了 robust SE
+- [ ] 分类变量的所有水平都解释清楚
 
 ---
 **祝考试顺利！(Good Luck!)**
