@@ -1,0 +1,416 @@
+\documentclass[8pt,a4paper,landscape]{article}
+\usepackage[margin=0.4in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{CJKutf8}
+\setlist{nosep,leftmargin=*}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1pt}
+\setlength{\columnsep}{6pt}
+\title{P8110 Final Exam Cheat Sheet}
+\author{}
+\date{}
+\begin{document}
+\begin{CJK}{UTF8}{gbsn}
+\tiny
+\begin{center}\textbf{\Large P8110 Applied Regression II — Final Exam Cheatsheet}\end{center}
+\vspace{-1em}
+\begin{multicols}{3}
+
+\section*{Part I: Survival Analysis 生存分析}
+
+\textbf{核心函数关系 (Core Functions):}
+\begin{align*}
+S(t)&=P(T>t)=\exp[-H(t)]\\
+h(t)&=\frac{f(t)}{S(t)}=-\frac{d\log S(t)}{dt}\\
+H(t)&=\int_0^t h(u)du=-\log S(t)\\
+f(t)&=\frac{dF(t)}{dt}=-\frac{dS(t)}{dt}
+\end{align*}
+
+\textbf{Kaplan-Meier 估计 (KM Estimator):}
+\[\hat S(t)=\prod_{t_i\le t}\left(1-\frac{d_i}{n_i}\right)\]
+$d_i$: \# events at $t_i$; $n_i$: \# at risk at $t_i$.
+
+\textbf{Greenwood 方差:}
+\[\widehat{\text{Var}}[\hat S(t)]=\hat S(t)^2\sum_{t_i\le t}\frac{d_i}{n_i(n_i-d_i)}\]
+
+\textbf{95\% CI (Log-log):}
+\begin{align*}
+\sigma^2&=\frac{1}{[\log\hat S(t)]^2}\sum_{t_i\le t}\frac{d_i}{n_i(n_i-d_i)}\\
+C_u&=\log[-\log\hat S(t)]+1.96\sigma\\
+C_l&=\log[-\log\hat S(t)]-1.96\sigma\\
+\text{CI}&=\left(\exp(-e^{C_u}),\exp(-e^{C_l})\right)
+\end{align*}
+
+\textbf{Nelson-Aalen (NA):}
+\[\hat H(t)=\sum_{t_i\le t}\frac{d_i}{n_i},\quad \tilde S(t)=\exp[-\hat H(t)]\]
+
+\textbf{中位数 (Median):}
+\[\hat t_{0.5}=\min\{t_j:\hat S(t_j)<0.5\}\]
+
+\textbf{RMST (Restricted Mean):}
+\[\hat\mu(\tau)=\int_0^\tau \hat S(t)dt\]
+
+\textbf{Log-Rank 检验 (Test):}
+\[\chi^2=\frac{[\sum_j(O_{1j}-E_{1j})]^2}{\sum_j V_{1j}}\]
+$E_{1j}=\frac{n_{1j}d_j}{n_j}$; $V_{1j}=\frac{n_{1j}n_{0j}d_j(n_j-d_j)}{n_j^2(n_j-1)}$.
+
+\textbf{Cox PH 模型:}
+\[h(t,\mathbf{x})=h_0(t)\exp(\boldsymbol{\beta}^T\mathbf{x})\]
+
+\textbf{Hazard Ratio (HR):}
+\begin{itemize}
+\item Binary $x$: $\text{HR}=e^\beta$
+\item Continuous: $\text{HR}(x+k:x)=e^{k\beta}$
+\item Categorical: $\text{HR}(j:k)=e^{\beta_j-\beta_k}$
+\end{itemize}
+
+\textbf{PH 假设检验:}
+\begin{itemize}
+\item Log-log plot: $\log[-\log\hat S(t)]$ vs $t$ (平行)
+\item Schoenfeld residuals: \texttt{assess ph / resample;}
+\item Time interaction: 加入 $x\times\log(t)$，检验交互项
+\end{itemize}
+
+\textbf{残差诊断 (Residuals):}
+\begin{enumerate}
+\item \textbf{Martingale:} $M_i=\delta_i-\hat H(Y_i,\mathbf{x}_i)$
+  \begin{itemize}
+  \item 用途: 检查函数形式 (functional form)
+  \item Plot vs covariate with lowess
+  \item 非水平 → 需要变换
+  \end{itemize}
+\item \textbf{Deviance:} $D_i=\text{sign}(M_i)\sqrt{-2[M_i+\delta_i\log(\delta_i-M_i)]}$
+  \begin{itemize}
+  \item 用途: 识别异常值
+  \item $|D_i|>3$ → 异常值
+  \end{itemize}
+\item \textbf{Dfbeta:} $\text{dfbeta}_{ij}=\hat\beta_j-\hat\beta_{j(-i)}$
+  \begin{itemize}
+  \item 用途: 检查影响点
+  \item $|\text{dfbeta}_{ij}|>2/\sqrt{n}$ → 有影响
+  \end{itemize}
+\end{enumerate}
+
+\textbf{时变协变量 (TDC):}
+\begin{itemize}
+\item Counting process: \texttt{model (tstart,tstop)*event(0)=x;}
+\item Immortal time bias: 必须用 TDC，不能从 $t=0$ 标记
+\end{itemize}
+
+\textbf{Stratified Cox:}
+\[h_g(t,\mathbf{x})=h_{0g}(t)\exp(\boldsymbol{\beta}^T\mathbf{x})\]
+各层有自己的 $h_0$，但 $\beta$ 共享。\texttt{strata z;}
+
+\textbf{Ties 处理:}
+\begin{itemize}
+\item EFRON (推荐): \texttt{ties=EFRON}
+\item BRESLOW (默认但不准): 结多时有偏差
+\end{itemize}
+
+\textbf{SAS 代码 (PROC LIFETEST):}
+\begin{verbatim}
+proc lifetest data=ds plots=s(cl test)
+              conftype=loglog;
+  time time*status(0);
+  strata group / test=logrank;
+run;
+\end{verbatim}
+
+\textbf{SAS 代码 (PROC PHREG):}
+\begin{verbatim}
+proc phreg data=ds;
+  class sex(ref='M') / param=ref;
+  model time*status(0) = age sex
+        / ties=EFRON risklimits;
+  assess ph / resample;
+  hazardratio sex / diff=all;
+  baseline out=surv survival=s;
+run;
+\end{verbatim}
+
+\section*{Part II: Categorical Data 分类数据}
+
+\textbf{Multinomial Logit (无序多分类):}
+\[\log\frac{P(Y=j)}{P(Y=K)}=\alpha_j+\boldsymbol{\beta}_j^T\mathbf{x}\]
+$j=1,\dots,K-1$; $K$ 是参照组。
+
+\textbf{解释:} $\exp(\beta_{jk})$ = Relative Risk Ratio (RRR).
+"类别 $j$ vs 参照的 odds 比"。
+
+\textbf{SAS:}
+\begin{verbatim}
+proc logistic data=ds;
+  class group / param=ref;
+  model outcome(ref='K') = x1 x2
+        / link=glogit;
+run;
+\end{verbatim}
+
+\textbf{Ordinal Logit (有序多分类):}
+\[\text{logit}(P(Y\le j))=\alpha_j+\boldsymbol{\beta}^T\mathbf{x}\]
+
+\textbf{核心假设:} Proportional Odds (比例优势).
+$\beta$ 对所有 $j$ 相同，只有 $\alpha_j$ 变化。
+
+\textbf{假设检验:} Score Test for Proportional Odds.
+\begin{itemize}
+\item $p>0.05$: PO 成立，用 ordinal
+\item $p<0.05$: PO 违反，改用 \texttt{link=glogit}
+\end{itemize}
+
+\textbf{解释 (SAS 默认建模 $P(Y\le j)$):}
+\begin{itemize}
+\item $\beta>0$: $X$ 增加 → $P(Y\le j)$ 增加 → 倾向更低等级
+\item 如果用 \texttt{descending}: 解释反转
+\end{itemize}
+
+\textbf{SAS:}
+\begin{verbatim}
+proc logistic data=ds descending;
+  class group / param=ref;
+  model severity = age group
+        / scale=none aggregate;
+run;
+\end{verbatim}
+
+\textbf{Poisson 回归 (计数数据):}
+\[\log(\mu)=\boldsymbol{\beta}^T\mathbf{x}\]
+假设: $E(Y)=\text{Var}(Y)=\mu$ (equidispersion).
+
+\textbf{Rate 模型 (有 offset):}
+\[\log(\mu/t)=\boldsymbol{\beta}^T\mathbf{x}\implies\log(\mu)=\log(t)+\boldsymbol{\beta}^T\mathbf{x}\]
+
+\textbf{解释:} $\exp(\beta)$ = Rate Ratio (RR).
+
+\textbf{过度离散 (Overdispersion):}
+\begin{itemize}
+\item 诊断: Deviance$/df$ 或 Pearson$/df \gg 1$
+\item 后果: SE 被低估，$p$ 值过小
+\end{itemize}
+
+\textbf{解决方案:}
+\begin{enumerate}
+\item Quasi-Poisson: \texttt{scale=pearson}
+  \[SE_{\text{new}}=SE_{\text{old}}\times\sqrt{\text{scale}}\]
+\item Negative Binomial: \texttt{dist=negbin}
+  \[\text{Var}(Y)=\mu+k\mu^2\]
+\end{enumerate}
+
+\textbf{SAS (Poisson):}
+\begin{verbatim}
+proc genmod data=ds;
+  class group / param=ref;
+  model count = x / dist=poisson
+        link=log offset=log_time
+        scale=pearson;
+run;
+\end{verbatim}
+
+\textbf{SAS (Negative Binomial):}
+\begin{verbatim}
+proc genmod data=ds;
+  model count = x / dist=negbin
+        link=log offset=log_time;
+run;
+\end{verbatim}
+
+\section*{Part III: Longitudinal Data 纵向数据}
+
+\textbf{核心问题:} 同一个体的观测值高度相关 $\to$ 忽略相关性会导致 SE 错误 (通常被低估)。
+
+\textbf{GEE (边际模型 Marginal):}
+
+\textbf{均值模型:}
+\[g(E[Y_{ij}])=\mathbf{X}_{ij}^T\boldsymbol{\beta}\]
+
+\textbf{工作相关结构 (Working Correlation):}
+\begin{enumerate}
+\item \textbf{Independence (IND):} $\text{Corr}=0$ (所有)
+\item \textbf{Exchangeable (CS):} $\text{Corr}=\rho$ (所有对)
+\item \textbf{AR(1):} $\text{Corr}=\rho^{|j-k|}$
+\[\begin{pmatrix}1&\rho&\rho^2\\\rho&1&\rho\\\rho^2&\rho&1\end{pmatrix}\]
+\item \textbf{Unstructured (UN):} 每对 $\rho_{jk}$ 自由估计
+\end{enumerate}
+
+\textbf{Robust SE (Sandwich):}
+即使 $R(\alpha)$ 选错，$\beta$ 仍一致，Robust SE 仍正确。
+
+\textbf{模型选择:} QIC (越小越好)。
+
+\textbf{SAS (GEE):}
+\begin{verbatim}
+proc genmod data=long;
+  class id trt / param=ref;
+  model y = time trt time*trt
+        / dist=normal;
+  repeated subject=id / type=AR(1)
+           covb corrw;
+run;
+\end{verbatim}
+
+\textbf{Mixed Model (条件模型 Conditional):}
+
+\textbf{模型:}
+\[Y_{ij}=(\beta_0+\beta_1 t_{ij})+(b_{0i}+b_{1i}t_{ij})+\epsilon_{ij}\]
+\begin{itemize}
+\item Fixed: $\beta_0,\beta_1$ (总体平均)
+\item Random: $b_{0i}$ (随机截距), $b_{1i}$ (随机斜率)
+\item $b_i\sim N(0,\mathbf{G})$; $\epsilon_{ij}\sim N(0,\mathbf{R})$
+\end{itemize}
+
+\textbf{ICC (组内相关):}
+\[\text{ICC}=\frac{\tau^2}{\tau^2+\sigma^2}\]
+$\tau^2=\text{Var}(b_{0i})$; $\sigma^2=\text{Var}(\epsilon)$.
+
+\textbf{估计方法:}
+\begin{itemize}
+\item \textbf{REML} (默认): 估计方差无偏，比较协方差结构
+\item \textbf{ML}: 比较固定效应 (嵌套模型)
+\end{itemize}
+
+\textbf{SAS (Mixed):}
+\begin{verbatim}
+proc mixed data=long method=REML;
+  class id group;
+  model y = time group time*group/s;
+  random intercept time / subject=id
+         type=UN g;
+run;
+\end{verbatim}
+
+\textbf{边际 vs 条件 (Marginal vs Conditional):}
+
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{特征} & \textbf{GEE} & \textbf{Mixed}\\
+\hline
+关注点 & 群体平均 & 个体特异\\
+解释 & Population-avg & Subject-specific\\
+适用 & 公共卫生政策 & 临床个体预测\\
+稳健性 & 高 (Robust SE) & 需正确指定分布\\
+\hline
+\end{tabular}
+
+\textbf{系数差异 (非线性模型):}
+\begin{itemize}
+\item 线性: $\beta_{\text{GEE}}\approx\beta_{\text{Mixed}}$
+\item Logistic: $|\beta_{\text{Mixed}}|>|\beta_{\text{GEE}}|$
+  \begin{itemize}
+  \item Mixed 个体层面 (曲线陡)
+  \item GEE 平均层面 (曲线平缓)
+  \end{itemize}
+\end{itemize}
+
+\section*{快速决策树 (Decision Tree)}
+
+\textbf{因变量类型？}
+\begin{itemize}
+\item \textbf{时间 (Time-to-event):} → 生存分析
+  \begin{itemize}
+  \item KM 曲线 + Log-rank 检验
+  \item Cox PH (检查 PH 假设)
+  \item 违反 PH → Stratified / TDC
+  \end{itemize}
+\item \textbf{二分类 (Binary):} → Logistic
+\item \textbf{多分类 (Categorical):}
+  \begin{itemize}
+  \item 无序 → Multinomial (\texttt{link=glogit})
+  \item 有序 → Ordinal (检查 PO 假设)
+  \end{itemize}
+\item \textbf{计数 (Count):} → Poisson
+  \begin{itemize}
+  \item 过度离散 → Quasi-Poisson / NegBin
+  \end{itemize}
+\item \textbf{连续+纵向 (Continuous+Repeated):}
+  \begin{itemize}
+  \item 群体平均 → GEE
+  \item 个体轨迹 → Mixed Model
+  \end{itemize}
+\end{itemize}
+
+\section*{解释模板 (Interpretation Templates)}
+
+\textbf{HR (Cox):}
+"Holding other covariates constant, the hazard of [event] for [Group A] is [HR] times that for [Group B]."
+
+\textbf{例:} $\widehat{\text{HR}}=1.85$ (95\% CI: 1.23, 2.79)
+"吸烟者的死亡风险是非吸烟者的 1.85 倍（控制其他因素后）。"
+
+\textbf{OR (Logistic):}
+"The odds of [outcome] for [Group A] are [OR] times the odds for [Group B]."
+
+\textbf{RR (Poisson):}
+"The rate of [events] for [Group A] is [RR] times the rate for [Group B]."
+
+\textbf{Interaction ($X_1\times X_2$):}
+"The effect of $X_1$ on $Y$ depends on $X_2$."
+必须分层解释不同 $X_2$ 水平下 $X_1$ 的效应。
+
+\section*{考试重点检查清单 (Exam Checklist)}
+
+\textbf{生存分析:}
+\begin{itemize}
+\item[$\Box$] Cox 用了 \texttt{ties=EFRON}
+\item[$\Box$] 检查 PH 假设 (\texttt{assess ph})
+\item[$\Box$] CLASS 指定 \texttt{ref=}
+\item[$\Box$] TDC 用 counting process 格式
+\item[$\Box$] 避免 immortal time bias
+\item[$\Box$] 残差诊断 (Martingale, Deviance, Dfbeta)
+\end{itemize}
+
+\textbf{分类数据:}
+\begin{itemize}
+\item[$\Box$] 多分类用 \texttt{link=glogit}
+\item[$\Box$] 有序检验 PO 假设 (\texttt{scale=none aggregate})
+\item[$\Box$] 计数检查 Deviance$/df$
+\item[$\Box$] 过度离散用 \texttt{scale=pearson} 或 \texttt{dist=negbin}
+\item[$\Box$] Offset 用 \texttt{log(time)}
+\end{itemize}
+
+\textbf{纵向数据:}
+\begin{itemize}
+\item[$\Box$] GEE 指定 \texttt{subject=id}
+\item[$\Box$] 选择相关结构 (IND/CS/AR(1)/UN)
+\item[$\Box$] 查看 Robust SE (Empirical)
+\item[$\Box$] Mixed 用 REML (比较协方差) 或 ML (比较固定效应)
+\item[$\Box$] 随机效应指定 \texttt{type=UN} 或 \texttt{VC}
+\item[$\Box$] 理解边际 vs 条件解释差异
+\end{itemize}
+
+\section*{关键公式速记 (Quick Formulas)}
+
+\textbf{1. KM \& 方差:}
+\[\hat S(t)=\prod\left(1-\frac{d_i}{n_i}\right),\quad \widehat{\text{Var}}=\hat S^2\sum\frac{d_i}{n_i(n_i-d_i)}\]
+
+\textbf{2. Cox HR:}
+\[\text{HR}=e^\beta\quad\text{(binary)},\quad e^{k\beta}\quad\text{(continuous, }k\text{ units)}\]
+
+\textbf{3. Log-rank:}
+\[\chi^2=\frac{[\sum(O-E)]^2}{\sum V}\]
+
+\textbf{4. Poisson RR:}
+\[\log(\mu)=\beta_0+\beta x\implies\text{RR}=e^\beta\]
+
+\textbf{5. ICC:}
+\[\text{ICC}=\frac{\tau^2}{\tau^2+\sigma^2}\]
+
+\section*{常见错误 (Common Pitfalls)}
+
+\begin{enumerate}
+\item \textbf{Immortal time bias:} TDC 必须用 counting process，不能从 $t=0$ 标记
+\item \textbf{忽略 PH:} 必须 \texttt{assess ph}，违反时用 stratified/TDC
+\item \textbf{Ties 默认:} SAS 默认 BRESLOW，必须改 EFRON
+\item \textbf{过度离散:} Poisson 后必须查 Deviance$/df$
+\item \textbf{PO 假设:} Ordinal 必须检验 Score Test
+\item \textbf{GEE vs Mixed:} 非线性模型系数绝对值不同
+\item \textbf{删失尾部:} 最大时间删失时均值低估，用 RMST
+\item \textbf{参照组:} 必须显式指定 \texttt{ref=}
+\end{enumerate}
+
+\end{multicols}
+\end{CJK}
+\end{document}
