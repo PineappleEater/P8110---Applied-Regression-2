@@ -656,4 +656,458 @@ run;
 *   **Interpretation of Interaction ($X_1 \times X_2$):** "The effect of $X_1$ on $Y$ depends on the level of $X_2$." (不要只说“交互作用显著”，要解释具体含义)。
 
 ---
+
+## 附录：按课件逐讲复习提要（Lec1–Lec24）
+
+> 本附录按 Lec1–Lec24 与 PDF 讲义一一对应，方便你按“第几讲”来查考点。每讲下面的条目都是考试/作业中最容易被问到的知识点与公式。  
+> 说明：为了保持与课件一致，标题保留英文 Lecture 名称，但内容解释全部改为中文。
+
+### 第一部分：生存分析 (Lec1–Lec14)
+
+**Lec1 – Introduction to Survival Data（生存数据简介）**
+
+- 术语与场景：生存数据 / 删失数据 / time-to-event data / failure time data；举例说明在医学（死亡、复发、症状出现）和工程（设备失效等）中的常见应用。
+- 生存时间的 3 个组成部分：起点（clock start）、终点（clock stop）、时间单位（天/周/月/年）；生存时间就是这两个时间点在时间轴上的距离。
+- “事件 (event/failure)”的含义：不一定是死亡，可以是疾病复发、症状出现、装置失效等；考试中要能根据题目清楚地说出“什么是事件，什么是起点，什么是终点”。
+- WHAS（Worcester Heart Attack Study）示例：给出入院日期、最后随访日期、住院天数、随访时间和生存状态，学会从原始信息构造随访时间和事件指示（1=死亡，0=删失）。
+- 右删失 (right censoring)：由于随访结束、失访、退出研究等原因导致的“只知道生存超过某个时间点”的不完全观察，是本课程的重点类型。
+- 其他删失类型：左删失（事件在观察开始前已经发生）、区间删失（事件只知发生在两个检查时间点之间）；需能识别题目里是哪一类。
+- 删失 vs 截断 (censoring vs truncation)：  
+  - 删失：该个体进入研究，只是事件时间部分未知（“有部分信息”）。  
+  - 截断：事件时间不在观测窗口 $(T_L,T_R)$ 内的个体根本不进入研究（“完全没看到这些人”）。
+- 左/右截断示例：  
+  - 左截断：显微镜分辨率限制，小到看不见的颗粒不会进入样本。  
+  - 右截断：太远的恒星看不见，只观察得到“足够近”的恒星。  
+  - 输血后 AIDS 等待时间例子：只观察到在某个截止日期之前发病的个体，之后才发病的人是右截断。
+- 课程范围说明：截断在实际中相对少见，本课主要聚焦右删失；遇到截断只需能识别与用语言解释含义即可。
+
+**Lec2 – Kaplan-Meier Estimator of Survival Function（Kaplan‑Meier 生存函数估计）**
+
+- 生存函数回顾：$S(t)=P(T>t)=1-F(t)$，并能解释固定时间点生存概率（例如 5 年生存率 $S(5)$）的含义。
+- 无删失情形：给定一组完全观察到的事件时间 $T_1,\dots,T_n$，经验估计 $S(t)$ 为“样本中 $T_i>t$ 的比例”；要能对具体数字（如 10,13,14,14,23 周）算出分段常数的 $Ŝ(t)$。
+- 图形展示：画出生存概率随时间的阶梯曲线（只有在事件时间点下降），理解这是经验生存函数。
+- 有右删失时的困难：一旦出现 “14+” 这类删失时间，简单用“$T_i>t$ 的比例”就无法在删失时间之后继续估计，因为不知道删失后是否会发生事件。
+- 通过玩具示例（10,13,14,14+,23）展示两种极端错误假设：  
+  - 极保守：删失后立即发生事件 → 生存估计偏低（负偏倚）。  
+  - 极乐观：删失者活到研究末尾以后都不死亡 → 生存估计偏高（正偏倚）。
+- 引出正确思路：真正的估计应该介于两者之间 → 导出 Kaplan–Meier（乘积极限）估计。
+- KM 推导关键步骤：  
+  - 将所有“发生事件的时间”去重并排序 $t_1<\dots<t_J$，定义 $J+1$ 个时间区间。  
+  - 对每个事件时间 $t_j$，计算风险集人数 $n_j$ 和事件数 $d_j$。  
+  - 条件生存概率：$p_j=P(\text{活过整个区间 j}|\text{进入该区间})=(n_j-d_j)/n_j=1-d_j/n_j$。
+- KM 估计公式：  
+  $$\hat S(t)=\prod_{t_j\le t}\left(1-\frac{d_j}{n_j}\right)=\prod_{t_j\le t}\frac{n_j-d_j}{n_j}$$  
+  并在玩具数据上实际算出每个区间的 $Ŝ(t)$。
+- 风险集与删失的处理：  
+  - 个体在发生事件或被删失之前一直属于风险集。  
+  - 删失个体从删失时间起不再计入风险集，但从不计为死亡数 $d_j$。
+- KM 曲线的尾部行为：如果最大观察时间对应删失，曲线不会降到 0，$Ŝ(t)$ 在最后时间点之后不可再外推；要能在考题中指出“中位数/某些分位数无法估计”的原因。
+- 独立（非信息）删失假设：删失与真实事件时间独立（给定协变量后），例如纯行政性随访结束；对比“信息删失”场景（如博士生辍学者往往本来就会读得更久）会导致 KM 估计偏差。
+
+**Lec3 – Calculating Confidence Intervals for S(t)（生存函数置信区间）**
+
+- Greenwood 方差估计：  
+  $$\widehat{\text{Var}}\{\hat S(t)\}=\hat S(t)^2\sum_{t_j\le t}\frac{d_j}{n_j(n_j-d_j)}$$  
+  要清楚 $t_j,n_j,d_j$ 分别代表事件时间、风险集人数、该时刻事件数。
+- 朴素 CI 的问题：直接用  
+  $$\hat S(t)\pm1.96\sqrt{\widehat{\text{Var}}\{\hat S(t)\}}$$  
+  可能得到小于 0 或大于 1 的上下界，对概率来说不合理。
+- 与 OR 的类比：像构造 OR 的 CI 一样，先在变换后的尺度上（例如 log OR）做正态近似，再反变换保证区间落在参数允许的范围内。
+- log–log 变换：定义  
+  $$Z(t)=\log[-\log S(t)]$$  
+  将 $(0,1)$ 上的 $S(t)$ 映射到 $(-\infty,\infty)$ 上的 $Z(t)$，便于使用正态近似。
+- 利用 Delta 方法给出 $Z(t)$ 的近似方差：  
+  $$\widehat{\text{Var}}\{Z(t)\}=\frac{\widehat{\text{Var}}\{\hat S(t)\}}{\hat S(t)^2[\log\hat S(t)]^2}$$  
+  并理解这是对 Greenwood 方差做的链式法则变换。
+- 在 log–log 尺度上构造 95% CI：  
+  $$\log[-\log\hat S(t)]\pm1.96\sqrt{\widehat{\text{Var}}\{Z(t)\}}$$  
+  得到上下界 $C_l,C_u$，再通过 $\exp(-e^{C_u}),\exp(-e^{C_l})$ 反变换回 $S(t)$ 的置信区间，保证区间在 $(0,1)$ 内。
+- 完整算例：继续使用 8 个病人的癌症复发数据，计算 $n_j,d_j,p_j,\hat S(t)$ 和 log–log CI，特别是对 $13\le t<14$ 区间，逐步展示计算 $\hat S(13)$ 及其 CI。
+- 结果解读：能用一句完整英文或中文解释 CI，如“我们估计 13 周时无复发生存概率为 0.75（95% CI：0.315–0.931），即 75%（95% CI：31.5%–93.1%）的患者在 13 周以后仍未复发。”
+
+**Lec4 – Estimating Quantiles and Mean of Survival Time（分位数与均值估计）**
+
+- 为什么需要分位数：除了在固定时间点看 $S(t)$，临床和论文中更常报告中位生存时间以及四分位数等关键分位数。
+- 图形估计分位数：在纵轴选定目标生存概率（例如 0.5、0.75），画水平线与 KM 曲线相交，再垂直投到横轴读出对应时间。
+- 一般形式的分位数估计：  
+  $$\hat t_p=\min\{t_j:\hat S(t_j)<1-p\}$$  
+  其中四分位数为 $\hat t_{0.25},\hat t_{0.5},\hat t_{0.75}$。
+- SAS 中的特例规则：当某个时刻 $\hat S(t_j)=1-p$ 精确等于目标值时，SAS 定义分位数为 $(t_j+t_{j+1})/2$，这与 Hosmer 等书中的定义略有不同（考试时注意写清“按课程/SAS 定义”）。
+- 癌症复发例中的点估计：  
+  - 中位数：$\hat t_{0.5}=17$ 周（因为 $\hat S(17)=0.45<0.5$ 且此前 $\hat S(14)=0.6>0.5$）。  
+  - 第一四分位数：$\hat t_{0.25}=(13+14)/2=13.5$ 周（因为 $\hat S(13)=0.75=1-0.25$）。  
+  - 用两种方式解释：25% 的病人在 13.5 周前复发；或 75% 的病人在 13.5 周后仍未复发。
+- 可估计性限制：只有在 KM 曲线下至足够低（接近 0）时才能估计较高分位数；当最后观测为删失且 $\hat S(t)$ 未降为 0 时，某些高分位数（如 90th percentile）无法估计。
+- Brookmeyer–Crowley 分位数 CI：在 log–log 尺度对 $S(t)$ 做 CI，再反推得到满足  
+  $$\exp[-\exp(C_u)]\le1-p\le\exp[-\exp(C_l)]$$  
+  的所有 $t$ 构成分位数的 95% 置信区间；会画图说明 CI 对应在时间轴上的区间。
+- 癌症复发例中的分位数 CI：理解课件中给出的 $t_{0.25}$、$t_{0.5}$、$t_{0.75}$ 的区间形式（例如 $[10,23)$、$[10,\cdot)$ 等）以及如何从图上看出来。
+- KM 下的均值估计：在观察到的最大事件时间 $t_J$ 之内，平均生存时间估计为  
+  $$\hat\mu(t_J)=\sum_{j=1}^J\hat S(t_{j-1})(t_j-t_{j-1}),\quad t_0=0,\ \hat S(t_0)=1$$  
+  即“KM 阶梯函数下面积”的 Riemann 和。
+- 最大时间删失导致均值低估：当最大观察为删失时，KM 曲线没有下降到 0，尾部面积缺失，因此 $\hat\mu$ 会低估真实均值 → 解释为什么实际报告中更偏好中位数或 RMST。
+- 均值方差与 CI：掌握方差公式中各符号含义（$A_j,n_d$ 等），在癌症例中计算出 $\hat\mu$ 及其 SE 和 95% CI，并能做文字解释。
+
+**Lec5 – PROC LIFETEST (Part I）（SAS 中的生存函数估计）**
+
+- 数据读入方式：  
+  - 小数据集：`DATA` + `DATALINES` 手工录入。  
+  - 大数据集：把 csv 存外部文件，用 `INFILE` + `DELIMITER=',' DSD MISSOVER` 导入。
+- `PROC LIFETEST` 的基本功能：基于 KM 估计生存函数、中位数/均值、生存函数 SE 以及 CI。
+- 关键语句与选项：  
+  - `proc lifetest data=... method=KM alpha=0.05 conftype=loglog outsurv=A stderr;`  
+  - `time time*status(0);` 指定时间变量和删失编码（括号里写删失值）。
+- `method=KM`：指定使用 Kaplan–Meier 方法（也可选生命表法 lifetable，但课上主要用 KM）。
+- `conftype=loglog`：指定生存函数 CI 使用 log–log 变换，保证 CI 在 $(0,1)$ 内，和 Lec3 内容呼应。
+- `outsurv=`：输出包含时间和 $\hat S(t)$ 等信息的数据集，便于进一步绘图或计算分位数/均值。
+- `stderr`：输出生存函数的标准误，供手算 CI 或检查软件结果。
+- 通过教材中的示例（几条简单的生存时间数据），学会从输出中读取：  
+  - 每个事件时间的 $n_j,d_j,\hat S(t)$；  
+  - 中位生存时间及其 95% CI；  
+  - 如果中位数不可估（曲线未到 0.5），SAS 输出的表现形式。
+
+**Lec6 – Comparing S(t) of Two or More Groups（生存曲线比较）**
+
+- 研究目的：比较两个或多个治疗/暴露组的整体生存体验，而不是只比较均值或单点生存率。
+- 流程：  
+  1. 先画分组 KM 曲线，直观查看哪组生存更好、曲线是否交叉。  
+  2. 再使用检验（log-rank, Wilcoxon 等）正式检验 $H_0:S_1(t)=S_2(t)$。
+- Log-rank 检验：对所有事件时间赋予相同权重，最适用于 PH 假设大致成立的情形，对后期差异较敏感。
+- Wilcoxon (Gehan–Breslow) 检验：权重与风险集大小相关，更强调早期事件，对早期差异敏感，在曲线交叉或早期差异更重要时使用。
+- 广义 log-rank / 广义 Wilcoxon：通过选取不同权重函数泛化上述检验，可以针对不同时间段差异进行加权。
+- Myelomatosis 数据例：  
+  - 构造每个事件时间点的 $2\times2$ 表（组别 × 事件/在险）。  
+  - 计算期望事件数和方差，并由此构造检验统计量 $Z$ 或 $\chi^2$。  
+  - 理解释例中的 p 值，判断是否拒绝“生存曲线相同”的原假设。
+- 考试要点：  
+  - 识别题目“比较两组生存曲线”应使用 log-rank 或 Wilcoxon。  
+  - 能说明两种检验权重差异，给出“若 PH 假设大致合理则首选 log-rank”的建议。
+
+**Lec7 – PROC LIFETEST (Part II）（SAS 中的生存曲线比较）**
+
+- WHAS100 数据集：100 例心肌梗死患者，变量包括 `lenfol`（随访时间）、`fstat`（1=死, 0=活）、`age`、`gender` 等。
+- 读入数据的代码示例：使用 `INFILE 'whas100.csv'` 读取外部 CSV，设置 `MISSOVER`、`DSD` 处理缺失和逗号分隔。
+- 在 `PROC LIFETEST` 中使用 `strata` 语句按组比较生存：  
+  ```sas
+  proc lifetest data=whas100 plots=survival(cb test);
+     time lenfol*fstat(0);
+     strata gender / test=logrank;
+  run;
+  ```
+- `plots=survival(cb test)`：同时画生存曲线、置信带和检验结果，便于图形+数值联合解读。
+- `strata` 语句组合：  
+  - `strata gender;` 比较男女生存曲线。  
+  - 多组分类变量时同理（例如多种治疗组）。
+- 输出解读：  
+  - KM 表中各组的中位生存时间、CI、删失比例。  
+  - 检验表中 log-rank / Wilcoxon 的 $\chi^2$、df、p 值。  
+  - 用一句话总结：“在本数据中，男性与女性的生存曲线有/无统计学显著差异（log-rank p=...）”。
+
+**Lec8 – Hazard Function and Hazard Ratio（风险函数与风险比）**
+
+- 风险函数定义：  
+  $$h(t)=\lim_{\Delta t\to 0}\frac{P(t\le T<t+\Delta t\mid T\ge t)}{\Delta t}$$  
+  解读：在“已经活到 $t$”的前提下，接下来瞬间发生事件的瞬时速率（rate），不是概率。
+- 大样本直观：对足够大的群体，$h(t)\Delta t\approx$“在 $(t,t+\Delta t)$ 区间内死亡人数 / $t$ 时刻仍在险人数”。
+- 累积风险函数：  
+  $$H(t)=\int_0^t h(u)\,du$$  
+  是风险函数曲线下的面积。
+- 关键关系：$S(t)=\exp[-H(t)]$，以及 $h(t)=-\frac{d}{dt}\log S(t)$，要能在不同表示间互相转换。
+- 比例风险 (Proportional Hazards, PH)：若两组风险函数 $h_1(t),h_0(t)$ 满足  
+  $$\frac{h_1(t)}{h_0(t)}=r\ (\text{常数})$$  
+  则称存在比例风险关系，$r$ 就是风险比 (HR)。
+- PH 特性：对基线风险 $h_0(t)$ 的形状不做限制，只要求两组之间按恒定比例伸缩；这是 Cox 模型的核心假设。
+- 考试时要能区分：  
+  - “HR 恒定” vs “$h_0(t)$ 的具体形状未知”；  
+  - 风险函数是“速率”，可以＞1；生存函数是“概率”，在 [0,1] 内。
+
+**Lec9 – Intro to Cox Models（Cox 模型简介）**
+
+- 一般风险回归形式：$h(t,x,\beta)=h_0(t)r(x,\beta)$，其中 $h_0(t)$ 描述随时间变化的“基线风险”，$r(x,\beta)$ 描述协变量效应。
+- 要求 $r(x,\beta)>0$：保证风险函数非负；通常通过指数形式实现。
+- 当参数化为 $r(x=0,\beta)=1$ 时，$h_0(t)$ 可解释为“协变量全为 0 时的基线风险函数”。
+- Cox（1972）提出的比例风险模型：取 $r(x,\beta)=\exp(x\beta)$，得到  
+  $$h(t,x)=h_0(t)\exp(x\beta)$$  
+  相应的风险比为  
+  $$HR(t;x_1,x_0)=\exp[\beta(x_1-x_0)]$$
+- 二分类协变量例子：若 $x=1$ 为男性、$x=0$ 为女性，则 $HR=\exp(\beta)$；例如 $\beta=\log 2$ 表示男性死亡速率是女性的 2 倍。
+- Cox 模型的“半参数”特性：不需要指定 $h_0(t)$ 的具体分布（非参数），只对协变量效应 $\beta$ 做参数建模。
+- 直观解释：Cox 模型给出的是“相对风险”（hazard ratio），而不是直接的绝对风险或生存概率。
+
+**Lec10 – Cox Models Estimation and Interpretation（Cox 多变量模型与解释）**
+
+- 多协变量 Cox 模型：  
+  $$h(t,x)=h_0(t)\exp(\beta_1x_1+\cdots+\beta_px_p)$$  
+  在 log-hazard 尺度上是线性回归：$\log h(t,x)-\log h_0(t)=\beta_1x_1+\cdots+\beta_px_p$。
+- 线性预测子中“没有截距”的原因：当 $x=0$ 时，$h(t,x)=h_0(t)$，基线水平已经由 $h_0(t)$ 表达，因此不需要单独常数项。
+- 单协变量模型 HR：对某个协变量 $X$，$e^{\beta}$ 是该变量 1 单位增加对应的 HR；多协变量模型中，其含义是“在控制其他协变量的条件下”的 HR。
+- HR 和 CI 的计算：  
+  - HR 点估计：$\widehat{HR}=\exp(\hat\beta)$。  
+  - 95% CI：$\exp(\hat\beta\pm1.96\,SE(\hat\beta))$。  
+  要能在给定 $\hat\beta$、SE 时手算出区间并解释。
+- 解释模板：  
+  - 连续变量：“在其他变量不变的情况下，$X$ 每增加 1 单位，死亡风险乘以 $\exp(\beta)$ 倍（即增加/减少 $(\exp(\beta)-1)\times 100\%$）。”  
+  - 二分类变量：“暴露组相对于对照组的死亡风险为 $\exp(\beta)$ 倍”。
+- 多变量情形的重点：同一个协变量在单变量 Cox 与多变量 Cox 中的估计可能不同（受混杂影响），解释时要说清是 crude 还是 adjusted。
+- 讲义中通过例子演示：单变量 HR 与控制其他变量后的 HR 对比，帮助理解混杂与多变量建模的意义。
+
+**Lec11 – Cox Models: Confounding, Effect Modification, and Model Comparison（混杂、效应修饰与模型比较）**
+
+- 混杂 (confounding) 的判定：  
+  - 假设主暴露为 $X_1$，潜在混杂为 $X_2$，比较只含 $X_1$ 的模型与含 $X_1,X_2$ 的模型中 $X_1$ 的回归系数。  
+  - 若差异较大，则 $X_2$ 是混杂；若差异很小，则 $X_2$ 似乎不是混杂。
+- 百分比变化指标：  
+  $$\Delta\hat\beta\% = 100\times\frac{\thetâ-\hat\beta}{\hat\beta}$$  
+  其中 $\thetâ$ 为不含混杂变量的小模型估计，$\hat\beta$ 为含混杂变量的大模型估计。
+- 经验阈值：若没有具体临床指导，一般以绝对值约 20% 作为是否认定混杂的粗略标准（出自 Hosmer 等）。
+- 效应修饰 (effect modification)：  
+  - 在模型中加入交互项（例如 $X_1\times X_2$），考察 $X_1$ 的效应是否随 $X_2$ 的水平而改变。  
+  - 若交互项显著，说明存在效应修饰，“某暴露对不同亚组的影响不同”。
+- 模型比较：  
+  - 使用似然比检验（LRT）比较嵌套模型（例如含/不含某协变量或交互项）。  
+  - 使用 AIC 等信息准则比较非嵌套模型，选取拟合较好且较简洁的模型。
+- 示例：  
+  - 性别与年龄对死亡风险的模型中，展示 crude HR 与 adjusted HR 的差别；  
+  - 加入交互项后如何解读“年龄效应因性别而异”。
+
+**Lec12 – PROC PHREG (Part I）（SAS 中拟合 Cox 模型）**
+
+- Framingham 心脏研究案例：约 4700 名受试者，关注舒张压对冠心病 (CHD) 的影响，并控制性别、年龄、BMI 等协变量。
+- 数据结构与变量：`followup`（随访天数）、`chdfate`（1=CHD, 0=删失）、`sex`、`dbp`、`age`、`bmi` 等。
+- `PROC PHREG` 基本语法：  
+  ```sas
+  proc phreg data=framingham;
+     class sex(ref='1') / param=ref;
+     model followup*chdfate(0) = sex age bmi dbp_c / ties=EFRON;
+  run;
+  ```
+- `time*status(0)` 形式：星号前为随访时间，括号中指定“删失值”；要牢记 0 通常代表删失。
+- `CLASS` 语句：指定分类变量，并通过 `ref=` 和 `param=ref` 设置参考组和虚拟变量编码方式。
+- `ties=` 选项：指定 ties 处理方式（BRESLOW/EFRON/EXACT），课程推荐使用 `EFRON`，比默认 `BRESLOW` 更精确。
+- 输出解读：  
+  - 参数估计表：包含 $\hat\beta$、标准误、Wald $\chi^2$、p 值、HR 和 HR 的 95% CI。  
+  - 模型整体检验（例如全局似然比检验）。  
+  - 若指定 `risklimits` 或 `rl`，会直接输出 HR CI。
+- 教学重点：  
+  - 能写出基本 PHREG 语句结构。  
+  - 能从输出中读出每个协变量的 HR 和 CI，并做文字解释。
+
+**Lec13 – PROC PHREG (Part II）（非比例风险与时变协变量）**
+
+- 非比例风险 (non-PH) 问题：当某协变量的 HR 随时间改变时，PH 假设被违反，需要扩展 Cox 模型。
+- 检验 PH 假设的思路：  
+  - 图形法：如 log(-log S) vs log(t) 是否平行。  
+  - 在 PHREG 中加入与时间的交互项（例如 $X\times\log t$）并检验交互项系数。  
+  - 使用残差（如 Schoenfeld 残差）和 `assess ph` 语句（在其他讲义和 cheatsheet 中也出现）。
+- 非 PH 的处理策略：  
+  1. 加时间交互项：允许协变量效应随时间变化，得到 time-varying coefficient 模型。  
+  2. 分层 Cox（stratified Cox）：对违反 PH 但不关心其 HR 的变量做分层，每层有独立 $h_0(t)$，共享同一组 $\beta$。  
+  3. 使用时变协变量 (TDC)：把原本“固定”的协变量按时间拆成不同时间段的指标变量。
+- `PROC PHREG` 中拟合含非 PH 的 Cox 模型时，要学会：  
+  - 在 `model` 语句中加入时间函数，如 `x*log(time)`。  
+  - 使用 `strata` 语句做分层，而不是把该变量放在 `class` 中估计 HR。
+- 通过 RECID 数据（囚犯再犯时间）示例，演示：  
+  - 如何判断“经济援助”变量的 PH 假设是否合理。  
+  - 如何通过交互项或分层方式调整模型。
+- 时变协变量 (time-dependent covariate, TDC) 的引入：为 Lec14 做铺垫，说明在单个 PHREG 中也可以通过编程语句构造 TDC。
+
+**Lec14 – Time-Dependent Covariates in Cox Models（Cox 模型中的时变协变量）**
+
+- Stanford 心脏移植数据：103 名病人，变量包括出生日期、入组日期、移植日期、末次随访日期、生存状态等，是处理 TDC 的经典案例。
+- TDC 的动机：移植状态（已移植/未移植）在随访过程中发生变化，不能简单当作 baseline 固定协变量，否则容易产生“永生时间偏倚 (immortal time bias)”。
+- 变量构造：  
+  - `surv1 = dls - doa`：从入组到末次随访的总生存时间。  
+  - `ageaccpt`：入组年龄。  
+  - `wait = dot - doa`：等待移植的时间。  
+  - `trans`：是否曾经移植（时变）。
+- 两种实现思路：  
+  1. 编程语句在一条记录内更新协变量值（适用于简单 TDC 情形）。  
+  2. 计数过程 (counting-process) 形式：每人拆成多条记录，每条记录对应一个时间区间和该区间内的协变量值，是更通用、灵活的做法。
+- 在 `PROC PHREG` 中拟合含 TDC 的 Cox 模型：  
+  - `model (start, stop)*status(0) = trans ageaccpt ...;`  
+  - 注意 TDC 变量通常不能放在 `class` 语句中，而是作为数值型协变量处理。
+- HR 解释：在时变协变量下，`exp(\beta_{\text{trans}})` 表示“在任意给定时间点，已移植病人的风险与尚未移植病人的风险之比”，其含义是条件在当前时间的“瞬时相对风险”。
+- 考试要点：  
+  - 能识别需要用 TDC 的情形（暴露在随访中发生改变）。  
+  - 能说出为什么把移植状态当作基线固定协变量会产生偏倚（移植前必须先活到有机会移植）。
+
+### 第二部分：GLM 与离散结局 (Lec15–Lec21)
+
+**Lec15 – Intro to Generalized Linear Models（广义线性模型概述）**
+
+- GLM 三大组成：  
+  1. 响应变量的分布族（如正态、二项、Poisson、负二项等）。  
+  2. 线性预测子 $\eta=\beta_0+\beta_1X_1+\cdots+\beta_pX_p$。  
+  3. 链接函数 $g$：满足 $g\{\mathbb{E}(Y\mid X)\}=\eta$。
+- 线性回归作为 GLM 特例：  
+  - $Y\sim N(\mu,\sigma^2)$，  
+  - $\eta=\mu$，  
+  - 链接函数为恒等：$g(\mu)=\mu$。
+- Logistic 回归：  
+  - $Y\sim\text{Bernoulli}(p)$，  
+  - $\eta=\text{logit}(p)=\log\{p/(1-p)\}$，  
+  - 模型为 $\logit\{P(Y=1\mid X)\}=\beta_0+\beta_1X_1+\cdots$。
+- 对比线性 vs logistic：  
+  - 线性回归的预测值可以越界（＜0 或＞1），不适合概率。  
+  - logistic 回归通过 logit 链接保证预测概率在 (0,1) 内。
+- GLM 的统一性：用一套框架处理二分类、计数、比例、过度离散计数（负二项）等不同类型的响应，为后续 Poisson、NB、GEE 等打基础。
+
+**Lec16 – Multinomial Logistic Regression（多项 Logit 回归）**
+
+- 适用场景：结局为“无自然顺序”的多类别（nominal）变量，如交通工具选择（bus/train/car）、疾病类型等。
+- 模型形式（参考类别设为 1）：  
+  $$\log\frac{P(Y=k\mid X)}{P(Y=1\mid X)}=\alpha_k+\beta_{k1}X_1+\cdots+\beta_{kp}X_p,\quad k=2,\dots,K$$
+- 从模型得到每一类别概率：利用指数形式写出 $P(Y=k\mid X)$，并验证各类别概率之和为 1。
+- 参数解释：$\beta_{kj}$ 表示协变量 $X_j$ 对“属于类别 $k$ 相对于参考类别 1”的 log-odds 的影响；$e^{\beta_{kj}}$ 是相应的 OR。
+- 与二分类 logistic 区别：每个非参考类别有一套独立的截距和斜率，允许不同类别间协变量效应不同。
+- 考题常问：  
+  - 如何设参考类？  
+  - 如何解释“相对于 public transport，开车的 OR 为 ...”这类系数？
+
+**Lec17 – Ordinal Logistic Regression（有序 Logit / 比例优势模型）**
+
+- 适用结局：有明确顺序的分类，如满意度（strongly disagree → strongly agree）、病情严重程度、费用等级等。
+- 累积概率与累积 odds：  
+  - $P(Y\le k)=p_1+\cdots+p_k$，  
+  - $\text{odds}(Y\le k)=\dfrac{P(Y\le k)}{P(Y>k)}$。
+- 比例优势模型（proportional odds model）：  
+  $$\logit\{P(Y\le k\mid X)\}=\alpha_k+\beta_1X_1+\cdots+\beta_mX_m,\quad k=1,\dots,K-1$$  
+  即每个 cut-point 有不同截距 $\alpha_k$，但共享同一组斜率 $\beta$。
+- Proportional Odds 假设：自变量对“向更高等级发展”的影响在所有 cut-point 上相同；图形上表现为不同 cut-point 的 logit 曲线“平行”。
+- 检验该假设：Hosmer 等书和 SAS 输出中通常有“Score test for the proportional odds assumption”，p 值小表示假设被破坏，需要考虑使用 multinomial logit（`link=glogit`）替代。
+- 参数解释：  
+  - 若按 $P(Y\le k)$ 建模且 $\beta>0$，表示 $X$ 增大使“处于较低等级”的 log-odds 增加（即更倾向于低等级）；  
+  - 若使用 `descending` 或 $P(Y\ge k)$，解释方向相反，注意看清软件说明。
+
+**Lec18 – Intro to Poisson Regression（Poisson 计数回归）**
+
+- Poisson 分布特性：  
+  - $E(Y)=\lambda$，$\text{Var}(Y)=\lambda$；  
+  - 常用于建模计数数据，如事件次数、住院次数等。
+- 比较三种回归：线性（连续、正态）、logistic（二项、概率）、Poisson（计数、率）；理解各自的分布及参数含义。
+- Poisson 回归模型：  
+  $$\log\{\lambda_i\}=\beta_0+\beta_1X_{i1}+\cdots+\beta_pX_{ip}$$  
+  其中 $\lambda_i=E(Y_i\mid X_i)$ 是期望计数。
+- 率和 offset：当每个观察有不同暴露时间或人数时，建模目标是“发生率”$\lambda_i/t_i$，可写为  
+  $$\log\lambda_i=\log t_i+\beta_0+\cdots$$  
+  其中 $\log t_i$ 作为 offset（系数固定为 1）。
+- 参数解释：$\exp(\beta_j)$ 是发生率比（incidence rate ratio, IRR），例如“X 每增加 1 单位，事件率增加 $\exp(\beta_j)$ 倍”。
+- 考试常考：  
+  - 识别“计数 + 不同随访时间”→ Poisson + offset。  
+  - 简单手算 IRR 与其 CI。
+
+**Lec19 – Intro to PROC GENMOD（SAS 中的 GLM 与 GEE）**
+
+- `PROC GENMOD` 的角色：拟合各种 GLM，包括线性、logistic、有序 logistic、Poisson、负二项、零膨胀模型等，并可通过 `REPEATED` 做 GEE。
+- 核心语句：  
+  - `PROC GENMOD <options>;`：指定数据集、是否画图等（如 `data=`, `plots=`）。  
+  - `CLASS`：指定分类变量及其参考水平、编码方式。  
+  - `MODEL response = predictors / dist= link=`：指定响应变量及协变量，明确分布与链接函数。  
+  - `REPEATED SUBJECT=id / type=`：在 GEE 中指定聚类单位和工作相关结构。
+- ODS 图形：用 `ODS GRAPHICS ON;` 开启图形输出，在 `PLOTS=` 中指定要画的诊断图（如 `PREDICTED`, `DFBETA` 等）。
+- CLASS 选项示例：`CLASS treatment(ref='4') age(ref='1') / PARAM=REF;`，能控制参考组（first/last/具体值）和参数编码方式。
+- MODEL 语句中的 `events/trials` 形式：可用于二项数据（成功次数 / 总次数）。
+- 使用 GENMOD 的要点：  
+  - 根据题目选择合适的 `dist=` 与 `link=` 组合（normal+identity, binomial+logit, poisson+log 等）。  
+  - 能读懂输出中的参数估计、SE、Wald 检验与（若请求）OR/IRR。
+
+**Lec20 – Poisson Regression: Case Study（Poisson 回归案例：保险索赔）**
+
+- 保险索赔数据结构：按年龄组（2 级）和车辆类型（3 类）分类，每格给出保单数 $N$ 与索赔次数 $Y$。
+- 建模目标：分析索赔“率”如何随年龄组和车辆类型变化，使用 Poisson 回归加 offset（log 保单数）。
+- 模型形式：  
+  $$\log E(Y_i\mid\text{car},\text{age}) = \log N_i + \beta_0+\beta_1\text{car}_1+\beta_2\text{car}_2+\beta_3\text{age}$$  
+  其中 car1, car2 为虚拟变量，age 为年龄组指标。
+- `PROC GENMOD` 代码要点：  
+  ```sas
+  proc genmod data=insure;
+     class car(ref='small') age(ref='1') / param=ref;
+     model Y = car age / dist=poi link=log offset=log_N type3;
+  run;
+  ```
+- `type3`：请求 Type III 检验，查看每个因子在控制其他因素后的整体效应。
+- 结果解读：  
+  - 对每个车种和年龄组的 IRR 做解释，例如“与 small 车、年龄组 1 相比，medium 车、年龄组 2 的索赔率为多少倍”。  
+  - 比较模型预测率与原始观测率是否接近。
+
+**Lec21 – Negative Binomial Regression（负二项回归）**
+
+- Poisson 的局限：要求 $E(Y)=\text{Var}(Y)$（均值=方差），但实际计数数据常常“过度离散”（方差＞均值），导致 Poisson 模型 SE 被低估、p 值过小。
+- 负二项分布：  
+  - $E(Y)=\mu$，$\text{Var}(Y)=\mu+\alpha\mu^2$，  
+  - 其中 $\alpha$ 为离散参数，$\alpha\to 0$ 时退化为 Poisson。
+- 负二项回归：在 Poisson 回归基础上增加一个方差参数 $\alpha$，仍用 log 链接建模 $\mu$，$\exp(\beta_j)$ 仍可解释为 IRR。
+- SAS 实现：  
+  - `PROC COUNTREG`：可设定 `dist=negbin(p=2)` 等；  
+  - 更常用：`PROC GENMOD` + `dist=negbin link=log`。
+- 示例：调查过去 12 个月认识多少被杀害的人（计数数据）时，数据远比 Poisson 预期多了大量零和大值 → Poisson 拟合差，应考虑 NB。
+- 考试要点：  
+  - 识别“过度离散”→ 检查 Pearson $\chi^2$/df 或 deviance/df 是否明显＞1。  
+  - 能写出从 Poisson 切换到 NB 的 GENMOD 语句，并保持对 $\beta$ 的 IRR 解释不变。
+
+### 第三部分：纵向与随机效应模型 (Lec22–Lec24)
+
+**Lec22 – GEE（广义估计方程，群体平均模型）**
+
+- 重复测量 / 纵向数据特点：同一受试者在多个时间点被重复观测，观测值间高度相关，不能当作独立样本。
+- 分两类建模思路：  
+  - 群体平均 (marginal) 模型：关注总体平均趋势；  
+  - 个体特异 (subject-specific) 模型：关注个体轨迹（后面 Lec23–24）。
+- GEE 的均值模型：与 GLM 相同，$g(E[Y_{ij}])=X_{ij}^\top\beta$；不同的是要额外指定一个工作相关矩阵 $R(\alpha)$。
+- 常见相关结构：  
+  - Independence (IND)：假设同一人内观测不相关（仅作对照）。  
+  - Exchangeable / Compound Symmetry (CS)：任意两个时间点相关性相同。  
+  - AR(1)：相关性随时间间隔指数衰减。  
+  - Unstructured (UN)：任意两点相关性单独估计，参数多。
+- 稳健（sandwich）标准误：GEE 的核心优点，只要均值模型正确且样本量足够大，即使 $R(\alpha)$ 设错，$\hat\beta$ 仍一致，且“empirical SE” 可给出正确推断。
+- 模型选择：GEE 不能用 AIC/BIC，常用 QIC（quasi-AIC）比较不同相关结构。
+- SAS 实现：  
+  ```sas
+  proc genmod data=long_data;
+     class id group;
+     model outcome = time group time*group / dist=bin link=logit;
+     repeated subject=id / type=AR(1) covb corrw;
+  run;
+  ```  
+  要能说明 `subject=id` 表示以受试者为聚类单元，`type=` 指定相关结构。
+
+**Lec23 – Random Intercept Model（随机截距混合模型）**
+
+- 模型形式：  
+  $$y_{ij}=\beta_0+\beta_1x_{ij}+b_i+\epsilon_{ij}$$  
+  其中：  
+  - fixed 部分：$\beta_0,\beta_1$ 表示总体平均截距和斜率；  
+  - random 部分：$b_i$ 是个体特异截距偏差（随机截距）。
+- 分布假设：  
+  - $b_i\sim N(0,\tau^2)$ 表示个体间差异；  
+  - $\epsilon_{ij}\sim N(0,\nu^2)$ 表示个体内残差；两者独立。
+- 方差与协方差：  
+  - $\text{Var}(y_{ij})=\tau^2+\nu^2$；  
+  - 同一人内任意两个时间点 $j\neq k$ 的协方差为 $\text{Cov}(y_{ij},y_{ik})=\tau^2$。
+- 组内相关系数 (ICC)：  
+  $$\text{ICC}=\frac{\tau^2}{\tau^2+\nu^2}$$  
+  表示总变异中由“个体间差异”造成的比例，ICC 越大，同一人的观测越相似。
+- 适用场景：每个体的趋势线近乎平行（斜率相同），只是起点不同；例如基线水平因人不同，但随时间变化速度相近。
+- SAS 中可用 `PROC MIXED` 拟合随机截距模型，指定 `random intercept / subject=id;`。
+
+**Lec24 – Random Slope Models（随机斜率混合模型）**
+
+- 随机截距模型的局限：假设所有人的斜率相同，只允许截距不同，对于“变化速度因人而异”的情况不合适。
+- 随机斜率模型：  
+  $$y_{ij}=\beta_0+(\beta_1+b_{1i})x_{ij}+\epsilon_{ij}$$  
+  其中 $b_{1i}\sim N(0,\tau^2)$ 表示个体在斜率上的随机偏差。
+- 示例：儿童阅读能力随年龄增长的例子；有的孩子进步快，有的进步慢，用平行线明显拟合不好，需要让每个孩子有自己的斜率。
+- 更一般的随机效应结构：随机截距 + 随机斜率  
+  $$y_{ij}=(\beta_0+b_{0i})+(\beta_1+b_{1i})x_{ij}+\epsilon_{ij}$$  
+  允许 $b_{0i}$ 与 $b_{1i}$ 相关，协方差矩阵通常设为 UN（非结构化）。
+- 软件实现：在 `PROC MIXED` 中使用  
+  ```sas
+  random intercept time / subject=id type=UN;
+  ```  
+  指定同一受试者内部截距和斜率的协方差结构。
+- 模型选择与解释：  
+  - 通过比较仅随机截距 vs 随机截距+随机斜率模型的拟合优度，判断是否需要随机斜率。  
+  - 解释时区分“群体平均斜率 $\beta_1$”与“个体特异斜率 $\beta_1+b_{1i}$”。
+
+---
 **祝考试顺利！(Good Luck!)**
