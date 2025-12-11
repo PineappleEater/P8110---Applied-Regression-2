@@ -1,0 +1,93 @@
+Question 1
+0 / 1 pts
+In a multinomial logistic regression, suppose that $Y$ has 4 categories, and the investigator is interested in testing whether age (continuous, measured in years)  is associated with $Y$. What is the degrees of freedom associated with the test?
+
+3 
+ 
+Unanswered
+Question 2
+0 / 1 pts
+In a multinomial logistic regression, suppose that $Y$ has 4 categories, and the investigator is interested in testing whether age (age groups, 4 categories)  is associated with $Y$. What is the degrees of freedom associated with the test? 
+
+9 
+ 
+Unanswered
+Question 3
+0 / 1 pts
+Ordinal logistic regression is also called
+
+  Generalized logic models 
+  Cumulative logit models 
+ 
+Unanswered
+Question 4
+0 / 1 pts
+In an ordinal logistic regression, a positive slope suggests an increased change that a subject with a higher score on $X$ will be observed in 
+
+  higher categories of Y 
+  lower categories of Y 
+ 
+Unanswered
+Question 5
+0 / 1 pts
+In a proportional odds regression, suppose that $Y$ has 4 categories, and the investigator is interested in testing whether age (age groups, 4 categories) is associated with Y. What is the degrees of freedom associated with the test?
+
+1 
+ 
+Unanswered
+Question 6
+0 / 1 pts
+In a proportional odds regression, suppose that $Y$ has 4 categories, and the investigator is interested in testing whether age (age groups, 4 categories) is associated with Y. If the investigator wants to test whether proportional odds assumption is reasonable, what is the degrees of freedom associated with the test?
+
+6 
+ 
+Unanswered
+Question 7
+0 / 1 pts
+A study was conducted to identify factors that explain difference in the number of hospital admission between different hospitals. The number of hospital admission was collected based on different time intervals in different hospitals, ranging from 3 months to 12 months. If fitting a Poisson regression model, the offset will be defined as
+
+  number of months that hospital admission data were collected in a hospital 
+  natural log of number of months that hospital admission data were collected in a hospital 
+ 
+Unanswered
+Question 8
+0 / 1 pts
+Deviance is defined as difference in the -2 times of log-likelihoods between
+
+  the current model and the saturated model 
+  the current model and the null model 
+ 
+Unanswered
+Question 9
+0 / 1 pts
+In a Poisson regression model, the goodness of fit test can use
+
+  Deviance 
+  Pearson Chi-square 
+  Both 
+  Neither 
+ 
+Unanswered
+Question 10
+0 / 1 pts
+If overdispersion in a Poisson regression model is corrected using the scale parameter (Deviance/DF $>$ 1), the point estimates of the regression coefficients between the models with and without specifying scale parameter will be 
+
+  different 
+  the same 
+ 
+Unanswered
+Question 11
+0 / 1 pts
+If overdispersion in a Poisson regression model is corrected using the scale parameter (Deviance/DF $>$ 1), the standard errors of the regression coefficients will be
+
+  smaller 
+  larger 
+  the same 
+ 
+Unanswered
+Question 12
+0 / 1 pts
+Negative binomial regression allows the conditional mean and variance of the count data to be different.
+
+  True 
+  False 

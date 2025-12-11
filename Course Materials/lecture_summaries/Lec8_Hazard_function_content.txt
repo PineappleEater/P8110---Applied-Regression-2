@@ -1,0 +1,118 @@
+Lecture: Lec8_Hazard_function
+Source: Lec8_Hazard_function.pdf
+
+======================================================================
+
+======================================================================
+Page 1
+======================================================================
+
+BIST P8110: Applied Regression II
+8. Hazard Function and Hazard Ratio
+Qixuan Chen
+Department of Biostatistics
+Columbia University
+1 / 7
+
+
+======================================================================
+Page 2
+======================================================================
+
+Hazard Functions
+▶The hazard function at time t
+h(t) = Pr {death by time t + ∆t|alive at time t}
+∆t
+▶h(t) is the instantaneous rate per unit time at which patients
+are dying at time t.
+▶For a large population,
+h(t)∆t ∼= number of deaths in the interval (t, t + ∆t)
+number of people alive at time t
+2 / 7
+
+
+======================================================================
+Page 3
+======================================================================
+
+Cumulative Hazard Functions
+▶The cumulative hazard is the integral of the hazard
+function from time 0 to time t:
+H(t) =
+Z t
+0
+h(u)du
+where,
+R t
+0 h(u)du is the area under the curve h(t) between time
+0 and time t.
+▶The survival function can be written as:
+S(t) = e−H(t) = e−
+R t
+0 h(u)du
+▶h(t) = 0: there is no risk of death and S(t) is flat at time t.
+▶Large values of h(t) imply a rapid rate of decline in S(t)
+3 / 7
+
+
+======================================================================
+Page 4
+======================================================================
+
+Proportional Hazards (PH)
+▶Suppose h0(t) and h1(t) are the hazard functions for
+patients on control and experimental treatments,
+respectively, then these treatments have proportional
+hazards (PH) if
+h1(t)
+h0(t) = r, for some constant r
+▶h1(t)/h0(t) is called hazard ratio (HR)
+▶The proportional hazards assumption places no restrictions
+on the shape of h0(t)
+▶The proportional hazards assumption requires that
+h1(t)/h0(t) = r for all times t
+4 / 7
+
+
+======================================================================
+Page 5
+======================================================================
+
+Relative Risks and Hazard Ratios
+▶Suppose that the risks of death by time t + ∆t for patients
+on control and experimental treatments who are alive at
+time t are h0(t)∆t and h1(t)∆t, respectively. Then the risk
+of experimental subjects at time t relative to control is
+h1(t)∆t
+h0(t)∆t = h1(t)
+h0(t)
+▶If h1(t) = rh0(t) at all times, then this relative risk is
+h1(t)∆t
+h0(t)∆t = h1(t)
+h0(t) = r
+▶thus, HR can be thought of as an instantaneous relative
+risk. If the PH assumption is true, the HR remains constant
+over time and equals to the relative risk.
+5 / 7
+
+
+======================================================================
+Page 6
+======================================================================
+
+More About the PH Assumption
+▶What does the PH assumption imply about the survival
+functions?
+h1(t) = rh0(t) ⇒H1(t) = rH0(t) ⇒S1(t) = [S0(t)]r
+▶This assumption is difficult to assess visually via K-M
+curves. Instead, graphic assessment should be based on
+plots of H(t).
+6 / 7
+
+
+======================================================================
+Page 7
+======================================================================
+
+Survival functions vs. Cumulative hazards
+7 / 7

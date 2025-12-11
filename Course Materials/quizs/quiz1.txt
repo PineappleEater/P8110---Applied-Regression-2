@@ -1,0 +1,69 @@
+Question 1
+0 / 1 pts
+Which of the followings are correct?
+
+  S(t) = Pr(T>t) 
+  S(t) = Pr(T>=t) 
+  S(t)=Pr(T<t) 
+ 
+Correct answer
+Question 2
+1 / 1 pts
+We recorded values of survival time in months of 10 cancer patients. The censored observations are denoted by a ``+''. The data are 13, 15, 17, 17+, 18, 18, 18+, 18+, 21, and 24+. If define t_j = 21, what is n_j?
+
+2
+2 (with margin: 0)
+ 
+Unanswered
+Question 3
+0 / 1 pts
+We recorded values of survival time in months of 10 cancer patients. The censored observations are denoted by a ``+''. The data are 13, 15, 17, 17+, 18, 18, 18+, 18+, 21, and 24+. What is the estimated survival function S(t) for the time point t=15?
+
+0.8 (with margin: 0)
+ 
+Unanswered
+Question 4
+0 / 1 pts
+We recorded values of survival time in months of 10 cancer patients. The censored observations are denoted by a ``+''. The data are 13, 15, 17, 17+, 18, 18, 18+, 18+, 21, and 24+. How many unique event time points does this data set contain? 
+
+5 (with margin: 0)
+ 
+Unanswered
+Question 5
+0 / 1 pts
+We recorded values of survival time in months of 10 cancer patients. The censored observations are denoted by a ``+''. The data are 13, 15, 17, 17+, 18, 18, 18+, 18+, 21, and 24+.  Is the following statement true? The Kaplan-Meier estimate of the survival function will go to zero by 24 days.
+
+  True 
+  False 
+ 
+Unanswered
+Question 6
+0 / 1 pts
+We recorded values of survival time in months of 10 cancer patients. The censored observations are denoted by a ``+''. The data are 13, 15, 17, 17+, 18, 18, 18+, 18+, 21, and 24+.  If define t_j = 18, what is n_j (the number of subjects at risk just prior to t_j?
+
+6 (with margin: 0)
+ 
+Unanswered
+Question 7
+0 / 1 pts
+We recorded values of survival time in months of 10 cancer patients. The censored observations are denoted by a ``+''. The data are 13, 15, 17, 17+, 18, 18, 18+, 18+, 21, and 24+.  If define t_j = 18, what is d_j (the number of events at time t_j? 
+
+2 (with margin: 0)
+ 
+Unanswered
+Question 8
+0 / 1 pts
+What transformation would you use for calculating the 95% CI of S(t)?
+
+  no transformation 
+  log transformation 
+  log-log transformation 
+ 
+Unanswered
+Question 9
+0 / 1 pts
+Which of the following options can be added to the SAS procedure to request the output of 95% CI for S(t)?
+
+  out 
+  outsurv 
+  output 

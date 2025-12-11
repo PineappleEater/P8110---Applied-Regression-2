@@ -1,0 +1,556 @@
+Lecture: Lec4_quantiles_and_mean
+Source: Lec4_quantiles_and_mean.pdf
+
+======================================================================
+
+======================================================================
+Page 1
+======================================================================
+
+BIST P8110: Applied Regression II
+4. Estimating Quantiles and Mean of Survival Time
+Qixuan Chen
+Department of Biostatistics
+Columbia University
+1 / 22
+
+
+======================================================================
+Page 2
+======================================================================
+
+This lecture’s big ideas
+▶Have you heard of “median survival time"?
+▶Quantiles estimation for survival data
+▶Mean estimation for survival data
+2 / 22
+
+
+======================================================================
+Page 3
+======================================================================
+
+Point Estimation of Quantiles
+▶Instead of estimating the survival probability at a given
+time, it is often useful to supplement the presentation with
+point and interval estimates of key quantiles.
+▶For example, we want to know the median survival time, t,
+such that S(t) = 0.50.
+▶The estimated survival function can be used to estimate
+quantiles of the survival time.
+▶Quantiles can easily be estimated graphically.
+3 / 22
+
+
+======================================================================
+Page 4
+======================================================================
+
+Graphical Presentation of Quantiles
+▶To obtain graphic estimates, begin on the survival
+probability axis at the quantile of interest, and draw a
+horizontal line until it first touches the estimated survival
+function. A vertical line is drawn to the time axis to obtain
+the estimated quantile.
+0
+5
+10
+15
+20
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+Time (in weeks)
+Survival Probability
+4 / 22
+
+
+======================================================================
+Page 5
+======================================================================
+
+Point Estimation of Quantile
+▶The general formula for estimating the 100pth percentile is
+ˆtp = min{tj : ˆS(tj) < 1 −p}
+▶The three quartiles of survival time are defined as follow:
+ˆt.25 = min{tj : ˆS(tj) < 0.75}
+ˆt.50 = min{tj : ˆS(tj) < 0.5}
+ˆt.75 = min{tj : ˆS(tj) < 0.25}
+▶If ˆS(tj) is exactly equal to 1 −p, the 100pth percentile is
+taken to be (tj + tj+1)/2.
+NOTE: The quantile estimators here are defined the same as SAS, but
+differently from the definition in Hosmer et al.
+5 / 22
+
+
+======================================================================
+Page 6
+======================================================================
+
+Cancer Recurrence Example
+Revisit the cancer recurrence example, among the 8 subjects, 5 have
+cancer returned at 10, 13, 14, 17, and 23 weeks, respectively after
+treatment. The other 3 subjects drop out at 13, 19, and 25 weeks.
+tj
+Interval
+nj
+dj
+pj = nj−dj
+nj
+ˆS(tj)
+95% CI
+0
+[0, 10)
+8
+0
+1
+1
+10
+[10, 13)
+8
+1
+7/8
+0.875
+(0.387, 0.981)
+13
+[13, 14)
+7
+1
+6/7
+0.75
+(0.315, 0.931)
+14
+[14, 17)
+5
+1
+4/5
+0.6
+(0.196, 0.852)
+17
+[17, 23)
+4
+1
+3/4
+0.45
+(0.108, 0.751)
+23
+[23, ∞)
+2
+1
+1/2
+0.225
+(0.012, 0.602)
+6 / 22
+
+
+======================================================================
+Page 7
+======================================================================
+
+Point Estimation of Quantiles
+▶Estimate median cancer recurrence survival time:
+ˆt.50 = min{tj : ˆS(tj) < 0.50}
+We have
+ˆS(17) = 0.45, ˆS(23) = 0.225
+→ˆt.50 = 17
+▶Interpretation: We estimate that half of patients will survive
+more than 17 weeks without cancer recurrence after
+treatment.
+7 / 22
+
+
+======================================================================
+Page 8
+======================================================================
+
+Point Estimation of Quantiles
+▶Estimate the first quartile (or the 25th percentile) of survival time:
+ˆt.25 = min{tj : ˆS(tj) < 0.75}
+ˆS(13) = 0.75
+ˆS(14) = 0.6 →ˆt.25 = (13 + 14)/2 = 13.5
+0
+5
+10
+15
+20
+25
+0.0
+0.4
+0.8
+Time (in weeks)
+Survival Probability
+▶Note: ˆS(tj) = 0.75, so ˆt.25 =
+tj +tj+1
+2
+.
+▶Interpretation: We estimate that 75 percent of patients will survive
+more than 13.5 weeks without cancer recurrence after treatment
+or 25 percent of patients will have cancer recurrence by 13.5
+weeks after treatment.
+8 / 22
+
+
+======================================================================
+Page 9
+======================================================================
+
+More on Quantile Estimation
+▶Only quantiles within the observed range of the estimated
+survival function may be estimated.
+▶Example: Since the last censoring time (25) is greater than
+the largest event time (23), the survival function cannot go
+to zero (ˆS(23) = 0.225). In this case, we cannot estimate
+90th percentile.
+0
+5
+10
+15
+20
+25
+0.0
+0.4
+0.8
+Time (in weeks)
+Survival Probability
+9 / 22
+
+
+======================================================================
+Page 10
+======================================================================
+
+Interval Estimation for Quantiles
+▶The 95% CI for the (100p)th percentile survival time is the
+set of all points t satisfying
+
+log[−logˆS(t)] −log[−log(1 −p)]
+q
+d
+Var(log[−logˆS(t)])
+
+≤1.96
+(1)
+if we use a log-log transformation on S(t).
+10 / 22
+
+
+======================================================================
+Page 11
+======================================================================
+
+Interval Estimation for Quantiles
+▶We can re-write
+
+log[−logˆS(t)] −log[−log(1 −p)]
+q
+d
+Var(log[−logˆS(t)])
+
+≤1.96
+11 / 22
+
+
+======================================================================
+Page 12
+======================================================================
+
+Interval Estimation for Quantiles
+▶Equation (1) can be re-written as
+exp[−exp(ˆCu)] ≤1 −p ≤exp[−exp(ˆCl)]
+(2)
+where,
+▶ˆCu = log[−log ˆS(t)] + 1.96
+q
+d
+Var(log[−log ˆS(t)])
+▶ˆCl = log[−log ˆS(t)] −1.96
+q
+d
+Var(log[−log ˆS(t)])
+▶The 95% CI for the (100p)th percentile survival time is the
+set of all points t satisfying equation (2).
+▶This is the Brookmeyer and Crowley (1982) method.
+12 / 22
+
+
+======================================================================
+Page 13
+======================================================================
+
+Interval Estimation for Quantiles
+▶Revisit the cancer recurrence example:
+tj
+Interval
+nj
+dj
+pj = nj−dj
+nj
+ˆS(tj)
+95% CI
+0
+[0, 10)
+8
+0
+1
+1
+10
+[10, 13)
+8
+1
+7/8
+0.875
+(0.387, 0.981)
+13
+[13, 14)
+7
+1
+6/7
+0.75
+(0.315, 0.931)
+14
+[14, 17)
+5
+1
+4/5
+0.6
+(0.196, 0.852)
+17
+[17, 23)
+4
+1
+3/4
+0.45
+(0.108, 0.751)
+23
+[23, ∞)
+2
+1
+1/2
+0.225
+(0.012, 0.602)
+▶The 95% CI for
+▶t0.25 (first quartile) is [10, 23)
+▶t0.5 (median) is [10, .)
+▶t0.75 (third quartile) is [14, .)
+13 / 22
+
+
+======================================================================
+Page 14
+======================================================================
+
+Interval Estimation for Quantiles
+▶Brookmeyer-Crowley CI can be demonstrated graphically.
+The 95% CI for ˆt50 is [10, .), ˆt75 is [14, .), and ˆt25 is [10, 23).
+0
+5
+10
+15
+20
+25
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+Time (in weeks)
+Survival Probability
+14 / 22
+
+
+======================================================================
+Page 15
+======================================================================
+
+More on CI Estimate for Quantiles
+▶An alternative method for calculating the 95% CI of
+quantiles is discussed in Hosmer et al.
+15 / 22
+
+
+======================================================================
+Page 16
+======================================================================
+
+Point Estimate of Mean
+▶In survival analysis, the sample mean is not so important
+as quantiles, because censoring survival time data are
+most often skewed to right.
+16 / 22
+
+
+======================================================================
+Page 17
+======================================================================
+
+Point Estimate of Mean
+▶The estimate of mean is based on the observed range of
+event times
+ˆµ(tJ) =
+J
+X
+j=1
+ˆS(tj−1)(tj −tj−1)
+where, J = # of unique time points with events
+ˆS(t0) = 1 and t0 = 0
+17 / 22
+
+
+======================================================================
+Page 18
+======================================================================
+
+Point Estimate of Mean
+▶The value of ˆµ(tJ) is the area under the step function
+defined by K-M estimate of S(t).
+▶When the largest observation is censored, the mean is
+under-estimated. Why?
+18 / 22
+
+
+======================================================================
+Page 19
+======================================================================
+
+Variance Estimate of Sample Mean
+▶The variance estimate for the mean estimate is:
+d
+Var (ˆµ(tJ)) =
+nd
+nd −1
+J−1
+X
+j=1
+A2
+j dj
+nj(nj −dj)
+where, nd = PJ
+j=1 dj
+Aj = PJ
+k=j+1 ˆS(tk−1)(tk −tk−1)
+19 / 22
+
+
+======================================================================
+Page 20
+======================================================================
+
+Mean Estimation
+▶Revisit the cancer recurrence example:
+j
+tj
+nj
+dj
+ˆS(tj)
+0
+0
+8
+0
+1
+1
+10
+8
+1
+0.875
+2
+13
+7
+1
+0.75
+3
+14
+5
+1
+0.6
+4
+17
+4
+1
+0.45
+5
+23
+2
+1
+0.225
+▶ˆµ(23) = 1 × (10 −0) + 0.875 × (13 −10) + 0.75 × (14 −13) +
+0.6 × (17 −14) + 0.45 × (23 −17) = 17.875
+20 / 22
+
+
+======================================================================
+Page 21
+======================================================================
+
+Mean Estimation
+▶Revisit the cancer recurrence example:
+j
+tj
+nj
+dj
+ˆS(tj)
+Aj
+0
+0
+8
+0
+1
+1
+10
+8
+1
+0.875
+7.875
+2
+13
+7
+1
+0.75
+5.25
+3
+14
+5
+1
+0.6
+4.5
+4
+17
+4
+1
+0.45
+2.7
+5
+23
+2
+1
+0.225
+▶d
+Var[ˆµ(23)] =
+5
+5−1
+h
+7.8752×1
+8(8−1) + 5.252×1
+7(7−1) + 4.52×1
+5(5−1) + 2.72×1
+4(4−1)
+i
+=
+4.22959 →
+q
+d
+Var[ˆµ(23)] = 2.0566
+▶95% CI: 17.875 ± 1.96 × 2.0566
+21 / 22
+
+
+======================================================================
+Page 22
+======================================================================
+
+Suggested Readings:
+▶Chapter 2.3 (Hosmer et al.)
+22 / 22

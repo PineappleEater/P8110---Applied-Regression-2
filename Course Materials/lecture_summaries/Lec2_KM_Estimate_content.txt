@@ -1,0 +1,543 @@
+Lecture: Lec2_KM_Estimate
+Source: Lec2_KM_Estimate.pdf
+
+======================================================================
+
+======================================================================
+Page 1
+======================================================================
+
+BIST P8110: Applied Regression II
+2. Kaplan-Meier Estimator of Survival Function
+Qixuan Chen
+Department of Biostatistics
+Columbia University
+1 / 25
+
+
+======================================================================
+Page 2
+======================================================================
+
+2 / 25
+
+
+======================================================================
+Page 3
+======================================================================
+
+3 / 25
+
+
+======================================================================
+Page 4
+======================================================================
+
+This lecture’s big ideas
+▶What is survival function?
+▶What is Kaplan-Meier estimator of survival function?
+4 / 25
+
+
+======================================================================
+Page 5
+======================================================================
+
+Survival function
+▶T denotes response variable, T ≥0
+▶The survival function is
+S(t) = Pr(T > t) = 1 −F(t)
+where F(t) is called cumulative distribution function (CDF)
+▶5-year survival rate: S(t = 5yrs) = Pr(T > 5yrs)
+▶How to estimate S(t)?
+▶Survival function without censoring
+▶Survival function with censoring
+5 / 25
+
+
+======================================================================
+Page 6
+======================================================================
+
+Estimating S(t) without censoring
+▶We have a sample of n subjects and the time Ti at which
+the event has occurred for the ith subject
+▶Such data is called completely uncensored because every
+subject has been observed to have an event
+▶Suppose we pick a point in time t at which we want to
+know S(t)
+▶Because we have an event time for every subject, S(t) is
+easy to estimate:
+S(t) = Pr(T > t) = # of subjects withTi > t
+n
+6 / 25
+
+
+======================================================================
+Page 7
+======================================================================
+
+Estimating S(t) without censoring
+▶Suppose we have 5 subjects whose cancer returned at 10,
+13, 14, 14, and 23 weeks, respectively, after treatment
+▶Then we can compute S(t) for any value of t:
+ˆS(t) =
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+5/5 = 1.0
+0 ≤t < 10
+4/5 = 0.8
+10 ≤t < 13
+3/5 = 0.6
+13 ≤t < 14
+1/5 = 0.2
+14 ≤t < 23
+0/5 = 0.0
+t ≥23
+7 / 25
+
+
+======================================================================
+Page 8
+======================================================================
+
+Displaying ˆS(t) graphically
+8 / 25
+
+
+======================================================================
+Page 9
+======================================================================
+
+Estimating S(t) with censoring
+▶When right censoring occurs, our previous method of
+computing ˆS(t) breaks down
+▶Why?
+9 / 25
+
+
+======================================================================
+Page 10
+======================================================================
+
+Estimating S(t) with censoring
+▶Returning to our previous example, suppose one of the
+subjects recorded at 14 weeks actually left the study at 14
+weeks and was cancer-free
+▶The data are now recorded as 10, 13, 14, 14+, and 23
+weeks
+▶using 14+ to denote right-censoring at 14 weeks
+▶Questions:
+▶Can we estimate ˆS(t) for any value of t < 14?
+▶Can we estimate ˆS(t) for any value of t ≥14?
+10 / 25
+
+
+======================================================================
+Page 11
+======================================================================
+
+Estimating S(t) with censoring
+▶We can still compute ˆS(t) for any t < 14 using the formula
+below because we know the censored subject was
+cancer-free for at least 14 weeks.
+S(t) = Pr(T > t) = # of subjects withTi > t
+n
+▶We can NOT compute ˆS(t) for any t ≥14 because we do
+not know whether the censored subject had cancer
+recurrence after leaving the study.
+11 / 25
+
+
+======================================================================
+Page 12
+======================================================================
+
+Estimating S(t) with censoring
+With the event and censored information, we have:
+ˆS(t) =
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+5/5 = 1.0
+0 ≤t < 10
+4/5 = 0.8
+10 ≤t < 13
+3/5 = 0.6
+13 ≤t < 14
+???
+14 ≤t < 23
+???
+t ≥23
+▶We can fill in the ??? if we make some assumption about
+the future of the censored subject.
+12 / 25
+
+
+======================================================================
+Page 13
+======================================================================
+
+Estimating S(t) with censoring
+If we assume that the censored subject had cancer recurrence
+immediately after leaving, we have:
+ˆS(t) =
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+5/5 = 1.0
+0 ≤t < 10
+4/5 = 0.8
+10 ≤t < 13
+3/5 = 0.6
+13 ≤t < 14
+1/5 = 0.2
+14 ≤t < 23
+0/5 = 0.0
+t ≥23
+▶Such an approach is too conservative and makes S(t) too
+low (negative biased) for t ≥14
+13 / 25
+
+
+======================================================================
+Page 14
+======================================================================
+
+Estimating S(t) with censoring
+If we assume that the censored subject lived longer than 23
+weeks, we have:
+ˆS(t) =
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+5/5 = 1.0
+0 ≤t < 10
+4/5 = 0.8
+10 ≤t < 13
+3/5 = 0.6
+13 ≤t < 14
+2/5 = 0.4
+14 ≤t < 23
+1/5 = 0.2
+t ≥23
+▶Such an approach is too liberal and makes S(t) too large
+(positive biased) for t ≥14
+14 / 25
+
+
+======================================================================
+Page 15
+======================================================================
+
+Estimating S(t) with censoring
+The "right" answer lies somewhere in-between the two biased
+approaches:
+ˆS(t) =
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1.0
+0 ≤t < 10
+0.8
+10 ≤t < 13
+0.6
+13 ≤t < 14
+[0.2, 0.4]
+14 ≤t < 23
+[0.0, 0.2]
+t ≥23
+▶The "right" answer was developed by Kaplan & Meier
+(1958), leading to the so-called Kaplan-Meier estimator
+of S(t).
+15 / 25
+
+
+======================================================================
+Page 16
+======================================================================
+
+Kaplan-Meier estimate of S(t)
+▶The first step is to identify and order the unique survival
+time points among the subjects with an event
+▶For our example with data of 10, 13, 14, 14+, and 23, there
+are J = 4 values: t1 = 10, t2 = 13, t3 = 14, and t4 = 23
+▶These time points define J + 1 = 5 non-overlapping
+intervals: [0, 10), [10, 13), [13, 14), [14, 23), [23, ∞)
+16 / 25
+
+
+======================================================================
+Page 17
+======================================================================
+
+Kaplan-Meier estimate of S(t)
+▶For each interval, we compute pj, the conditional survival
+probability
+▶the probability of surviving through the entire interval, given
+being in the study (at risk) at the beginning of the interval.
+▶For the jth interval, j = 1, 2, ..., J, we have:
+pj = 1 −
+# of events at tj
+#of subjects at risk just prior to tj
+= 1 −dj
+nj
+= nj −dj
+nj
+17 / 25
+
+
+======================================================================
+Page 18
+======================================================================
+
+Kaplan-Meier estimate of S(t)
+▶For the cancer recurrence example, we can obtain:
+j
+tj
+Interval
+nj
+dj
+pj = nj−dj
+nj
+0
+0
+[0,10)
+1
+10
+[10,13)
+2
+13
+[13,14)
+3
+14
+[14,23)
+4
+23
+[23,∞)
+18 / 25
+
+
+======================================================================
+Page 19
+======================================================================
+
+Kaplan-Meier estimate of S(t)
+▶Thus the probability of surviving to the end of interval j∗is
+simply the product of the conditional survival probability of
+all intervals prior to and including interval j∗.
+▶For example:
+Prob(surviving to the end of third interval) =
+Prob(surviving the first interval) ×
+Prob(surviving the second interval) ×
+Prob(surviving the third interval)
+19 / 25
+
+
+======================================================================
+Page 20
+======================================================================
+
+Kaplan-Meier estimate of S(t)
+▶This concept defines the K-M estimate of S(t)
+ˆS(t) =
+Y
+j:tj≤t
+(1 −dj
+nj
+) =
+Y
+j:tj≤t
+nj −dj
+nj
+▶In words, the Kaplan-Meier estimate of the survival
+probability to time t is the product of surviving each interval
+that occurs before or including t
+▶For our example, the estimated survival probability to
+t = 20 would be the product of surviving the intervals
+[0, 10), [10, 13), [13, 14), and [14, 23)
+20 / 25
+
+
+======================================================================
+Page 21
+======================================================================
+
+Kaplan-Meier estimate of S(t)
+▶For the cancer recurrence example, we have:
+j
+tj
+nj
+dj
+pj = nj−dj
+nj
+0
+0
+5
+0
+1
+1
+10
+5
+1
+4/5
+2
+13
+4
+1
+3/4
+3
+14
+3
+1
+2/3
+4
+23
+1
+1
+0
+▶Using the above table, we can compute the K-M estimates:
+For t in
+ˆS(t)
+[0, 10)
+1
+[10, 13)
+1 × 4/5 = 0.8
+[13, 14)
+1 × 4/5 × 3/4 = 0.6
+[14, 23)
+1 × 4/5 × 3/4 × 2/3 = 0.4
+[23, ∞)
+4/5 × 3/4 × 2/3 × 0/1 = 0.0
+21 / 25
+
+
+======================================================================
+Page 22
+======================================================================
+
+Kaplan-Meier survival curve
+22 / 25
+
+
+======================================================================
+Page 23
+======================================================================
+
+More on Kaplan-Meier Estimator
+▶Kaplan-Meier estimator is also called the product limit
+estimator.
+▶Subjects who die contribute to the number at risk until their
+time of death, at which point they also contribute to the
+number of deaths. Subjects who are censored contribute to
+the number at risk until they are censored.
+▶If the last observed time point corresponds to a censored
+observation, then the estimate of the survival function does
+not go to zero and is undefined after the last time point.
+▶Life-table estimator of survival function is an alternative to
+the Kaplan-Meier estimator (Page 24 Hosmer).
+23 / 25
+
+
+======================================================================
+Page 24
+======================================================================
+
+Independence of censoring
+▶In using KM estimator, we make a crucial assumption that
+censoring is independent of survival time.
+▶Put another way, censoring is non-informative, i.e. not due
+to causes related to when a subject would have an event
+▶such an assumption is valid with administrative censoring
+(i.e. study ends)
+24 / 25
+
+
+======================================================================
+Page 25
+======================================================================
+
+Informative censoring
+▶Examples of informative censoring:
+▶Suppose we follow a cohort of new graduate students to
+see what factors affect how long it takes them to get a Ph.D.
+▶Some students drop out before completing the degree -
+these observations are right censored.
+▶There is a good reason to suspect that those who drop out
+are among those who would take more time to finish if they
+stayed until completion.
+▶Informative censoring can lead to severe bias, but it is
+difficult in most situations to estimate the magnitude or
+direction of the bias
+25 / 25

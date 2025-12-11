@@ -1,0 +1,119 @@
+Lecture: Lec15_GLM
+Source: Lec15_GLM.pdf
+
+======================================================================
+
+======================================================================
+Page 1
+======================================================================
+
+BIST P8110: Applied Regression II
+15. Intro to Generalized Linear Models
+Qixuan Chen
+Department of Biostatistics
+Columbia University
+1 / 8
+
+
+======================================================================
+Page 2
+======================================================================
+
+Introduction to GLM
+▶What is generalized linear models (GLM)?
+▶a flexible generalization of linear regression that allows for
+response variables to have distributions other than a
+normal distribution, such as
+▶binomial
+▶Poisson
+▶negative binomial
+▶Why we need GLM?
+▶Response variables can be various types of data
+2 / 8
+
+
+======================================================================
+Page 3
+======================================================================
+
+Model Components in GLM
+▶The GLM consists of three elements:
+▶A probability distribution for the respondent variable
+▶A linear predictor η = β0 + β1X1 + · · · + βpXp
+▶A link function g such that g{E(Y|X)} = η
+3 / 8
+
+
+======================================================================
+Page 4
+======================================================================
+
+Linear Regression
+▶Linear regression is a special case of the GLM
+▶Yi = β0 + β1Xi1 + · · · + βpXip + ϵi, ϵi
+iid∼N(0, σ2)
+▶E(Yi|Xi) = β0 + β1Xi1 + · · · + βpXip
+▶Y ∼Normal distribution
+▶η = β0 + β1X1 + · · · + βpXp
+▶Identity link function g{E(Y|X)} = E(Y|X) = η
+4 / 8
+
+
+======================================================================
+Page 5
+======================================================================
+
+Logistic Regression
+▶Logistic regression is another type of GLM
+▶logit{E(Yi|Xi)} = log Pr(Yi=1|Xi)
+Pr(Yi=0|Xi) = β0 + β1Xi1 + · · · + βpXip
+▶Y ∼Bernoulli distribution
+▶η = β0 + β1X1 + · · · + βpXp
+▶Logit link function g{E(Y|X)} = logit{E(Y|X)} = η
+5 / 8
+
+
+======================================================================
+Page 6
+======================================================================
+
+Linear versus Logistic Regression
+▶The fitted values of the linear regression model:
+ˆµ = ˆβ0 + ˆβ1X1 + · · · + ˆβpXp.
+▶The fitted values of the logistic regression model:
+logit(bp) = ˆβ0 + ˆβ1X1 + · · · + ˆβpXp,
+or with some algebra
+ˆp =
+e ˆβ0+ˆβ1X1+···+ˆβpXp
+1 + e ˆβ0+ˆβ1X1+···+ˆβpXp .
+6 / 8
+
+
+======================================================================
+Page 7
+======================================================================
+
+Interpretation of βj
+▶In linear regression
+▶the average change in Y associated with a one-unit
+increase in Xj, holding all the other covariates constant
+(adjusting for the other variables in the model)
+▶In logistic regression
+▶the change in log odds of event associated with a one-unit
+increase in Xj, holding all the other covariates constant
+▶or the odds of event is multiplied by eβj for a one-unit
+increase in Xj, adjusting for the other variables in the model
+7 / 8
+
+
+======================================================================
+Page 8
+======================================================================
+
+Other GLMs
+▶Other GLMs to be covered include
+▶multinomial logistic regression (generalized logit model)
+▶ordinal logistic regression (proportional odds model)
+▶Poisson regression
+▶negative binomial regression
+8 / 8

@@ -1,0 +1,209 @@
+Lecture: Lec9_intro_to_Cox
+Source: Lec9_intro_to_Cox.pdf
+
+======================================================================
+
+======================================================================
+Page 1
+======================================================================
+
+BIST P8110: Applied Regression II
+9. Intro to Cox Models
+Qixuan Chen
+Department of Biostatistics
+Columbia University
+1 / 11
+
+
+======================================================================
+Page 2
+======================================================================
+
+Regression Models for Hazard Functions
+▶One form of a regression model for the hazard function is
+h(t, x, β) = h0(t)r(x, β)
+▶h0(t): characterizes how the hazard function changes as a
+function of survival time.
+▶r(x, β): characterizes how the hazard function changes as
+a function of subject covariates.
+▶r(x, β) must be chosen such that r(x, β) > 0, why?
+▶When the function r(x, β) is parameterized such that
+r(x = 0, β) = 1, h0(t) is frequently referred to as the
+baseline hazard function.
+2 / 11
+
+
+======================================================================
+Page 3
+======================================================================
+
+Hazard Ratio in Regression Models
+▶The ratio of the hazard functions for two subjects with
+covariate values denoted as x1 and x0 is
+HR(t, x1, x0) = h(t, x1, β)
+h(t, x0, β)
+= h0(t)r(x1, β)
+h0(t)r(x0, β)
+= r(x1, β)
+r(x0, β)
+▶The HR function depends only on the function r(x, β).
+3 / 11
+
+
+======================================================================
+Page 4
+======================================================================
+
+Cox Proportional Hazards Model
+▶Cox (1972) suggested using r(x, β) = exp(xβ). With this
+parameterization the hazard function is
+h(t, x, β) = h0(t)exβ
+and the hazard ratio is
+HR(t, x1, x0) = eβ(x1−x0)
+▶This model is referred to the Cox model, the Cox
+proportional hazards model, or the proportional
+hazards model.
+4 / 11
+
+
+======================================================================
+Page 5
+======================================================================
+
+Cox Proportional Hazards Model
+▶For example, when a covariate is dichotomous, such as
+gender, with a value of x1 = 1 for males and x0 = 0 for
+females, the hazard ratio becomes
+HR(t, x1, x0) = eβ.
+▶If the value of the coefficient is β = log(2), then the
+interpretation is that males are "dying" at twice (eβ = 2) the
+rate of females.
+5 / 11
+
+
+======================================================================
+Page 6
+======================================================================
+
+Cox Proportional Hazards Model
+▶An attractive feature of the proportional hazards model is
+the interpretation of hazard ratio as “relative-risk" type ratio.
+▶The term proportional hazards refers to the fact that the
+hazard ratio is constant over survival time. This is an
+important assumption for the proportional hazards model.
+▶The proportional hazards model is a semi-parametric
+model in that it makes no assumptions about the shape of
+the control hazard function h0(t).
+6 / 11
+
+
+======================================================================
+Page 7
+======================================================================
+
+Survival Functions under the Cox Model
+▶Under the proportional hazards model, the survival
+function is
+S(t, x, β) = [S0(t)]exp(xβ)
+where, S0(t) = e−
+R t
+0 h0(u)du is the baseline survival function.
+▶In the example on slide 5,
+S(t, x1 = 1) = [S0(t)]2
+S(t, x0 = 0) = S0(t)
+Since 0 ≤S0(t) ≤1, we have S(t, x1 = 1) ≤S(t, x0 = 0). This is
+consistent with our conclusion on slide 5 that males are "dying"
+at a bigger rate than females. What happens if β = −log(2)?
+7 / 11
+
+
+======================================================================
+Page 8
+======================================================================
+
+Log Partial Likelihood in the Cox Model
+▶When there are no tied survival times, the regression
+coefficient β is estimated based on the log partial likelihood
+function
+lp(β) =
+m
+X
+j=1
+
+
+xjβ −log
+ X
+k∈R(tj)
+exkβ
+
+
+
+where, m is the number of distinct ordered failure times and xj
+denotes the value of the covariate for the subject with failure
+time at tj. The summation within log is over all subjects at risk at
+time tj, denoted by R(tj).
+8 / 11
+
+
+======================================================================
+Page 9
+======================================================================
+
+Estimate β in the Cox Model
+▶The maximum partial likelihood estimator, ˆβ, can be
+obtained by solving
+∂lp(β)
+∂β
+= 0
+▶The estimator of the variance of the estimated coefficient is
+the inverse of observed information matrix evaluated at ˆβ
+d
+var(ˆβ) = I(ˆβ)−1
+where, the information matrix I(β) = −∂2lp(β)
+∂β2
+▶The estimated standard error of ˆβ is c
+SE(ˆβ) =
+q
+d
+Var(ˆβ) and the
+95% CI is ˆβ ± 1.96 × c
+SE(ˆβ).
+9 / 11
+
+
+======================================================================
+Page 10
+======================================================================
+
+Test the Significance of β in the Cox Model
+▶Three tests to assess the significance of β are
+▶The partial likelihood ratio test
+▶The Wald test
+▶The score test.
+▶The partial likelihood ratio test:
+G = 2{lp(ˆβ) −lp(0)} ∼χ2
+1
+where, lp(ˆβ) and lp(0) are the log partial likelihood (on slide 8)
+evaluated at β = ˆβ and β = 0, respectively.
+10 / 11
+
+
+======================================================================
+Page 11
+======================================================================
+
+Test the Significance of β in the Cox Model
+▶The Wald test:
+z =
+ˆβ
+c
+SE(ˆβ)
+∼N(0, 1)
+▶The score test:
+z∗= ∂lp/∂β
+p
+I(β)
+
+β=0
+∼N(0, 1)
+11 / 11

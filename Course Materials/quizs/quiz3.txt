@@ -1,0 +1,82 @@
+Question 1
+0 / 1 pts
+Hazard function h(t) can be negative.
+
+  True 
+  False 
+ 
+Unanswered
+Question 2
+0 / 1 pts
+Let h1(t) and h0(t) denote the hazard function for patients on the treatment and control group, respectively. We have  h1(t)/h0(t)=2.
+
+  S_1(t) < S_0(t) 
+  S_1(t) > S_0(t) 
+ 
+Unanswered
+Question 3
+0 / 1 pts
+Let h_1(t) and h_0(t) denote the hazard function for patients on the treatment and control group, respectively. We have  h_1(t)/h_0(t)=2. Let H_1(t) and H_0(t) denote the cumulative hazard function for the treatment and control group. Which statement is correct? 
+
+  H_1(t) > H_0(t) 
+  H_1(t) < H_0(t) 
+ 
+Unanswered
+Question 4
+0 / 1 pts
+To assess the proportional hazard assumption, which plot is more useful?
+
+  Survival function by time 
+  Cumulative hazard function by time 
+ 
+Unanswered
+Question 5
+0 / 1 pts
+Which of the following models is written correctly? 
+
+  h(t,x,\beta)=h_0(t)\exp(\beta_0 + \beta_1x_1 + \beta_2x2) 
+  h(t,x,\beta)=h_0(t)\exp(\beta_1x_1 + \beta_2x2) 
+ 
+Unanswered
+Question 6
+0 / 1 pts
+Which of the following statements is correct?
+
+  Cox model is a non-parametric model. 
+  Cox model is a parametric model. 
+  Cox model is a semi-parametric model. 
+ 
+Unanswered
+Question 7
+0 / 1 pts
+We fit two Cox models, where model 1 regresses on treatment (1 vs 0) while model 2 regresses on treatment (1 vs 0), age (continuous), sex (M vs F), and race (White, Black, and Other). If we want to test whether model 2 is better than model 1, which test can be used based on the information provided in SAS output?
+
+  Likelihood ratio test 
+  Wald test 
+  both 
+ 
+Unanswered
+Question 8
+0 / 1 pts
+We fit two Cox models, where model 1 regresses on treatment (1 vs 0) while model 2 regresses on treatment (1 vs 0), age (continuous), sex (M vs F), and race (White, Black, and Other). If we want to test whether model 2 is better than model 1, what is the degrees of freedom associated with the test?
+
+  4 
+  5 
+  3 
+  6 
+ 
+Unanswered
+Question 9
+0 / 1 pts
+Which statement in PROC PHREG can be used to output the conditional survival function?
+
+  assess 
+  baseline 
+  output 
+ 
+Unanswered
+Question 10
+0 / 1 pts
+When var(b_3)=0.3, var(b_2)=0.2, and cov(b_2,b_3)=0.1, calculate var(b_3-b_2).
+
+0.3 

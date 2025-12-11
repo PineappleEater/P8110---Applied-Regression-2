@@ -1,0 +1,290 @@
+Lecture: Lec10_Cox_model
+Source: Lec10_Cox_model.pdf
+
+======================================================================
+
+======================================================================
+Page 1
+======================================================================
+
+BIST P8110: Applied Regression II
+10. Cox Models Estimation and Interpretation
+Qixuan Chen
+Department of Biostatistics
+Columbia University
+1 / 15
+
+
+======================================================================
+Page 2
+======================================================================
+
+Multivariable Cox Models
+▶Suppose that the hazard depends on several covariates,
+say p covariates (X1, X2, . . . , Xp).
+▶For now, we assume that the values of these covariates do
+not change over time (time-independent).
+▶Let the vector x represent the values of the p covariates,
+xT = (x1, x2, . . . , xp).
+▶Let h0(t) be the hazard function for an individual with
+xT = (0, 0, . . . , 0).
+▶The Cox model can be written as:
+h(t, xi) = h0(t)exp(β1xi1 + β2xi2 + · · · + βpxip)
+2 / 15
+
+
+======================================================================
+Page 3
+======================================================================
+
+Multivariable Cox Model
+▶The Cox model can be rewritten as:
+log
+nh(t, xi)
+h0(t)
+o
+= β1xi1 + β2xi2 + · · · + βpxip
+▶there is no constant term in the linear component. Why?
+▶we make no assumption regarding the actual form of the
+baseline hazard function, h0(t).
+▶HR = eβ
+3 / 15
+
+
+======================================================================
+Page 4
+======================================================================
+
+HR Estimation and Interpretation: One
+Covariate Only
+4 / 15
+
+
+======================================================================
+Page 5
+======================================================================
+
+HR Estimate and 95% CI
+▶The estimated hazard ratio is e ˆβ.
+▶A 95% CI for HR is estimated as
+exp(ˆβ −1.96 c
+SE(ˆβ)), exp(ˆβ + 1.96 c
+SE(ˆβ))
+5 / 15
+
+
+======================================================================
+Page 6
+======================================================================
+
+Example 1: Dichotomous Covariate
+▶EX1: Fit a Cox model with binary x (1 = experimental
+group; 0 = control group).
+▶Model: h(t, x, β) = h0(t)exβ
+▶Hazard ratio: HR = h(t,x=1,β)
+h(t,x=0,β) = h0(t)eβ×1
+h0(t)eβ×0 = eβ
+6 / 15
+
+
+======================================================================
+Page 7
+======================================================================
+
+Example 1: Dichotomous Covariate
+▶Example 1.1 positive β estimate
+▶ˆβ = 0.555, c
+SE(ˆβ) = 0.282
+▶d
+HR = e0.555 = 1.742
+▶the estimated 95% CI for HR:
+e ˆβ±1.96×c
+SE( ˆβ) = e0.555±1.96×0.282 = (1.003, 3.027)
+▶The HR can be interpreted as
+▶The death rate among patients in the experimental group is
+1.742 times that among patients in the control group
+throughout the study period, and this could be as little as
+1.003 times or as much as 3.027 times with 95 percent
+confidence,
+▶Or, the death rate among patients in the experimental group
+is 74.2 percent larger than that among patients in the control
+group throughout the study period, and it could be as little as
+0.3 percent larger or as much as 202.7 percent larger with
+95 percent confidence.
+7 / 15
+
+
+======================================================================
+Page 8
+======================================================================
+
+Example 1: Dichotomous Covariate
+▶Example 1.2 negative β estimate
+▶ˆβ = −0.684, c
+SE(ˆβ) = 0.215
+▶d
+HR = e−0.684 = 0.505
+▶the 95% CI for HR:
+e ˆβ±1.96×c
+SE( ˆβ) = e−0.684±1.96×0.215 = (0.331, 0.769)
+▶The HR can be interpreted as
+▶The death rate among patients in the experimental group is
+0.505 times that of patients in the control group throughout
+the study period, and this could be as little as 0.769 times or
+as much as 0.331 times with 95 percent confidence,
+▶Or, the death rate among patients in the experimental
+treatment group is 49.5 percent less than that of patients in
+the control group throughout the study period, and this
+decrease could be as little as 23.1 percent or as much as
+66.9 percent with 95 percent confidence.
+8 / 15
+
+
+======================================================================
+Page 9
+======================================================================
+
+Example 2: Continuous Covariate
+▶EX2: Fit a Cox model with continuous x = age (in years).
+▶Model: h(t, x, β) = h0(t)exβ
+▶ˆβ = 0.046, c
+SE(ˆβ) = 0.012
+▶For continuous covariates, the hazard ratio for the clinically
+interesting unit of change along with its CI are frequently
+reported, e.g. consider a 5-year increase in age:
+▶d
+HR(5-year increase in age) = e5×0.046 = 1.259
+▶95% CI = e5×0.046±1.96×5×0.012 = (1.119, 1.416)
+▶Interpretation: the death rate increases by 25.9 percent for
+every 5-year increase in age, and this increase could be as
+little as 11.9 percent and as much as 41.6 percent with 95
+percent confidence.
+9 / 15
+
+
+======================================================================
+Page 10
+======================================================================
+
+Example 3: Nominal Covariate
+▶EX3: the age of patients was categorized into four groups
+< 60, [60, 70), [70, 80), and ≥80.
+▶With the method of reference cell coding, using the
+youngest age group (age < 60) as the reference group,
+three dummy variables were created:
+▶“age_2" (1 = 60 ≤age < 70; 0 = otherwise)
+▶“age_3" (1 = 70 ≤age < 80; 0 = otherwise)
+▶“age_4" (1 = ≥80; 0 = otherwise)
+10 / 15
+
+
+======================================================================
+Page 11
+======================================================================
+
+Example 3: Nominal Covariate
+▶EX3: let x1 = age_2, x2 = age_3, and x3 = age_4.
+▶Model: h(t, x1, x2, x3, β) = h0(t)exp(β1x1 + β2x2 + β3x3)
+▶HR(t, age group 2 vs. 1) = eβ1
+▶HR(t, age group 3 vs. 1) = eβ2
+▶HR(t, age group 4 vs. 1) = eβ3
+▶HR(t, age group 3 vs. 2) = eβ2−β1
+▶HR(t, age group 4 vs. 2) = eβ3−β1
+▶HR(t, age group 4 vs. 3) = eβ3−β2
+11 / 15
+
+
+======================================================================
+Page 12
+======================================================================
+
+Example 3: Nominal Covariate
+▶EX3: The estimation and interpretation of HR for the first
+three group comparisons (2 vs 1, 3 vs 1, 4 vs 1) are similar
+to dichotomous covariates.
+12 / 15
+
+
+======================================================================
+Page 13
+======================================================================
+
+Example 3: Nominal Covariate
+▶EX3: The estimation of HR for the last three group
+comparisons (3 vs 2, 4 vs 2, 4 vs 3) needs some
+calculation.
+▶Suppose that
+▶ˆβ2 = 0.986, ˆβ3 = 1.263
+▶d
+Var(ˆβ2) = 0.173, d
+Var(ˆβ3) = 0.198
+▶d
+Cov(ˆβ2, ˆβ3) = 0.126
+▶d
+HR(t, age group 4 vs 3) = e ˆβ3−ˆβ2 = e1.263−0.986 = 1.319
+▶The estimated variance of ˆβ3 −ˆβ2 is
+d
+Var(ˆβ3 −ˆβ2) = d
+Var(ˆβ3) + d
+Var(ˆβ2) −2 d
+Cov(ˆβ3, ˆβ2)
+= 0.198 + 0.173 −2 × 0.126 = 0.119
+▶The estimated 95% CI is
+e( ˆβ3−ˆβ2)±1.96×c
+SE( ˆβ3−ˆβ2) = e(1.263−0.986)±1.96×
+√
+0.119
+= (0.671, 2.594)
+13 / 15
+
+
+======================================================================
+Page 14
+======================================================================
+
+Example 3: Nominal Covariate
+▶EX3: Test the significance of the difference in two age
+groups.
+▶Hypothesis: H0 : β3 −β2 = 0 vs. Hα : β3 −β2 ̸= 0
+▶Test statistic: z =
+ˆβ3−ˆβ2
+c
+SE( ˆβ3−ˆβ2) = 1.263−0.986
+√
+0.119
+= 0.803
+▶P-value = Pr(|Z| ≥|0.803|) = 0.422
+▶Decision rule: p-value > 0.05, fail to reject H0 at α = 0.05.
+▶Conclusion: There is insufficient evidence to conclude that
+the death rates differ between patients aged 70-80 and
+patients older than 80.
+14 / 15
+
+
+======================================================================
+Page 15
+======================================================================
+
+Example 3: Nominal Covariate
+▶the estimate of variance for c1ˆα + c2ˆγ is
+d
+Var(c1ˆα + c2ˆγ) = c2
+1 d
+Var(ˆα) + c2
+2 d
+Var(ˆγ) + 2c1c2 d
+Cov(ˆα, ˆγ)
+▶Ex 3: c1 = 1, c2 = −1, ˆα = ˆβ3, ˆγ = ˆβ2
+d
+Var(ˆβ3 −ˆβ2)
+=d
+Var(1ˆβ3 + (−1)ˆβ2)
+=12d
+Var(ˆβ3) + (−1)2d
+Var(ˆβ2) + 2 × 1 × (−1) d
+Cov(ˆβ3, ˆβ2)
+=d
+Var(ˆβ3) + d
+Var(ˆβ2) −2 d
+Cov(ˆβ3, ˆβ2)
+15 / 15

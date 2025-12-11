@@ -1,0 +1,254 @@
+Lecture: Lec11_more_for_CoxModel
+Source: Lec11_more_for_CoxModel.pdf
+
+======================================================================
+
+======================================================================
+Page 1
+======================================================================
+
+BIST P8110: Applied Regression II
+11 - Cox Models:
+Confounding, Effect Modification, and Model Comparison
+Qixuan Chen
+Department of Biostatistics
+Columbia University
+1 / 15
+
+
+======================================================================
+Page 2
+======================================================================
+
+Assessment of Confounding
+▶Suppose we fit two models:
+h(t, xi1) = h0(t)exp(β1xi1)
+and
+h(t, xi1, xi2) = h0(t)exp(β1xi1 + β2xi2)
+▶If X2 is a confounder, β1 in the two models differ. If they are
+about the same, we conclude that X2 does not appear to
+be a confounder.
+2 / 15
+
+
+======================================================================
+Page 3
+======================================================================
+
+Assessment of Confounding
+▶The following index is usually used to check the amount of
+confounding
+∆ˆβ% = 100
+ˆθ −ˆβ
+ˆβ
+▶ˆθ denotes the estimate from the model that does not
+contain the potential confounder (the smaller model)
+▶ˆβ denotes the estimate from the model that does include
+the potential confounder (the larger model)
+▶The criterion for ∆ˆβ% is more driven by research
+experience than statistical thresholds. If no clinical
+guideline is available, an absolute value of 20 percent is
+used (page 134, Hosmer et al. 2008).
+3 / 15
+
+
+======================================================================
+Page 4
+======================================================================
+
+Example 4: Control of Confounding
+▶EX4: Fit a Cox model to estimate gender effect (d = 1 for
+female, 0 for male) by controlling for continuous age x
+▶Model: h(t, d, x, β) = h0(t)exp(β1d + β2x)
+▶HR(t, d(1 vs 0), x) = h(t,d=1,x)
+h(t,d=0,x) = eβ1
+▶HR(t, d, 5-yr ↑) = h(t,d,x=a+5)
+h(t,d,x=a)
+= e5β2
+4 / 15
+
+
+======================================================================
+Page 5
+======================================================================
+
+Example 4: Control of Confounding
+▶EX4: Interpretation of HR
+▶c
+HR(t, d(1vs 0), x) = e ˆβ1: The death rate among females is
+e ˆβ1 times of that among males given age.
+▶c
+HR(t, d = 1, 5-yr ↑) = e5 ˆβ2: The death rate increases by
+(e5 ˆβ2 −1) × 100 percent for every 5-year increase in age
+given gender.
+▶The model with gender only h(t, d, θ) = h0(t)eθ1d is usually
+referred to as the crude model, and the model with control
+of confounding h(t, d, x, β) = h0(t)eβ1d+β2x is usually
+referred to as the adjusted model.
+5 / 15
+
+
+======================================================================
+Page 6
+======================================================================
+
+Example 4: Control of Confounding
+▶EX4: Does age appear to confound the relationship
+between gender and survival?
+▶The coefficients ˆβ1 for gender in the crude model and the
+adjusted model are estimated, respectively, as 0.555 and
+0.149.
+▶∆ˆβ% = 100 0.555−0.149
+0.149
+= 272.4%
+▶Since including age in the model has huge impact on the
+coefficient for gender, it does appear that age confounds
+the relationship between gender and survival.
+6 / 15
+
+
+======================================================================
+Page 7
+======================================================================
+
+Including Interaction Terms in the Model
+▶An interaction term effect (effect modification) exists
+between two variables if the effect of variable A varied by
+values of variable B. Variable B is called the effect modifier.
+▶To model the interaction, the main effects as well as their
+product must be included in the model.
+7 / 15
+
+
+======================================================================
+Page 8
+======================================================================
+
+Including Interaction Terms in the Model
+▶Once we make the decision that there is evidence that a
+covariate is an effect modifier, discussion of its role as a
+confounder is no longer relevant. The model with
+interaction terms is usually referred to as the interaction
+model.
+▶In real data analysis, we only keep interaction terms that
+are statistically significant. However, a confounder with a
+big change in the estimated coefficient can be clinically
+significant even if it is not statistically significant. In this
+case, this confounder is usually kept in the model.
+8 / 15
+
+
+======================================================================
+Page 9
+======================================================================
+
+Example 5: Interaction Terms
+▶EX5: If gender effect varies with age, then age is said to be
+an effect modifier. The simplest way to determine whether
+x is an effect modifier is to include the product term x × d
+in the model.
+▶Model: h(t, d, x, β) = h0(t)exp(β1d + β2x + β3dx)
+▶HR(t, d(1 vs 0), x = a) = eβ1+β3a
+▶HR(t, d(1 vs 0), x = a + 5) = eβ1+β3(a+5)
+▶HR(t, d = 1, x(a + 5 vs a)) = e5β2+5β3
+▶HR(t, d = 0, x(a + 5 vs a)) = e5β2
+9 / 15
+
+
+======================================================================
+Page 10
+======================================================================
+
+Example 5: Interaction Terms
+▶EX5: Test the significance of the interaction term.
+▶Hypothesis: H0 : β3 = 0 vs. Hα : β3 ̸= 0
+▶Wald test: z =
+ˆβ3
+c
+SE( ˆβ3) = −0.042
+0.024 = −1.75
+▶p-value: Pr(|Z| ≥| −1.75|) = 0.08 > 0.05
+▶Rejection rule: fail to reject H0 at α = 0.05
+▶Conclusion: there is insufficient evidence to conclude that
+age modifies the effect between gender and survival.
+10 / 15
+
+
+======================================================================
+Page 11
+======================================================================
+
+Model Selection in the Cox Model
+11 / 15
+
+
+======================================================================
+Page 12
+======================================================================
+
+Testing Significance of a Cox Model
+▶Test the overall significance of the model:
+h(t, x) = h0(t)exp(β1X1 + β2X2 + · · · + βpXp)
+▶hypothesis: H0 : β1 = β2 = · · · = βp = 0 vs. Hα : not H0
+▶the log partial likelihood ratio test is G = 2[lp(ˆβ) −lp(0)]
+▶under the null hypothesis that all p coefficients are
+simultaneously equal to zero, and when large sample
+conditions are met, G follows a chi-square distribution
+with p degrees of freedom.
+▶p-value for the test G is Pr(χ2
+p ≥G).
+12 / 15
+
+
+======================================================================
+Page 13
+======================================================================
+
+Comparison of Two Nested Models
+▶Compare two models:
+▶model 1: h(t, X) = h0(t)exp(β1X1 + β2X2 + · · · + βpXp)
+▶model 2:
+h(t, X) = h0(t)exp(β1X1 + β2X2 + · · · + βpXp + · · · + βqXq)
+▶hypothesis: H0 : βp+1 = · · · = βq = 0 vs. Hα : not H0
+▶the log partial likelihood ratio test is G = 2[lq(ˆβ) −lp(ˆβ)]
+▶Under H0 and with large sample size, G follows a
+chi-square distribution with q −p degrees of freedom.
+▶p-value for the test G is Pr(χ2
+q−p ≥G).
+13 / 15
+
+
+======================================================================
+Page 14
+======================================================================
+
+General Survival Data Analysis Strategy
+▶Step 1: Kaplan-Meier survival curve, quartiles, and log-rank test for
+variables of interest; descriptive statistics for all covariates
+▶Step 2: Univariable cox proportional hazards models – fit a model with
+one variable at a time
+▶Step 3: Multivariable cox proportional hazards model with variables
+significant in the univariable analysis as well as any other variables not
+selected with this criterion but judged to be of clinical importance
+▶Step 4: Reduce the multivarible model by comparing models using log
+partial likelihood ratio test 2[llarge model(ˆβ) −lsmall model(ˆβ)]. The variables
+that are neither statistically significant nor an important confounder are
+removed from the multivariable model
+▶Step 5: Examine the scale of the continuous covariates, transformation
+of the covariate may be needed (Section 5.2.1 Hosmer et al. 2008).
+▶Step 6: Add significant interaction terms
+▶Step 7: Model evaluation: checking model assumption, influential
+observations, and overall goodness of fit (Chapter 6 Hosmer et al.
+2008).
+14 / 15
+
+
+======================================================================
+Page 15
+======================================================================
+
+Suggested Readings
+▶Chapter 2.5, 3.1-3.2, 3.3 pages 80-85, 4.1-4.4 (Hosmer et
+al.)
+▶Chapter 6.11-6.14, 7.1-7.5 (Dupont)
+15 / 15

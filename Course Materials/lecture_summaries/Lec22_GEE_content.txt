@@ -1,0 +1,1607 @@
+Lecture: Lec22_GEE
+Source: Lec22_GEE.pdf
+
+======================================================================
+
+======================================================================
+Page 1
+======================================================================
+
+BIST P8110: Applied Regression II
+22. GEE
+Qixuan Chen
+Department of Biostatistics
+Columbia University
+1 / 62
+
+
+======================================================================
+Page 2
+======================================================================
+
+Introduction to Repeated Measures
+▶Repeated measures analysis is concerned with study
+designs in which the same patient is observed repeatedly
+over time.
+▶Such data is also referred to as longitudinal data.
+▶In analyzing these data, we must take into consideration
+the fact that the multiple observations on the same patient
+are usually correlated.
+2 / 62
+
+
+======================================================================
+Page 3
+======================================================================
+
+Some hypothetical data
+3 / 62
+
+
+======================================================================
+Page 4
+======================================================================
+
+An Example of Repeated Measures
+▶An example of longitudinal data
+▶The blood pressure of the same patient at different times in
+a day.
+▶Measurements on the same patient at different times may
+be more alike than measurements on different patients.
+▶To make valid statistical inference, models that take into
+account the correlation of multiple measurements on the
+same patient are needed.
+4 / 62
+
+
+======================================================================
+Page 5
+======================================================================
+
+Data Structure
+▶The data structure of the repeated measures data of ith
+patient’s blood pressure looks like
+Yi =
+
+
+BPi1
+BPi2
+BPi3
+
+
+Xi =
+
+
+ti1
+agei
+ti2
+agei
+ti3
+agei
+
+=
+
+
+1
+40
+2
+40
+3
+40
+
+
+where, age is the baseline age and it is time-invariant.
+5 / 62
+
+
+======================================================================
+Page 6
+======================================================================
+
+Statistical Models for Repeated Measures
+▶There are two approaches on modeling repeated
+measures data
+▶The population-averaged approach: estmating equations
+▶The subject-specific approach: mixed models
+6 / 62
+
+
+======================================================================
+Page 7
+======================================================================
+
+GEE
+▶Generalized Estimating Equation (GEE) extends the
+generalized linear models so that it can handle repeated
+measures data (Liang and Zeger, 1986).
+▶To do GEE analysis, we need to specify
+▶Mean response of a data vector Yi,
+▶Variance of each element of Yi,
+▶Working correlation matrix among observations of Yi on the
+same unit.
+7 / 62
+
+
+======================================================================
+Page 8
+======================================================================
+
+GEE: Mean Response
+▶The mean response of a data vector yi is modeled as a
+function of time, other covariates, and parameters β by
+using a generalized linear model-type mean structure to
+represent the mean response of each element of Yi
+▶Continuous data Yij:
+E(Yij) = β0 + β1 × tij + β2 × agei
+▶Binary data Yij:
+logit{Pr(Yij = 1)} = β0 + β1 × tij + β2 × agei
+▶Count data Yij:
+log{E(Yij)} = log(nij) + β0 + β1 × tij + β2 × agei
+8 / 62
+
+
+======================================================================
+Page 9
+======================================================================
+
+GEE: Variance
+▶The variance of each element of Yi is
+▶Continuous data Yij:
+Var(Yij) = σ2
+▶Binary data Yij:
+Var(Yij) = E(Yij)(1 −E(Yij))
+▶Count data Yij:
+Var(Yij) = E(Yij)
+▶The variance are often modified to allow for greater
+variation by the addition of a dispersion parameter ϕ.
+9 / 62
+
+
+======================================================================
+Page 10
+======================================================================
+
+GEE: Working Correlation Matrix
+▶The correlation among pairs of observations on the same
+data vector needs to be specified.
+▶The often used correlation structures are
+▶Independence
+▶Unstructured correlation
+▶Compound symmetry correlation
+▶AR(1) correlation
+▶The chosen correlation structure is referred to as the
+"working correlation matrix", because there is no formal
+way to check whether the correlation structure is correct.
+10 / 62
+
+
+======================================================================
+Page 11
+======================================================================
+
+GEE: Unstructured Correlation
+▶Unstructured correlation places no restriction on the nature
+of association among elements of a data vector
+
+
+1
+ρ12
+ρ13
+ρ21
+1
+ρ23
+ρ31
+ρ32
+1
+
+
+where, ρij = ρji.
+▶The unstructured working correlation assumption in this
+example depends on k(k −1)/2 = 3 × 2/2 = 3 distinct
+correlation parameters.
+11 / 62
+
+
+======================================================================
+Page 12
+======================================================================
+
+GEE: Compound Symmetry Correlation
+▶Compound symmetry (exchangeable) correlation assumes
+that the correlation between distinct observations on the
+same unit is the same regardless of when in time the
+observations were taken.
+
+
+1
+ρ
+ρ
+ρ
+1
+ρ
+ρ
+ρ
+1
+
+
+▶Compound symmetry correlation assumption depends on
+only one correlation parameter.
+12 / 62
+
+
+======================================================================
+Page 13
+======================================================================
+
+GEE: AR(1) Correlation
+▶AR(1) correlation assumes that correlation among
+observations "tails off"
+
+
+1
+ρ
+ρ2
+ρ
+1
+ρ
+ρ2
+ρ
+1
+
+
+or, more generally
+
+
+1
+ρ
+ρ2
+. . .
+ρk−1
+ρ
+1
+ρ
+. . .
+ρk−2
+ρ2
+ρ
+1
+. . .
+ρk−3
+...
+...
+...
+...
+...
+ρk−1
+. . .
+ρ2
+ρ
+1
+
+
+13 / 62
+
+
+======================================================================
+Page 14
+======================================================================
+
+GEE: Estimate β
+▶We won’t talk about how, but GEE can be used to estimate
+the regression coefficients and variance parameters in
+GLMs for repeated measures.
+▶Two variance estimation methods
+▶model-based variance estimate
+▶robust ("sandwich" or "empirical") variance estimate
+14 / 62
+
+
+======================================================================
+Page 15
+======================================================================
+
+GEE: Wald Test for β
+▶We can use the Wald test to test the hypothesis
+H0 : β1 = 0 vs. Hα : β1 ̸= 0
+▶The test statistic
+( ˆβ1 −0)2
+Vβ
+∼χ2
+1
+15 / 62
+
+
+======================================================================
+Page 16
+======================================================================
+
+Case Study I: Repeated Measures for Normal
+Data
+16 / 62
+
+
+======================================================================
+Page 17
+======================================================================
+
+Blood Flow Data
+▶Example: effect of race and dose of isoproterenol on blood
+flow (Dupont 2009)
+▶“Lang et al. (1995) studied the effect of isoproterenol on
+forearm blood flow in a group of 22 normotensive men.
+Nine of the study subjects were blacks and 13 were whites.
+Each subject’s blood flow was measured at baseline and
+then at escalating doses of isoproterenol."
+Lang, C.C., Stein, C.M., Brown, R.M., Deegan, R., Nelson, R., He,
+H.B., et al. Attenuation of isoproterenol-mediated vasodilatation in
+blacks. N. Engl. J. Med. 1995; 333: 155-60
+17 / 62
+
+
+======================================================================
+Page 18
+======================================================================
+
+Data Structure
+The repeated measures data for the first two subjects are
+displayed as follow:
+id
+dose
+race
+fbf
+1
+0
+1
+1.0000
+1
+10
+1
+1.4000
+1
+20
+1
+6.4000
+1
+60
+1
+19.1000
+1
+150
+1
+25.0000
+1
+300
+1
+24.6000
+1
+400
+1
+28.0000
+2
+0
+1
+2.1000
+2
+10
+1
+2.8000
+2
+20
+1
+8.3000
+2
+60
+1
+15.7000
+2
+150
+1
+21.9000
+2
+300
+1
+21.7000
+2
+400
+1
+30.1000
+18 / 62
+
+
+======================================================================
+Page 19
+======================================================================
+
+Research Questions
+▶The key research questions to address in this study are
+1. whether forearm blood flow increases as the dose of
+isoproterenol increases,
+2. and whether the effect of dose of isoproterenol on blood
+flow is different between normotensive black and white
+men.
+19 / 62
+
+
+======================================================================
+Page 20
+======================================================================
+
+Descriptive Figures
+▶Figure 1: Plot of forearm
+blood flow against
+isoproterenol dose for
+white and black men.
+Straight lines connect
+observations from the
+same study subjects.
+▶This plot is useful when
+the number of subjects is
+small.
+▶This is called "spaghetti
+plot".
+20 / 62
+
+
+======================================================================
+Page 21
+======================================================================
+
+Descriptive Figures
+▶Figure 2: Mean rates of forearm blood flow in black and white men in
+response to different doses of isoproterenol. The vertical bars indicate
+the estimated standard deviation within each racial group at each dose.
+▶The information in this figure can also be displayed in a summary table.
+21 / 62
+
+
+======================================================================
+Page 22
+======================================================================
+
+Descriptive Figures
+▶Figures 1 and 2 show that the the rate of forearm blood
+flow increases with isoproterenol dose, and this increase is
+faster among white men than among black men.
+▶Next, we want to fit a statistical model to estimate the
+association between isoproterenol dose and forearm blood
+flow.
+22 / 62
+
+
+======================================================================
+Page 23
+======================================================================
+
+Statistical Model
+▶The mean function of the repeated measures model for the
+forearm blood flow is
+E(Yij) = β0 + β1 × doseij + β2 × racei + β3 × doseij × racei
+where,
+▶Yij = forearm blood flow (ml/min/dl)
+▶race = 1 if white, = 2 if black (0 if white, 1 if black, after
+using the CLASS statement on next page)
+▶dose = 0, 10, 20, 60, 150, 300, and 400 (ng/min)
+▶Use GEE method to estimate β, by assuming some
+working correlation structure.
+23 / 62
+
+
+======================================================================
+Page 24
+======================================================================
+
+SAS Codes: Compound Symmetry
+The following SAS statements invoke the GENMOD procedure
+to perform the analysis
+proc genmod data=isoproterenol;
+class race id /param=ref ref=first;
+model fbf = race dose race*dose /dist=nor link=identity
+type3 wald;
+repeated subject=id /type=cs modelse;
+run;
+NOTE: "type=cs" is to request compound symmetry correlation matrix and
+"modelse" is to request the output of model-based standard error estimates.
+The default is to only output the empirical (robust) standard error estimates.
+"subject=" is to specify the variable defining the subject effect. For example, it
+is "id" in this data set, which needs to be specified in the CLASS statement
+as well.
+24 / 62
+
+
+======================================================================
+Page 25
+======================================================================
+
+SAS Output: CS
+Model Information
+Data Set
+WORK.ISOPROTERENOL
+Distribution
+Normal
+Link Function
+Identity
+Dependent Variable
+fbf
+Number of Observations Read
+154
+Number of Observations Used
+150
+Missing Values
+4
+Algorithm converged.
+GEE Model Information
+Correlation Structure
+Exchangeable
+Subject Effect
+id (22 levels)
+Number of Clusters
+22
+Clusters With Missing Values
+1
+Correlation Matrix Dimension
+7
+Maximum Cluster Size
+7
+Minimum Cluster Size
+3
+25 / 62
+
+
+======================================================================
+Page 26
+======================================================================
+
+SAS Output: CS
+GEE Fit Criteria
+QIC
+162.1743
+QICu
+154.0000
+Analysis Of GEE Parameter Estimates
+Empirical Standard Error Estimates
+Standard
+95% Confidence
+Parameter
+Estimate
+Error
+Limits
+Z Pr > |Z|
+Intercept
+6.1797
+0.8432
+4.5270
+7.8324
+7.33
+<.0001
+race
+2
+-3.0334
+0.9042
+-4.8055
+-1.2612
+-3.35
+0.0008
+dose
+0.0495
+0.0046
+0.0405
+0.0586
+10.72
+<.0001
+dose*race 2
+-0.0343
+0.0063
+-0.0467
+-0.0220
+-5.44
+<.0001
+QIC: Quasi-likelihood Information Criterion, a modification of the Akaike
+information criterion (AIC) to apply to models fit by GEEs. A model with
+smaller QIC is preferred. QIC can be used to select regression models and
+working correlations.
+26 / 62
+
+
+======================================================================
+Page 27
+======================================================================
+
+SAS Output: CS
+Analysis Of GEE Parameter Estimates
+Model-Based Standard Error Estimates
+Standard
+95% Confidence
+Parameter
+Estimate
+Error
+Limits
+Z Pr > |Z|
+Intercept
+6.1797
+1.2344
+3.7603
+8.5991
+5.01
+<.0001
+race
+2
+-3.0334
+1.9204
+-6.7974
+0.7306
+-1.58
+0.1142
+dose
+0.0495
+0.0031
+0.0435
+0.0556
+16.06
+<.0001
+dose*race 2
+-0.0343
+0.0048
+-0.0437
+-0.0249
+-7.18
+<.0001
+Scale
+5.7260
+.
+.
+.
+.
+.
+NOTE: The scale parameter for GEE estimation was computed as the
+square root of the normalized Pearson’s chi-square.
+Wald Statistics For Type 3 GEE Analysis
+Chi-
+Source
+DF
+Square
+Pr > ChiSq
+race
+1
+11.25
+0.0008
+dose
+1
+114.86
+<.0001
+dose*race
+1
+29.63
+<.0001
+27 / 62
+
+
+======================================================================
+Page 28
+======================================================================
+
+SAS Codes: AR(1) Correlation Matrix
+The same GEE model can be fitted using AR(1) working
+correlation matrix:
+proc genmod data=isoproterenol;
+class race id /param=ref ref=first;
+model fbf = race dose race*dose /dist=nor link=identity
+type3 wald;
+repeated subject=id /type=AR(1) modelse;
+run;
+NOTE: "type=AR(1)" is to request AR(1) correlation matrix.
+28 / 62
+
+
+======================================================================
+Page 29
+======================================================================
+
+Test for the interaction term
+▶Hypothesis: H0 : β3 = 0 vs Hα : β3 ̸= 0
+▶Test statistic: TW = 29.63 with 1 degree of freedom
+▶p-value: Pr(χ2
+1 ≥29.63) < 0.0001
+▶Conclusion: Reject H0 at α = 0.05. There is sufficient
+evidence to conclude that the effect of isoproterenol dose
+on blood flow is different between black men and white
+men.
+29 / 62
+
+
+======================================================================
+Page 30
+======================================================================
+
+Interpret β
+▶How to interpret β1?
+▶mean Y among whites with a dose of (a+1):
+E(Y|race = 0, dose = (a + 1)) =
+β0 + β1 × (a + 1) + β2 × 0 + β3 × (a + 1) × 0 = β0 + β1 × (a + 1)
+▶mean Y among whites with a dose of a: E(Y|race =
+0, dose = a) = β0 + β1 × a + β2 × 0 + β3 × a × 0 = β0 + β1 × a
+▶mean increase in Y among whites for each unit increase in
+dose:
+E(Y|race = 0, dose = (a + 1)) −E(Y|race = 0, dose = a) = β1
+30 / 62
+
+
+======================================================================
+Page 31
+======================================================================
+
+Interpret β
+▶How to interpret β1 + β3?
+▶mean Y among blacks with a dose of (a+1):
+E(Y|race = 1, dose = (a + 1)) =
+β0+β1×(a+1)+β2×1+β3×(a+1)×1 = β0+β2+(β1+β3)×(a+1)
+▶mean Y among blacks with a dose of a:
+E(Y|race = 1, dose = a) = β0 + β1 × a + β2 × 1 + β3 × a × 1 =
+β0 + β2 + (β1 + β3) × a
+▶mean increase in Y among blacks for each unit increase in
+dose: E(Y|race = 1, dose = (a + 1)) −E(Y|race = 1, dose =
+a) = β1 + β3
+31 / 62
+
+
+======================================================================
+Page 32
+======================================================================
+
+Interpret β
+▶Interpretation of β3:
+▶For each unit increase in isoproterenol dose, on average,
+the increase in forearm blood flow rate among whites is
+0.0343 faster than that among blacks.
+32 / 62
+
+
+======================================================================
+Page 33
+======================================================================
+
+Case Study II: Repeated Measures of Binary
+Data
+33 / 62
+
+
+======================================================================
+Page 34
+======================================================================
+
+Repeated Measures of Binary Data
+▶Example: The "wheezing" data
+▶We consider a data set on 32 children to study the
+association between maternal smoking and respiratory
+health of children.
+▶Each child was examined once a year at a clinic visit (visits
+at ages 9, 10, 11, and 12) for evidence of "wheezing"
+(0=wheezing absent, 1=wheezing present). In addition, the
+mother’s current smoking status was recorded (0=none,
+1=moderate, 2=heavy).
+34 / 62
+
+
+======================================================================
+Page 35
+======================================================================
+
+Data Structure
+The repeated measures data in an external file have the
+following wide format:
+child
+city
+a1 s1 y1 a2 s2 y2 a3 s3 y3 a4 s4 y4
+1
+portage
+9
+0
+1 10
+0
+1 11
+0
+1 12
+0
+0
+2
+kingston 9
+1
+1 10
+2
+1 11
+2
+0 12
+2
+0
+3
+kingston 9
+0
+1 10
+0
+0 11
+1
+0 12
+1
+0
+4
+portage
+9
+0
+0 10
+0
+1 11
+0
+1 12
+1
+0
+5
+kingston 9
+0
+0 10
+1
+0 11
+1
+0 12
+1
+0
+6
+portage
+9
+0
+0 10
+1
+0 11
+1
+0 12
+1
+0
+NOTE: Each child has a single line of observation.
+a1- age at first visit; s1- maternal smoking status at first visit; y1- wheezing
+status at first visit; a2, s2, and y2 - information at second visit; a3, s3, y3 -
+information at third visit; a4, s4, y4 - information at fourth visit.
+35 / 62
+
+
+======================================================================
+Page 36
+======================================================================
+
+Data Structure
+The dataset needs to be transposed to have the following long
+format:
+Obs
+child
+city
+age
+smoke
+wheeze
+1
+1
+portage
+9
+0
+1
+2
+1
+portage
+10
+0
+1
+3
+1
+portage
+11
+0
+1
+4
+1
+portage
+12
+0
+0
+5
+2
+kingston
+9
+1
+1
+6
+2
+kingston
+10
+2
+1
+7
+2
+kingston
+11
+2
+0
+8
+2
+kingston
+12
+2
+0
+NOTE: Each child has multiple lines of observations.
+36 / 62
+
+
+======================================================================
+Page 37
+======================================================================
+
+SAS Code to Read in Data
+The following SAS codes can be used to read in the data and
+transpose the data into the long format:
+data wheeze;
+infile "C:\wheeze.txt";
+input child city $ @@;
+do i=1 to 4;
+input age smoke wheeze @@;
+output;
+end;
+run;
+37 / 62
+
+
+======================================================================
+Page 38
+======================================================================
+
+Research Questions
+▶The key research question to address in this study is
+whether the maternal smoking is associated with the
+respiratory health of children (measured as evidence of
+wheezing).
+38 / 62
+
+
+======================================================================
+Page 39
+======================================================================
+
+Statistical Model
+▶The mean function of the GEE model for the wheezing
+status is
+logit{E(Yij|Xij)} = β0+β1x1ij+β2x2ij+β3x3ij+β4x4ij+β5x5ij+β6x6i
+or,
+E(Yij|Xij) =
+eβ0+β1x1ij+β2x2ij+β3x3ij+β4x4ij+β5x5ij+β6x6i
+1 + eβ0+β1x1ij+β2x2ij+β3x3ij+β4x4ij+β5x5ij+β6x6i
+where,
+▶Y = 0 if wheezing absent, = 1 if wheezing present
+▶x1 = 1 if moderate smoking, = 0 otherwise
+▶x2 = 1 if heavy smoking, = 0 otherwise
+▶x3 = 1 if age=10, = 0 otherwise
+▶x4 = 1 if age=11, = 0 otherwise
+▶x5 = 1 if age=12, = 0 otherwise
+▶x6 = 1 if Portage, = 0 if Kingston
+39 / 62
+
+
+======================================================================
+Page 40
+======================================================================
+
+Missing Data
+▶Missing data is an issue here: 3 missed 1 visit, 6 missed 2
+visits, and 4 missed 3 visits among 32 children.
+▶The GEE analysis using completed cases assumes that
+the data are missing completely at random.
+40 / 62
+
+
+======================================================================
+Page 41
+======================================================================
+
+SAS Code
+The following SAS statements invoke the GENMOD procedure
+to perform the analysis:
+proc genmod data=wheeze descending;
+class child city smoke age/param=ref ref=first;
+model wheeze
+= smoke age city /dist=bin link=logit
+type3 wald;
+repeated subject = child /ty=AR(1) within=age;
+NOTE: “within=age" defines an effect specifying the order of measurements
+within subjects. If some measurements do not appear in the data for some
+subjects, this option properly orders the existing measurements and treats
+the omitted measurements as missing values. If the WITHIN= option is not
+used in this situation, measurements might be improperly ordered and
+missing values assumed for the last measurements in a cluster.
+41 / 62
+
+
+======================================================================
+Page 42
+======================================================================
+
+SAS Output
+GEE Model Information
+Correlation Structure
+AR(1)
+Within-Subject Effect
+age (4 levels)
+Subject Effect
+child (32 levels)
+Number of Clusters
+32
+Correlation Matrix Dimension
+4
+Maximum Cluster Size
+4
+Minimum Cluster Size
+1
+Algorithm converged.
+GEE Fit Criteria
+QIC
+130.2296
+QICu
+130.4161
+42 / 62
+
+
+======================================================================
+Page 43
+======================================================================
+
+SAS Output
+Analysis Of GEE Parameter Estimates
+Empirical Standard Error Estimates
+Standard
+95% Confidence
+Parameter
+Estimate
+Error
+Limits
+Z Pr > |Z|
+Intercept
+-0.3219
+0.5801
+-1.4589
+0.8150
+-0.55
+0.5789
+smoke
+1
+-0.2614
+0.4278
+-1.0998
+0.5770
+-0.61
+0.5412
+smoke
+2
+0.4332
+0.5609
+-0.6661
+1.5325
+0.77
+0.4399
+age
+10
+-0.2853
+0.5821
+-1.4262
+0.8556
+-0.49
+0.6240
+age
+11
+-0.8289
+0.6113
+-2.0271
+0.3692
+-1.36
+0.1751
+age
+12
+-0.4038
+0.6068
+-1.5931
+0.7856
+-0.67
+0.5058
+city
+portage
+-0.3085
+0.4726
+-1.2347
+0.6178
+-0.65
+0.5139
+Wald Statistics For Type 3 GEE Analysis
+Source
+DF
+Chi-Square
+Pr > ChiSq
+smoke
+2
+1.03
+0.5962
+age
+3
+2.03
+0.5656
+city
+1
+0.43
+0.5139
+43 / 62
+
+
+======================================================================
+Page 44
+======================================================================
+
+Case Study III: Repeated Measures for Count
+Data
+44 / 62
+
+
+======================================================================
+Page 45
+======================================================================
+
+Repeated Measures for Count Data
+▶Example: The epileptic seizure data
+▶Fifty-eight subjects suffering from epileptic seizures were
+assigned at random to receive either a placebo or the
+anti-seizure drug progabide in addition to a standard
+chemotherapy regimen all were taking.
+▶On each subject, the investigators recorded the subject’s
+age, a baseline number of seizures experienced by each
+subject over the 8-week period prior to the start of the study,
+and then the number of seizures over a 2 week period for
+four visits following initiation of assigned treatment.
+45 / 62
+
+
+======================================================================
+Page 46
+======================================================================
+
+Data Structure
+The repeated measures data for two subjects are displayed as
+follow:
+subject
+seize
+visit
+trt
+base age
+-----------------------------------------
+104
+11
+0
+0
+11
+31
+104
+5
+1
+0
+11
+31
+104
+3
+2
+0
+11
+31
+104
+3
+3
+0
+11
+31
+104
+3
+4
+0
+11
+31
+-----------------------------------------
+107
+6
+0
+0
+6
+25
+107
+2
+1
+0
+6
+25
+107
+4
+2
+0
+6
+25
+107
+0
+3
+0
+6
+25
+107
+5
+4
+0
+6
+25
+46 / 62
+
+
+======================================================================
+Page 47
+======================================================================
+
+Research Questions
+▶The key research questions to addess in this study are
+1. whether the epileptic seizure count changes pre- and post-
+treatment
+2. whether this change is different between the placebo group
+and the progabide group
+47 / 62
+
+
+======================================================================
+Page 48
+======================================================================
+
+Descriptive Statistics
+▶Before we specify the model, we consider some summary
+statistics.
+▶This was a randomized study, so we would expect subjects
+in the two groups to be similar in their characteristics prior
+to administration of the treatment.
+Age (SD)
+Baseline (SD)
+number of subjects
+Placebo
+29.0 (6.0)
+30.8 (26.1)
+28
+Progabide
+27.9 (6.6)
+27.6 (17.4)
+30
+NOTE: the baseline seizure counts are based on 8 weeks, and the
+counts at each visits 1-4 are based on 2 weeks.
+48 / 62
+
+
+======================================================================
+Page 49
+======================================================================
+
+Descriptive Statistics
+▶The sample mean seizure counts (SD) at baseline and
+each visit time are
+Visit
+Placebo
+Progabide
+0
+7.7 (6.5)
+6.9 (4.3)
+1
+9.4 (10.1)
+5.5 (5.8)
+2
+8.3 (8.2)
+6.5 (5.6)
+3
+8.8 (14.7)
+6.0 (7.4)
+4
+8.0 (7.6)
+4.8 (4.3)
+NOTE: the baseline seizure counts are divided by 4, so that the number
+presented here are all based on 2 weeks
+49 / 62
+
+
+======================================================================
+Page 50
+======================================================================
+
+Statistical Model
+▶We adopt a model for mean seizure counts that allows the
+possibility of a different mean count at baseline and visits
+1-4, where the mean at visits 1-4 is the same, and these
+might be different by group.
+▶The repeated measures model is
+log{E(Yij)} = log{nij}+β0 +β1 ×vij +β2 ×trti +β3 ×vij ×trti
+where,
+▶Yij =seizure count
+▶v = 0 if baseline, = 1 after treatment
+▶trt = 0 if placebo, = 1 if progabide
+50 / 62
+
+
+======================================================================
+Page 51
+======================================================================
+
+SAS Codes: Compound Symmetry
+The following SAS statements invoke the GENMOD procedure
+to perform the analysis
+data seizure; set seizure;
+if visit = 0 then v = 0;
+else v = 1;
+if visit = 0 then log_n = log(8);
+else log_n = log(2);
+run;
+proc genmod data=seizure;
+class subject;
+model seize = trt v trt*v /dist=poi link=log offset=log_n;
+repeated subject=subject /type=cs modelse;
+run;
+51 / 62
+
+
+======================================================================
+Page 52
+======================================================================
+
+SAS Output: CS
+Model Information
+Data Set
+WORK.SEIZURE
+Distribution
+Poisson
+Link Function
+Log
+Dependent Variable
+seize
+Offset Variable
+log_n
+Algorithm converged.
+GEE Model Information
+Correlation Structure
+Exchangeable
+Subject Effect
+subject (58 levels)
+Number of Clusters
+58
+Correlation Matrix Dimension
+5
+Maximum Cluster Size
+5
+Minimum Cluster Size
+5
+52 / 62
+
+
+======================================================================
+Page 53
+======================================================================
+
+SAS Output: CS
+Exchangeable Working
+Correlation
+Correlation
+0.5941485833
+GEE Fit Criteria
+QIC
+-1052.5376
+QICu
+-1060.3906
+53 / 62
+
+
+======================================================================
+Page 54
+======================================================================
+
+SAS Output: CS
+Analysis Of GEE Parameter Estimates
+Empirical Standard Error Estimates
+Standard
+95% Confidence
+Parameter Estimate
+Error
+Limits
+Z Pr > |Z|
+Intercept
+1.3476
+0.1574
+1.0392
+1.6560
+8.56
+<.0001
+trt
+-0.1080
+0.1937
+-0.4876
+0.2716
+-0.56
+0.5770
+v
+0.1108
+0.1161
+-0.1168
+0.3383
+0.95
+0.3399
+trt*v
+-0.3016
+0.1712
+-0.6371
+0.0339
+-1.76
+0.0781
+Analysis Of GEE Parameter Estimates
+Model-Based Standard Error Estimates
+Standard
+95% Confidence
+Parameter Estimate
+Error
+Limits
+Z Pr > |Z|
+Intercept
+1.3476
+0.1106
+1.1309
+1.5644
+12.19
+<.0001
+trt
+-0.1080
+0.1579
+-0.4176
+0.2015
+-0.68
+0.4940
+v
+0.1108
+0.1233
+-0.1308
+0.3524
+0.90
+0.3687
+trt*v
+-0.3016
+0.1936
+-0.6811
+0.0779
+-1.56
+0.1193
+Scale
+3.2469
+.
+.
+.
+.
+.
+NOTE: The scale parameter for GEE estimation was computed as
+the square root of the normalized Pearson’s chi-square.
+54 / 62
+
+
+======================================================================
+Page 55
+======================================================================
+
+Interpret β
+▶How to interpret β1?
+▶rate at baseline in the placebo group:
+E(Yij|trt = 0, v = 0)/nij = eβ0+β1×0+β2×0+β3×0×0 = eβ0
+▶rate after treatment in the placebo group:
+E(Yij|trt = 0, v = 1)/nij = eβ0+β1×1+β2×0+β3×1×0 = eβ0+β1
+▶rate ratio between post and pre-treatment in the placebo
+group:
+E(Yij |trt=0,v=0)/nij
+E(Yij |trt=placebo,v=1)/nij = eβ1
+55 / 62
+
+
+======================================================================
+Page 56
+======================================================================
+
+Interpret β
+▶How to interpret β1 + β3?
+▶rate at baseline in the progabide group:
+E(Yij|trt = 1, v = 0)/nij = eβ0+β1×0+β2×1+β3×0×1 = eβ0+β2
+▶rate after treatment in the progabide group:
+E(Yij|trt = 1, v = 1)/nij = eβ0+β1×1+β2×1+β3×1×1 = eβ0+β1+β2+β3
+▶rate ratio between post and pre-treatment in the progabide
+group:
+E(Yij |trt=1,v=1)/nij
+E(Yij |trt=1,v=0)/nij = eβ1+β3
+56 / 62
+
+
+======================================================================
+Page 57
+======================================================================
+
+Interpret β
+▶Interpretation of β3:
+▶Compared to the baseline, after treatment there is 26%
+((1 −eβ3)100%) more reduction in the incident rate of
+epileptic seizure among patients in the progabide group
+than those in the placebo group.
+57 / 62
+
+
+======================================================================
+Page 58
+======================================================================
+
+Conclusion: GEE
+▶GEE models make no distributional assumptions and only
+require three specifications: a mean function, a variance
+function, and a correlation structure.
+▶GEE models assume correlation within a subject but
+independence across subjects.
+▶If mean is correctly specified but either variance or correlation
+structure is misspecified, GEE models still provide consistent
+estimates of the parameters and thus the mean function.
+▶If all three components are correctly specified, the estimates of
+the parameters are more efficient.
+58 / 62
+
+
+======================================================================
+Page 59
+======================================================================
+
+Conclusion: GEE
+▶For a large sample size, the robust estimator gives
+consistent estimates of the standard errors even when the
+correlations are misspecified.
+▶When sample size is small, one can use the model-based
+standard errors, which assume that the specified
+correlations are closely approximate to the true underlying
+correlations.
+59 / 62
+
+
+======================================================================
+Page 60
+======================================================================
+
+Summary: Key Points
+▶What is GEE model?
+▶What are the three components in a GEE model?
+▶What is the working correlation matrix?
+▶Why is called “working correlation structure”?
+▶What is the number of parameters in each type of correlation
+structures?
+▶What kinds of descriptive statistics we can produce for repeated
+measures of data?
+▶How to write a GEE model?
+▶How to code a GEE model in SAS?
+60 / 62
+
+
+======================================================================
+Page 61
+======================================================================
+
+Summary: Key Points (Cont.)
+▶How to interpret intercept and slopes in GEE models, especially
+the coefficient for the interaction with time?
+▶How to use QIC to choose between working correlation
+structures and to conduct models comparison?
+▶How sensitive the estimates of regression coefficients subject to
+the misspecification in mean function, variance function, or
+correlation structure?
+▶What is the assumption on the correlations between
+measurements from different subjects and measurements from
+the same subject?
+61 / 62
+
+
+======================================================================
+Page 62
+======================================================================
+
+Suggested Readings
+▶Chapter 11 (Dupont)
+62 / 62

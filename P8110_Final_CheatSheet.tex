@@ -1,0 +1,471 @@
+\documentclass[letterpaper,landscape]{article}
+\usepackage[top=0.4in,bottom=0.6in,left=0.4in,right=0.4in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\setlist{nosep,leftmargin=*,itemsep=0pt,topsep=2pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.6pt}
+\setlength{\columnsep}{20pt}
+\title{P8110 Applied Regression II Cheat Sheet}
+\author{}
+\date{}
+\begin{document}
+\scriptsize
+\begin{center}\textbf{\large P8110 Applied Regression II — Final Exam Reference}\end{center}
+\vspace{1em}
+\begin{multicols}{3}
+
+\section*{I. Survival Analysis}
+
+\textbf{A. Core Functions \& Properties}
+
+$S(t)=P(T>t)=\exp[-H(t)]$; $h(t)=\frac{f(t)}{S(t)}=-\frac{d\log S(t)}{dt}$; $H(t)=\int_0^t h(u)du=-\log S(t)$
+
+\textbf{Properties:} $S(0)=1$, $S(\infty)=0$; $h(t)\ge 0$ always; $H(0)=0$, $H(t)$ monotone non-decreasing
+
+\textbf{Censoring:} Right-censoring (most common); observe $(Y,\delta)$ where $Y=\min(T,C)$, $\delta=I(T\le C)$
+
+\textbf{Assumption:} Non-informative censoring (censoring independent of failure time)
+
+\textbf{B. Kaplan-Meier Estimator}
+
+$\hat S(t)=\prod_{t_i\le t}(1-\frac{d_i}{n_i})=\prod_{t_i\le t}\frac{n_i-d_i}{n_i}$ where $d_i$=events, $n_i$=at risk just before $t_i$
+
+\textbf{KM Table (7 columns):} j, $t_j$, interval, $n_j$, $d_j$, $p_j=1-d_j/n_j$, $\hat S(t_j)$
+
+\textbf{Key:} Censored at $t_j$ removed from risk set at $t_j^+$; censoring $\downarrow n_{j+1}$ but NOT $\uparrow d_j$; if max time censored, $\hat S(t)$ doesn't reach 0
+
+\textbf{Greenwood Variance:} $\widehat{\text{Var}}(\hat S)=\hat S^2\sum_{t_i\le t}\frac{d_i}{n_i(n_i-d_i)}$ (undefined when $n_i=d_i$)
+
+\textbf{95\% CI:} Log-log: $\exp(-e^{C_u}),\exp(-e^{C_l})$ where $\sigma^2=\frac{1}{[\log\hat S]^2}\sum\frac{d_i}{n_i(n_i-d_i)}$; $C_u=\log[-\log\hat S]+1.96\sigma$
+
+\textbf{Nelson-Aalen:} $\hat H(t)=\sum_{t_i\le t}\frac{d_i}{n_i}$; $\tilde S(t)=\exp[-\hat H(t)]$ (asymptotically $\equiv$ KM)
+
+\textbf{Quantiles:} $\hat t_p=\min\{t_j:\hat S(t_j)<1-p\}$; if $\hat S(t_j)=1-p$ exactly, $\hat t_p=(t_j+t_{j+1})/2$
+
+Median: $\hat t_{0.5}=\min\{t_j:\hat S(t_j)<0.5\}$; Q1: $\hat t_{0.25}=\min\{t_j:\hat S(t_j)<0.75\}$
+
+\textbf{Mean:} $\hat\mu=\int_0^\infty\hat S(t)dt$ (underestimated if max censored)
+
+\textbf{Discrete:} $\hat\mu=\sum_{j=1}^{J-1} \hat S(t_{j-1})(t_j-t_{j-1})$ where $t_0=0$
+
+\textbf{Variance (HW2):} $Var(\hat\mu)=\frac{n_d}{n_d-1}\sum_{j=1}^{J-1}\frac{A_j^2 d_j}{n_j(n_j-d_j)}$ where $A_j=\sum_{k=j+1}^{J}\hat S(t_{k-1})(t_k-t_{k-1})$, $n_d=\sum d_j$
+
+\textbf{RMST:} $\hat\mu(\tau)=\int_0^\tau \hat S(t)dt$ (more robust; choose $\tau$=max follow-up)
+
+\textbf{C. Survival Curve Comparison}
+
+Both Log-rank and Wilcoxon can be extended to K groups
+
+$H_0: S_1(t)=S_0(t)$ for all $t\le\tau$
+
+\textbf{Weighted Test:} $Q=\frac{[\sum w_j(d_{1j}-e_{1j})]^2}{\sum w_j^2\nu_{1j}}\sim\chi^2_1$
+
+$e_{1j}=\frac{n_{1j}d_j}{n_j}$; $\nu_{1j}=\frac{n_{1j}n_{0j}d_j(n_j-d_j)}{n_j^2(n_j-1)}$
+
+\begin{itemize}
+\item \textbf{Log-rank:} $w_j=1$ (equal weights, optimal under PH)
+\item \textbf{Wilcoxon:} $w_j=n_j$ (early-time sensitive, since $n_j$ larger early)
+\item \textbf{Curves cross $\Rightarrow$ both tests lose power}; use RMST/landmark
+\item K groups: df=$K-1$
+\end{itemize}
+
+\textbf{D. Cox Proportional Hazards}
+
+$h(t,\mathbf{x})=h_0(t)\exp(\boldsymbol\beta^T\mathbf{x})$ \textbf{(no $\beta_0$!)}
+
+$\log\frac{h(t,\mathbf{x})}{h_0(t)}=\boldsymbol\beta^T\mathbf{x}$; $S(t,\mathbf{x})=[S_0(t)]^{\exp(\boldsymbol\beta^T\mathbf{x})}$
+
+\textbf{HR Interpretation:}
+\begin{itemize}
+\item Binary ($x$=0 vs 1): $\text{HR}=e^\beta$
+\item Continuous (k-unit $\uparrow$): $\text{HR}=e^{k\beta}$
+\item Multi-class: $\text{HR}_j=e^{\beta_j}$ (vs ref); $\text{HR}(j:k)=e^{\beta_j-\beta_k}$
+\item \textbf{HR = instantaneous relative risk $\ne$ cumulative risk ratio}
+\end{itemize}
+
+\textbf{95\% CI:} $\exp(\hat\beta\pm 1.96\cdot SE)$
+
+\textbf{Partial Likelihood:} $L_p(\boldsymbol\beta)=\prod_{j=1}^m\frac{\exp(\mathbf{x}_j^T\boldsymbol\beta)}{\sum_{k\in R(t_j)}\exp(\mathbf{x}_k^T\boldsymbol\beta)}$
+
+$m$=distinct failure times; $R(t_j)$=risk set; $\log L_p=\sum[\mathbf{x}_j^T\boldsymbol\beta-\log\sum_{k\in R}\exp(\mathbf{x}_k^T\boldsymbol\beta)]$
+
+\textbf{Ties:} EFRON (recommended) approximates exact; BRESLOW faster but less accurate
+
+\textbf{PH Assumption Checks:}
+\begin{enumerate}
+\item Log-log plot: $\log[-\log\hat S(t)]$ vs $\log t$ (parallel $\Rightarrow$ PH)
+\item Schoenfeld residuals: \texttt{assess ph / resample;}
+\item Time interaction: add $X\times\log(t)$; if sig $\Rightarrow$ violates PH
+\end{enumerate}
+
+\textbf{Non-PH Solutions:}
+\begin{itemize}
+\item Stratify: \texttt{strata Z;} (cannot estimate HR for Z)
+\item Time-varying coef: $X\times t$ or $X\times\log(t)$
+\item TDC: \texttt{model (tstart,tstop)*status(0)=...;}
+\end{itemize}
+
+\textbf{Residuals:}
+\begin{itemize}
+\item \textbf{Martingale} $\in(-\infty,1]$: $M_i=\delta_i-\hat H_i(t_i)$; check functional form via plot vs $X$+lowess; \textbf{horizontal lowess $\Rightarrow$ correct form}, non-horizontal $\Rightarrow$ need transformation
+\item \textbf{Deviance}: $D_i=\text{sign}(M_i)\sqrt{-2[M_i+\delta_i\log(\delta_i-M_i)]}$; $|D_i|>2$ noteworthy, $>3$ outlier
+\item \textbf{Dfbeta}: $dfbeta_i=\hat\beta-\hat\beta_{(-i)}$; $|dfbeta|>2/\sqrt{n}$ influential
+\end{itemize}
+
+\textbf{Confounding:} $\Delta\hat\beta\%=100\times\frac{|\hat\theta-\hat\beta|}{|\hat\beta|}$; $>20\%\Rightarrow$ confounder
+
+\textbf{Interaction:} $h(t)=h_0(t)\exp(\beta_1X_1+\beta_2X_2+\beta_3X_1X_2)$; $\text{HR}_{X_1}(X_2=a)=e^{\beta_1+\beta_3 a}$
+
+\textbf{Variance (group comparison):} $Var(a\times\hat\beta_j-b\times\hat\beta_k)=a^2\times Var(\hat\beta_j)+b^2 \times Var(\hat\beta_k)-2a b Cov(\hat\beta_j,\hat\beta_k)$
+
+\textbf{Hypothesis Tests:}
+\begin{itemize}
+\item \textbf{Wald:} $(\hat\beta/SE)^2\sim\chi^2_1$ (single param); Type 3 (multiple)
+\item \textbf{LRT:} $G=-2[\log L_{reduced}-\log L_{full}]\sim\chi^2_{df}$ (preferred for nested models)
+\item \textbf{Score:} Based on $U(\beta)$; used in PH test
+\end{itemize}
+
+% \textbf{WARNING - Immortal Time Bias:} Time-varying treatment MUST use TDC format, NOT baseline variable!
+
+\textbf{E. Key Points}
+
+\textbf{Semi-parametric:} Cox has nonparametric $h_0(t)$ + parametric $\boldsymbol\beta$
+
+\textbf{Model comparison:} LRT (Likelihood Ratio Test, preferred when nested), Wald, Score test; df=\# parameters difference
+
+\textbf{Stratified analysis:} Control confounders; assumes common treatment effect across strata
+
+\textbf{Baseline hazard:} Cannot estimate $h_0(t)$ directly, but can get $S_0(t)$ via \texttt{baseline}
+
+\section*{II. Categorical Data}
+
+\textbf{A. GLM Framework}
+
+\begin{enumerate}
+\item Distribution: $Y\sim$ Normal/Binomial/Poisson/NB
+\item Linear predictor: $\eta=\beta_0+\beta_1X_1+\cdots+\beta_pX_p$
+\item Link: $g\{E(Y|X)\}=\eta$
+\end{enumerate}
+
+\begin{tabular}{llll}
+\textbf{Model} & \textbf{Dist} & \textbf{Link} & $g(\mu)$\\
+\hline
+Linear & Normal & Identity & $\mu$\\
+Logistic & Binomial & Logit & $\log\frac{\mu}{1-\mu}$\\
+Poisson & Poisson & Log & $\log\mu$\\
+NB & NB & Log & $\log\mu$
+\end{tabular}
+
+Variance: Normal=$\sigma^2$; Binomial=$\mu(1-\mu)$; Poisson=$\mu$; NB=$\mu+\alpha\mu^2$
+
+\textbf{Canonical link:} Logit for Binomial, Log for Poisson
+
+\textbf{Fitted values:} Logistic: $\hat{p}=\frac{e^{\hat\eta}}{1+e^{\hat\eta}}$ where $\hat\eta=\hat\beta_0+\hat\beta_1X_1+\cdots$
+
+\textbf{Interpretation:}
+\begin{itemize}
+\item Linear: "$\beta_j$" = unit change in mean
+\item Logistic: "$e^{\beta_j}$" = odds ratio (OR)
+\item Poisson/NB: "$e^{\beta_j}$" = rate ratio (RR)
+\end{itemize}
+
+\textbf{B. Multinomial Logit} (unordered)
+
+$\log\frac{P(Y=j)}{P(Y=K)}=\alpha_j+\boldsymbol\beta_j^T\mathbf{X}$, $j=1,\ldots,K-1$
+
+\textbf{Expanded:} $\log\frac{P(Y=j)}{P(Y=K)}=\alpha_j+\beta_{j1}X_1+\beta_{j2}X_2+\cdots+\beta_{jp}X_p$ (each class $j$ has own $\boldsymbol\beta_j$)
+
+\textbf{Example (Y=3 levels):} $\log\frac{P(Y=1)}{P(Y=3)}=\alpha_1+\beta_{11}Age+\beta_{12}Sex$; $\log\frac{P(Y=2)}{P(Y=3)}=\alpha_2+\beta_{21}Age+\beta_{22}Sex$
+
+\textbf{df:} Continuous X: $K-1$; q-level categorical X: $(K-1)(q-1)$
+
+\textbf{Interpretation:}
+\begin{itemize}
+\item $\beta_{jk}$: change in log-odds of class $j$ vs ref $K$ per unit increase in $X_k$
+\item $e^{\beta_{jk}}$=RRR (relative risk ratio): multiplicative change in odds(Y=j)/odds(Y=K)
+\item Example: $\beta_{11}=0.5\Rightarrow$ 1-yr age increase multiplies odds(Y=1 vs Y=3) by $e^{0.5}=1.65$
+\item Compare classes: $e^{\beta_{1k}-\beta_{2k}}$=RRR for class 1 vs class 2
+\end{itemize}
+
+\textbf{Probability:} $P(Y=j)=\frac{\exp(\alpha_j+\boldsymbol\beta_j^T\mathbf{X})}{1+\sum_{k=1}^{K-1}\exp(\alpha_k+\boldsymbol\beta_k^T\mathbf{X})}$; $P(Y=K)=\frac{1}{1+\sum_{k=1}^{K-1}\exp(\alpha_k+\boldsymbol\beta_k^T\mathbf{X})}$
+
+\textbf{C. Ordinal (Cumulative)Logit} (ordered)
+
+$\text{logit}[P(Y\le j)]=\log\left[\frac{P(Y\le j)}{P(Y>j)}\right]=\alpha_j+\boldsymbol\beta^T\mathbf{X}$, $j=1,\ldots,K-1$
+
+\textbf{Expanded:} $\text{logit}[P(Y\le j)]=\alpha_j+\beta_1 X_1+\beta_2 X_2+\cdots+\beta_p X_p$ (same $\boldsymbol\beta$ for all $j$)
+
+\textbf{Example (Y=4 levels):} 
+\begin{itemize}
+\item $\log\frac{P(Y\le 1)}{P(Y>1)}=\alpha_1+\beta_1 Age+\beta_2 Sex$
+\item $\log\frac{P(Y\le 2)}{P(Y>2)}=\alpha_2+\beta_1 Age+\beta_2 Sex$ (note: same $\beta_1,\beta_2$!)
+\item $\log\frac{P(Y\le 3)}{P(Y>3)}=\alpha_3+\beta_1 Age+\beta_2 Sex$
+\end{itemize}
+
+\textbf{Proportional Odds:} same $\boldsymbol\beta$ for all cutpoints; only $\alpha_j$ differs
+
+\textbf{df:} Continuous X: 1; q-level X: $q-1$ (only ONE $\boldsymbol\beta$ across all equations!)
+
+\textbf{Proportional Odds Assumption Test (HW6):}
+\begin{enumerate}
+\item \textbf{Hypotheses:} $H_0$: slopes ($\beta_1,\beta_2,\ldots$) equal across logit equations; $H_a$: different slopes needed
+\item \textbf{Test:} Score chi-square test; df=$(K-2)(q-1)$ where K=response levels, q=predictor levels
+\item Example: Y=4 levels, X 4-group $\Rightarrow$ df=$(4-2)\times(4-1)=6$
+\item \textbf{P-value:} $P(\chi^2_{df}\ge S)$ where S=test statistic
+\item \textbf{Decision:} $p>0.05\Rightarrow$ fail to reject $H_0\Rightarrow$ use Ordinal; $p<0.05\Rightarrow$ reject $H_0\Rightarrow$ use Multinomial
+\end{enumerate}
+
+\textbf{Interpretation:}
+\begin{itemize}
+\item $\beta_k$: change in log-cumulative-odds per unit increase in $X_k$ (\textbf{same effect for all cutpoints})
+\item $e^{\beta_k}$=cumulative OR: multiplicative change in odds(Y$\le$j) for all $j$
+\item Default $P(Y\le j)$: $\beta>0\Rightarrow$ higher odds of $Y\le j\Rightarrow$ tend to lower levels
+\item Example: $\beta_1=0.3\Rightarrow$ 1-yr age increase multiplies odds(Y$\le$any cutpoint) by $e^{0.3}=1.35$
+\item Key: \textbf{ONE} $\beta$ per predictor applies to \textbf{ALL} $(K-1)$ equations; only intercepts $\alpha_j$ vary
+\end{itemize}
+
+\textbf{Hypothesis Test for $\beta_k$:}
+\begin{itemize}
+\item $H_0:\beta_k=0$ vs $H_a:\beta_k\ne 0$ (no effect of $X_k$ on cumulative odds)
+\item Wald test: $z=\frac{\hat\beta_k}{SE(\hat\beta_k)}\sim N(0,1)$; $p=2P(|Z|>|z|)$
+\item $p<0.05\Rightarrow$ reject $H_0\Rightarrow$ $X_k$ significantly affects ordered outcome
+\end{itemize}
+
+\textbf{Probability Calculation (HW6):}
+
+\textbf{Ordinal:} $P(Y\le j|X)=\frac{e^{\alpha_j+\beta X}}{1+e^{\alpha_j+\beta X}}$; then $P(Y=j)=P(Y\le j)-P(Y\le j-1)$; $P(Y=K)=1-P(Y\le K-1)$
+
+\textbf{Multinomial:} $P(Y=j|X)=\frac{e^{\beta_{0j}+\beta_j X}}{1+\sum_{k=1}^{K-1}e^{\beta_{0k}+\beta_k X}}$; $P(Y=K)=\frac{1}{1+\sum_{k=1}^{K-1}e^{\beta_{0k}+\beta_k X}}$
+
+\textbf{D. Poisson Regression}
+
+$\log\{E(Y|X)\}=\beta_0+\boldsymbol\beta^T\mathbf{X}$
+
+\textbf{Rate model:} $\log\{E(Y|X)\}=\log(n)+\beta_0+\boldsymbol\beta^T\mathbf{X}$
+
+$\log(n)$=\textbf{offset} (known, no estimate); $n$=exposure (person-years, months, etc.)
+
+\textbf{Rate Ratio Derivation (HW7):} Binary $X$: $RR=\frac{E(Y|X=1)}{E(Y|X=0)}=\frac{\exp(\beta_0+\beta_1\cdot 1+\cdots)}{\exp(\beta_0+\beta_1\cdot 0+\cdots)}=e^{\beta_1}$
+
+\textbf{Interpretation:} Binary: $RR=e^\beta$; Continuous k-unit: $RR=e^{k\beta}$
+
+\textbf{Goodness Of Fit:} Deviance=$-2(\log L_{current}-\log L_{saturated})$; Pearson $\chi^2=\sum\frac{(y_i-\hat\mu_i)^2}{\hat\mu_i}$
+
+\textbf{Overdispersion Check:} Scale=Deviance/df or Pearson $\chi^2$/df; $\approx 1\Rightarrow$ ok; $>1\Rightarrow$ mild; $>1.5\Rightarrow$ serious
+
+\textbf{Pearson residual:} $r_i=\frac{y_i-\hat y_i}{\sqrt{\hat y_i}}$; $|r_i|>2\Rightarrow$ poor fit
+
+\textbf{Overdispersion Solutions:}
+\begin{itemize}
+\item \textbf{Quasi-Poisson:} \texttt{scale=pearson} or \texttt{scale=deviance}; $\hat\beta$ unchanged, $SE_{new}=SE_{old}\times\sqrt{\phi}$ where $\phi$=Scale; $CI_{new}$ wider
+\item \textbf{NB:} \texttt{dist=negbin}; $Var(Y)=\mu+\alpha\mu^2$; when $\alpha\to 0\Rightarrow$ Poisson
+\item \textbf{ZIP/ZINB:} Excess zeros; two-part: Logistic (0 vs $>0$) + Poisson/NB (counts)
+\end{itemize}
+
+\textbf{NB vs Poisson Test (HW7):}
+\begin{enumerate}
+\item \textbf{Hypotheses:} $H_0:\alpha=0$ vs $H_a:\alpha\ne 0$ (no overdispersion vs overdispersion exists)
+\item \textbf{Test:} t-test for $\alpha$ parameter (in SAS output: "Dispersion" parameter)
+\item \textbf{From SAS:} Find "Analysis Of Maximum Likelihood Parameter Estimates" table; look for "Dispersion" row
+\item Value: estimate of $\alpha$ (e.g., $\hat\alpha=10.10$); Std Error; Wald 95\% CI
+\item \textbf{P-value:} from "Pr > ChiSq" column (e.g., $p<0.0001$)
+\item \textbf{Decision:} $p<0.05\Rightarrow$ reject $H_0\Rightarrow$ NB preferred; $p>0.05\Rightarrow$ Poisson adequate
+\item Example: $\hat\alpha=10.10$, $p<0.0001\Rightarrow$ reject $H_0$ at 95\% level $\Rightarrow$ NB more appropriate
+\end{enumerate}
+
+\textbf{Rate Ratio Estimation (HW7):}
+\begin{itemize}
+\item \textbf{Point estimate:} $\widehat{RR}=\exp(\hat\beta)$ (same formula for both Poisson and NB)
+\item \textbf{95\% CI:} $\exp(\hat\beta\pm 1.96\cdot SE)$ where SE from respective model
+\item \textbf{Compare models:} NB typically gives wider CI (larger SE) than Poisson due to accounting for overdispersion
+\item Example: Male vs Female absence rate ratio
+  \begin{itemize}
+  \item Poisson: $\widehat{RR}=e^{0.321}=1.38$, 95\% CI: $(1.25, 1.52)$
+  \item NB: $\widehat{RR}=e^{0.321}=1.38$, 95\% CI: $(1.15, 1.65)$ (wider!)
+  \end{itemize}
+\item \textbf{Conclusion change?} If Poisson CI excludes 1 but NB CI includes 1 $\Rightarrow$ significance changes (Poisson overconfident)
+\end{itemize}
+
+\textbf{E. Key Concepts \& Formulas}
+
+\textbf{Multinomial vs Ordinal:}
+\begin{itemize}
+\item Multinomial: unordered, $(K-1)$ equations, each with own $\boldsymbol\beta_j$
+\item Ordinal: ordered, PO $\Rightarrow$ same $\boldsymbol\beta$ for all cutpoints
+\item PO test $p<0.05\Rightarrow$ reject PO $\Rightarrow$ use Multinomial
+\end{itemize}
+
+\textbf{Parameter \& df count:}
+\begin{itemize}
+\item Multinomial: cont X: $K-1$ param; q-level X: $(K-1)(q-1)$ param
+\item Ordinal: cont X: 1 param; q-level X: $q-1$ param
+\item PO test df: $(K-2)(q-1)$
+\end{itemize}
+
+\textbf{CI for linear combination:} $\hat\beta_1-\hat\beta_2$: $SE=\sqrt{Var(\hat\beta_1)+Var(\hat\beta_2)-2Cov(\hat\beta_1,\hat\beta_2)}$
+
+\textbf{Model selection:} LRT for nested models (df=\# param diff); AIC/BIC for non-nested; QIC for GEE
+
+\section*{III. Longitudinal Data}
+
+\textbf{A. GEE} (population-averaged)
+
+$g\{E[Y_{ij}|X_{ij}]\}=\mathbf{X}_{ij}^T\boldsymbol\beta$
+
+\textbf{Working Correlation:}
+
+\begin{tabular}{lll}
+\textbf{Type} & \textbf{Matrix} & \textbf{Param}\\
+\hline
+Independence & $\begin{pmatrix}1&0\\0&1\end{pmatrix}$ & 0\\
+Compound Symmetry & $\begin{pmatrix}1&\rho\\\rho&1\end{pmatrix}$ & 1\\
+AR(1) & $\begin{pmatrix}1&\rho\\\rho&1\end{pmatrix}$ $\rho^{|j-k|}$ & 1\\
+Unstructured & $\begin{pmatrix}1&\rho_{12}\\\rho_{21}&1\end{pmatrix}$ & $k(k-1)/2$
+\end{tabular}
+
+\textbf{SE:} Robust/Sandwich (default, preferred); Model-based (if corr correct)
+
+\textbf{Selection:} QIC (smaller better); cannot use AIC/BIC
+
+\textbf{Interpretation:} \textbf{Marginal} — "at population level, treatment increases odds by $e^\beta$"
+
+\textbf{Key:} Even if working correlation misspecified, $\hat\beta$ consistent with robust SE; efficiency loss only
+
+\textbf{B. Model Selection \& Strategy}
+
+\textbf{Correlation selection:} Try multiple structures (IND, EXCH, AR(1), UN); compare using QIC (smaller is better)
+\begin{itemize}
+\item \textbf{EXCH:} All correlations equal; good for repeated measures with no time order
+\item \textbf{AR(1):} Correlation decays with time distance; good for equally spaced time series
+\item \textbf{UN:} Most flexible but many parameters; may not converge with many timepoints
+\item \textbf{IND:} No correlation; baseline comparison
+\end{itemize}
+
+\textbf{Convergence:} UN may fail with many time points; use simpler structures (EXCH, AR)
+
+\textbf{Time as Categorical (HW8):} $E[Y_{ij}]=\beta_0+\beta_1 X_{t_2}+\beta_2 X_{t_4}+\beta_3 X_{t_8}+\beta_4 trt+\beta_5(X_{t_2}\times trt)+\beta_6(X_{t_4}\times trt)+\beta_7(X_{t_8}\times trt)$ where $X_{t_j}$=dummy for time $j$
+
+\textbf{Interaction Test (HW8):} $H_0:\beta_5=\beta_6=\beta_7=0$ vs $H_a$: not $H_0$; Type 3 Wald test; df=\# interaction terms
+
+\textbf{Interaction in GEE (time continuous):} $E[Y_{ij}]=\beta_0+\beta_1 time+\beta_2 trt+\beta_3(time\times trt)$
+\begin{itemize}
+\item $\beta_3$: difference in time trend between treatment groups
+\item Treatment A change: $\beta_1$; Treatment B change: $\beta_1+\beta_3$; Difference: $\beta_3$
+\end{itemize}
+
+\textbf{Interpretation guidelines:}
+\begin{itemize}
+\item Marginal interpretation: "at population level, treatment increases odds by $e^\beta$"
+\item Always report with 95\% CI
+\item Robust SE preferred (default in GEE)
+\end{itemize}
+
+\textbf{C. Step-by-Step Calculation Guide}
+
+\textbf{1. KM Table Construction (HW1):}
+\begin{enumerate}
+\item List all unique event times (exclude censored-only times)
+\item For each $t_j$: count $n_j$ (at risk before $t_j$), $d_j$ (events at $t_j$)
+\item Censored at $t$: include in $n_j$ for $t_j\le t$, exclude from $n_{j+1}$ if $t_j=t$
+\item Compute $p_j=1-d_j/n_j$, then $\hat S(t_j)=\prod_{i\le j}p_i$
+\end{enumerate}
+
+\textbf{2. Interaction HR with CI (HW5 - Complete Steps):}
+\begin{enumerate}
+\item Model: $h=h_0\exp(\beta_1 X_1+\beta_2 X_2+\beta_3 X_1X_2)$; Compare: $X_1=0$ vs $X_1=1$ at $X_2=a$
+\item \textbf{Point estimate:} $HR=\frac{h(X_1=0,X_2=a)}{h(X_1=1,X_2=a)}=\exp(-\beta_1-\beta_3 a)$; plug in $\hat\beta$'s
+\item \textbf{Variance:} $Var(-\hat\beta_1-\hat\beta_3 a)=Var(\hat\beta_1)+a^2Var(\hat\beta_3)+2a\cdot Cov(\hat\beta_1,\hat\beta_3)$
+\item Get $Var(\hat\beta_1)$, $Var(\hat\beta_3)$, $Cov(\hat\beta_1,\hat\beta_3)$ from CovB matrix; compute variance
+\item $SE=\sqrt{Var}$
+\item 95\% CI: $\exp[(-\hat\beta_1-\hat\beta_3 a)\pm 1.96\cdot SE]$
+\end{enumerate}
+\textbf{Example (HW5):} $HR=\exp(-1.09033-0.40491)=0.224$; $Var=0.2302+0.4539+2(-0.227)=0.2301$; $SE=0.4797$; CI=$[0.088, 0.574]$
+
+\textbf{3. Ordinal Probability (HW6):}
+\begin{enumerate}
+\item Get $\hat\alpha_j$ and $\hat\beta$ from output
+\item Compute $P(Y\le j)=\frac{\exp(\hat\alpha_j+\hat\beta X)}{1+\exp(\hat\alpha_j+\hat\beta X)}$ for $j=1,\ldots,K-1$
+\item $P(Y=1)=P(Y\le 1)$; $P(Y=j)=P(Y\le j)-P(Y\le j-1)$ for $j\ge 2$
+\item $P(Y=K)=1-P(Y\le K-1)$
+\end{enumerate}
+
+\textbf{4. Quasi-Poisson CI Adjustment (HW7):}
+\begin{enumerate}
+\item Get $\hat\beta$ and $SE_{old}$ from Poisson output
+\item Get Scale=$\phi$ (Deviance/df or Pearson $\chi^2$/df)
+\item $SE_{new}=SE_{old}\times\sqrt{\phi}$
+\item New 95\% CI: $\exp(\hat\beta\pm 1.96\cdot SE_{new})$
+\end{enumerate}
+
+\textbf{5. Mean Variance Calculation (HW2):}
+\begin{enumerate}
+\item Compute $\hat\mu$ using discrete formula
+\item For each $j$, calculate $A_j=\sum_{k=j+1}^{J}\hat S(t_{k-1})(t_k-t_{k-1})$ (remaining area)
+\item Compute $Var(\hat\mu)=\frac{n_d}{n_d-1}\sum_{j=1}^{J-1}\frac{A_j^2 d_j}{n_j(n_j-d_j)}$ where $n_d=\sum d_j$
+\item $SE=\sqrt{Var}$; 95\% CI: $\hat\mu\pm 1.96\cdot SE$
+\end{enumerate}
+
+\textbf{6. GEE Mean Change (HW8 - Categorical Time):}
+\begin{enumerate}
+\item Model: $E[Y]=\beta_0+\beta_1 X_{t_2}+\beta_2 X_{t_4}+\beta_3 X_{t_8}+\beta_4 trt+\beta_5(X_{t_2}\times trt)+\beta_6(X_{t_4}\times trt)+\beta_7(X_{t_8}\times trt)$
+\item \textbf{Trt A:} baseline=$\beta_0$; at time 2=$\beta_0+\beta_1$; change=$\beta_1$
+\item \textbf{Trt B:} baseline=$\beta_0+\beta_4$; at time 2=$\beta_0+\beta_1+\beta_4+\beta_5$; change=$\beta_1+\beta_5$
+\item \textbf{Difference in change:} $(\beta_1+\beta_5)-\beta_1=\beta_5$ (this is the interaction coefficient!)
+\item Interpretation: $\beta_5$=mean difference of temperature change from baseline to 2hrs between two treatments
+\end{enumerate}
+
+\textbf{7. Log-log CI for S(t) (HW1):}
+\begin{enumerate}
+\item Compute $Var[\log\{-\log(\hat S)\}]=\frac{1}{[\log(\hat S)]^2}\sum_{t_j\le t}\frac{d_j}{n_j(n_j-d_j)}$
+\item $SE=\sqrt{Var}$; compute limits: $L=\log[-\log(\hat S)]-1.96\cdot SE$, $U=\log[-\log(\hat S)]+1.96\cdot SE$
+\item 95\% CI for $S(t)$: $[\exp(-e^U), \exp(-e^L)]$
+\end{enumerate}
+
+\end{multicols}
+
+\newpage
+
+\section*{Typical Exam Question Types (Based on HW1-8)}
+
+\begin{multicols}{3}
+
+\subsection*{I. Survival Analysis}
+\begin{itemize}
+\item \textbf{KM table:} Construct 7-column table; handle censoring ($\downarrow n_{j+1}$, NOT $\uparrow d_j$)
+\item \textbf{Median \& mean:} Find $\min\{t_j:\hat S(t_j)<0.5\}$; mean area under curve
+\item \textbf{Log-rank vs Wilcoxon:} Compare test stats; explain why differ (early weight)
+\item \textbf{Interaction HR:} $\log(HR)=\beta_1+\beta_3 x_2$; $SE^2=Var(\beta_1)+x_2^2Var(\beta_3)+2x_2Cov(\beta_1,\beta_3)$
+\item \textbf{Survival prediction:} $S(t|X)=[S_0(t)]^{\exp(\beta^TX)}$ using baseline
+\item \textbf{Group comparison:} $Var(\beta_j-\beta_k)=Var(\beta_j)+Var(\beta_k)-2Cov(\beta_j,\beta_k)$
+\end{itemize}
+
+\subsection*{II. Categorical Data}
+\begin{itemize}
+\item \textbf{PO test:} Check $p$-value; $p<0.05\Rightarrow$ use Multinomial; $p>0.05\Rightarrow$ use Ordinal
+\item \textbf{Probability calc:} Ordinal: cumulative then subtract; Multinomial: softmax formula
+\item \textbf{OR interpretation:} Ordinal: cumulative OR (same for all cutpoints); Multinomial: RRR vs ref
+\item \textbf{df calculation:} Ordinal cont X: df=1; Ordinal q-level X: df=$q-1$; Multinomial: df=$(K-1)(q-1)$
+\item \textbf{Overdispersion check:} Look at Scale (Dev/df or $\chi^2$/df); if $>1.5\Rightarrow$ serious problem
+\item \textbf{Quasi-Poisson:} $\hat\beta$ stays same, $SE_{new}=SE_{old}\times\sqrt{\phi}$; recalculate CI
+\item \textbf{NB vs Poisson:} Test $H_0:\alpha=0$; compare point estimates and CI width
+\item \textbf{RR interpretation:} $e^\beta$ with 95\% CI; state "adjusting for other variables"
+\item \textbf{Conclusion change:} NB gives wider CI $\Rightarrow$ may lose significance
+\end{itemize}
+
+\subsection*{III. Longitudinal Data}
+\begin{itemize}
+\item \textbf{Correlation structure:} Try EXCH, AR(1), UN; compare QIC (smaller better)
+\item \textbf{Time as categorical:} Multiple dummy variables; different $\beta$ for each time
+\item \textbf{Interaction $time\times trt$:} $\beta_3$=difference in time trend between groups
+\item \textbf{Mean change calc:} Trt A: $\beta_1$ (time main); Trt B: $\beta_1+\beta_3$; Diff: $\beta_3$
+\item \textbf{Hypothesis test:} Test $H_0:\beta_3=0$ (or all interaction terms=0); use Type 3 Wald; df=\# interaction terms
+\item \textbf{Robust SE:} Always use (default); model-based SE assumes correct correlation
+\end{itemize}
+
+\end{multicols}
+
+\end{document}

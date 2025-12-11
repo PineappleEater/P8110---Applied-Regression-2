@@ -1,0 +1,290 @@
+Lecture: Lec3_CI_for_S(t)
+Source: Lec3_CI_for_S(t).pdf
+
+======================================================================
+
+======================================================================
+Page 1
+======================================================================
+
+BIST P8110: Applied Regression II
+3. Calculating Confidence Intervals for S(t)
+Qixuan Chen
+Department of Biostatistics
+Columbia University
+1 / 14
+
+
+======================================================================
+Page 2
+======================================================================
+
+This lecture’s big ideas
+▶Greenwood’s variance estimator
+▶Constructing 95% CI for S(t)
+2 / 14
+
+
+======================================================================
+Page 3
+======================================================================
+
+Greenwood’s variance estimator
+▶The variance for ˆS(t) was derived by Greenwood:
+d
+Var{ˆS(t)} = ˆS(t)2
+
+
+
+X
+j:tj≤t
+dj
+nj(nj −dj)
+
+
+
+3 / 14
+
+
+======================================================================
+Page 4
+======================================================================
+
+95% CI for S(t)
+▶What is the potential problem with the following CI
+estimation?
+ˆS(t) ± 1.96
+q
+d
+Var{ˆS(t)}
+4 / 14
+
+
+======================================================================
+Page 5
+======================================================================
+
+95% CI for S(t)
+▶What is the potential problem with the following CI
+estimation?
+ˆS(t) ± 1.96
+q
+d
+Var{ˆS(t)}
+▶The lower bound can be negative or the upper bound can
+be greater than 1.
+5 / 14
+
+
+======================================================================
+Page 6
+======================================================================
+
+CI for OR
+▶What can be an alternative approach to construct 95% CI?
+▶For odds ratio (OR), a log-transformation is used
+▶estimate CI for log-OR
+▶back-transform it to obtain CI for OR
+6 / 14
+
+
+======================================================================
+Page 7
+======================================================================
+
+Log-log transformation of S(t)
+▶log-log survival function
+▶transform S(t) to log[−log{S(t)}]
+▶range changes from (0, 1) to (−∞, ∞)
+7 / 14
+
+
+======================================================================
+Page 8
+======================================================================
+
+Log-log survival function
+▶Use log-log transformation to construct 95% confidence
+interval (CI) for S(t)
+▶compute 95% CI for log[−log{S(t)}]
+▶transform back to find 95% CI for S(t)
+▶the resulted 95% CI for S(t) is guaranteed to lie in (0, 1)
+8 / 14
+
+
+======================================================================
+Page 9
+======================================================================
+
+95% CI for log(−log{S})
+▶The variance of log[−log{ˆS(t)}] is estimated as
+ˆσ2 =
+d
+Var{ˆS(t)}
+ˆS(t)2[log ˆS(t)]2
+=
+1
+[log ˆS(t)]2
+
+
+
+X
+j:tj≤t
+dj
+nj(nj −dj)
+
+
+
+▶A 95% CI for log[−log{S(t)}] is
+log[−log{ˆS(t)}] ± 1.96
+√
+ˆσ2
+9 / 14
+
+
+======================================================================
+Page 10
+======================================================================
+
+95% CI for S(t) using log-log transformation
+▶Let ˆCu = log[−log{ˆS(t)}] + 1.96
+√
+ˆσ2
+▶the upper bound of the 95% CI for log(−log{S(t)})
+▶Let ˆCl = log[−log{ˆS(t)}] −1.96
+√
+ˆσ2
+▶the lower bound of the 95% CI for log(−log{S(t)})
+▶The 95% CI for S(t) is
+
+exp(−exp(ˆCu)), exp(−exp(ˆCl))
+
+10 / 14
+
+
+======================================================================
+Page 11
+======================================================================
+
+Example
+We continue the cancer recurrence example, suppose we have 8
+subjects, among which 5 have cancer returned at 10, 13, 14, 17, and
+23 weeks, respectively after treatment. The rest 3 subjects dropped
+out at 13, 19, and 25 weeks: 10, 13, 13+, 14, 17, 19+, 23, 25+
+tj
+Interval
+nj
+dj
+pj = nj−dj
+nj
+ˆS(tj)
+95% CI
+0
+[0, 10)
+8
+0
+1
+1
+10
+[10, 13)
+8
+1
+7/8
+0.875
+(0.387, 0.981)
+13
+[13, 14)
+7
+1
+6/7
+0.75
+(0.315, 0.931)
+14
+[14, 17)
+5
+1
+4/5
+0.6
+(0.196, 0.852)
+17
+[17, 23)
+4
+1
+3/4
+0.45
+(0.108, 0.751)
+23
+[23, ∞)
+2
+1
+1/2
+0.225
+(0.012, 0.602)
+11 / 14
+
+
+======================================================================
+Page 12
+======================================================================
+
+Example (Cont.)
+Calculate 95% CI for S(t) with 13 ≤t < 14
+▶Step 1: Calculate ˆσ2
+ˆσ2 =
+1
+[log ˆS(t)]2
+
+
+
+X
+j:tj ≤t
+dj
+nj(nj −dj)
+
+
+=
+1
+[log(0.75)]2
+
+1
+8(8 −1) +
+1
+7(7 −1)
+
+= 0.5035
+▶Step 2: Calculate 95% CI for log[−log{S(t)}]
+(ˆCl, ˆCu) = log(−log{ˆS(t)}) ± 1.96 ×
+√
+ˆσ2
+= log(−log{0.75}) ± 1.96 ×
+√
+0.5035
+= (−2.6367, 0.1448)
+▶Step 3: Calculate 95% CI for S(t)
+exp(−exp(0.1448)), exp(−exp(−2.6367))
+= (0.315, 0.931)
+12 / 14
+
+
+======================================================================
+Page 13
+======================================================================
+
+Interpretation of survival functions
+▶In the cancer recurrence example, we get ˆS(13) = 0.75
+with 95% CI (0.315, 0.931).
+▶Interpretation
+▶We estimate that 75% (95% CI: 31.5% – 93.1%) of patients
+will survive for more than 13 weeks without cancer
+recurrence after treatment.
+13 / 14
+
+
+======================================================================
+Page 14
+======================================================================
+
+Suggested Readings:
+▶Chapter 6.1-6.7 (Dupont)
+▶Chapter 2.1-2.2 (Hosmer et al.)
+14 / 14

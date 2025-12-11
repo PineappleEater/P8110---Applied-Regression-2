@@ -1,0 +1,97 @@
+Question 1
+0 / 1 pts
+Can we estimate the 90th percentile of the survival time?
+
+  True 
+  False 
+ 
+Unanswered
+Question 2
+0 / 1 pts
+We recorded values of survival time in days of ten cancer patients. The censored observations are denoted by a “+”. The data are 8, 25, 25+, 42, 42, 42+, 72+, 82, 110, and 144+. SAS outputs from PROC LIFETEST with “outsurv” option are shown below.
+
+quiz2table.png
+
+Calculate the 25th percentile of the survival time (75% of patients will survive longer than that day).
+
+42 [8, 82) 
+ 
+Unanswered
+Question 3
+0 / 1 pts
+The SAS program estimates a mean survival time of 70.424 days. Which of the following description is correct?
+
+  The mean survival time is unbiased. 
+  The mean survival time is underestimated. 
+  The mean survival time is overestimated. 
+ 
+Unanswered
+Question 4
+0 / 1 pts
+To compare survival functions between two treatment groups, which methods cannot be used? 
+
+  Wilcoxon test 
+  Log-rank test 
+  Two-sample t-test 
+ 
+Unanswered
+Question 5
+0 / 1 pts
+When the survival curves of two treatment groups cross, which tests can be use? 
+
+  Wilcoxon test 
+  Log-rank test 
+  Neither 
+  Both 
+ 
+Unanswered
+Question 6
+0 / 1 pts
+In comparing survival functions among four age groups, what is the degrees of freedom associated with the chi-square test?
+
+  3 
+  4 
+  5 
+ 
+Unanswered
+Question 7
+0 / 1 pts
+Which statement could be used in PROC LIFETEST to perform a log-rank test among multiple age groups? 
+
+  test 
+  strata 
+  by 
+ 
+Unanswered
+Question 8
+0 / 1 pts
+Which of the following statements is correct? 
+
+  Log-rank test is a parametric test. 
+  Log-rank test is a nonparametric test. 
+  Log-rank test is a semiparametric test. 
+ 
+Unanswered
+Question 9
+0 / 1 pts
+Which test is more sensitive to the difference between groups in later points in time? 
+
+  Log-rank test 
+  Wilcoxon test 
+ 
+Unanswered
+Question 10
+0 / 1 pts
+To compare the survival functions among three age groups, are the following null and alternative hypotheses written correctly? H0: S1(t) = S2(t) = S3 (t) for all t <= tau and H1: S1(t) != S2(t) != S3 (t) for some t <= tau, where tau is the largest observed time.
+
+  True 
+  False 
+ 
+Unanswered
+Question 11
+0 / 1 pts
+The Wilcoxon test statistic is a weighted log-rank test statistic. Which of the following statements is correct?
+
+  The weight is larger for early points in time. 
+  The weight is larger for later points in time. 
+  The weight is a constant. 

@@ -1,0 +1,243 @@
+Lecture: Lec21_NB
+Source: Lec21_NB.pdf
+
+======================================================================
+
+======================================================================
+Page 1
+======================================================================
+
+BIST P8110: Applied Regression II
+21. Negative Binomial Regression
+Qixuan Chen
+Department of Biostatistics
+Columbia University
+1 / 12
+
+
+======================================================================
+Page 2
+======================================================================
+
+Negative Binomial Regression
+▶The Poisson regression model is the most basic model for
+count data, but it requires that the conditional mean and
+the conditional variance to be the same.
+▶Negative binomial regression is an extension of Poisson
+regression in which the conditional variance may exceed
+the conditional mean (overdispersion).
+2 / 12
+
+
+======================================================================
+Page 3
+======================================================================
+
+Negative Binomial Distribution
+▶Let Y ∼NegBinom, then
+E(Y) = µ
+Var(Y) = µ + αµ2
+▶α is called the dispersion parameter
+▶As α →0, we get the Poisson distribution
+▶The extra parameter α in the variance expression allows
+the mean and the variance not need to be equal
+3 / 12
+
+
+======================================================================
+Page 4
+======================================================================
+
+SAS Syntax
+▶Negative binomial models can be fitted using PROC
+COUNTREG:
+proc countreg data=one;
+model y = x / dist=negbin(p=2);
+run;
+▶It can also be fitted using PROC GENMOD
+proc genmod data=one;
+model y = x / dist=negbin link=log;
+run;
+4 / 12
+
+
+======================================================================
+Page 5
+======================================================================
+
+Case Study
+▶Table below summarizes responses of 1308 subjects to the
+question: “Within the past 12 months, how many people
+have you known personally that were victims of homicide?”
+(Categorical Data Analysis, Alan Agresti, p.561)
+Response
+Black
+White
+0
+119
+1070
+1
+16
+60
+2
+12
+14
+3
+7
+4
+4
+3
+0
+5
+2
+0
+6
+0
+1
+5 / 12
+
+
+======================================================================
+Page 6
+======================================================================
+
+Poisson/Negative Binomial Model
+▶The mean function of the Poisson/Negative binomial
+model:
+log{E(Yi|Xi)} =β0 + β1Xi
+= log(µi)
+▶Y=number of people known personally that were victims of
+homicide
+▶X = 1 if black and 0 if white
+▶f(Yi|Xi) ∼Poisson(µi) or f(Yi|Xi) ∼NegBin(µi, α), where
+α is an overdispersion parameter and the variance of Y in
+the NegBin distribution is (µi + αµi2).
+6 / 12
+
+
+======================================================================
+Page 7
+======================================================================
+
+SAS codes
+/*Poisson regression*/
+proc countreg data=homicide;
+model response = race /dist=poisson;
+freq count;
+run;
+/*Negative binomial regression*/
+proc countreg data=homicide;
+model response = race /dist=negbin(p=2);
+freq count;
+run;
+7 / 12
+
+
+======================================================================
+Page 8
+======================================================================
+
+Poisson vs. Negative Binomial Models
+▶How to decide whether a Poisson or a negative binomial
+model is more appropriate?
+▶A t-test for the overdispersion parameter α is provided in
+PROC COUNTREG to test H0 : α = 0 vs. Hα : α ̸= 0 when
+the option “dist=negbin(p=2)" is used.
+▶SAS output of the Case Study:
+Parameter Estimates
+Standard
+Approx
+Parameter
+DF
+Estimate
+Error
+t Value Pr > |t|
+Intercept
+1
+-2.383208
+0.117200
+-20.33
+<.0001
+race
+1
+1.733145
+0.238477
+7.27
+<.0001
+_Alpha
+1
+4.942862
+1.000487
+4.94
+<.0001
+8 / 12
+
+
+======================================================================
+Page 9
+======================================================================
+
+Other Models
+▶When the number of zeros in the sample exceeds the number of
+zeros predicted by either the Poisson or negative binomial model
+▶zero-inflated Poisson regression
+▶zero-inflated negative binomial regression
+▶Zero-inflated regression are two-part models
+▶one models zero versus non-zero counts using logistic
+regression
+▶the other models the actual counts using a Poisson or
+negative binomial distribution
+▶Definition of ZIP:
+http://support.sas.com/documentation/cdl/en/etsug/60372
+/HTML/default/viewer.htm#etsug_countreg_sect018.htm
+▶Definition of ZINB:
+http://support.sas.com/documentation/cdl/en/etsug/60372
+/HTML/default/viewer.htm#etsug_countreg_sect019.htm
+9 / 12
+
+
+======================================================================
+Page 10
+======================================================================
+
+Summary: Key Points
+▶How to write Poisson regression models for counts and
+rates?
+▶What is offset?
+▶How to interpret intercept and slopes of a Poisson model?
+▶What is Deviance and how to use it for models
+comparison?
+▶How to conduct goodness of fit test?
+▶What is overdispersion?
+▶How to know if there is overdispersion?
+▶How to “fix” overdispersion?
+10 / 12
+
+
+======================================================================
+Page 11
+======================================================================
+
+Summary: Key Points (Cont.)
+▶How to code Poisson model using GENMOD in SAS?
+▶How to calculate the expected number of counts based on
+a Poisson model?
+▶How to calculate relative risk based on a Poisson model?
+▶What is negative binomial regression?
+▶How to code negative binomial models using GENMOD
+and COUNTREG in SAS?
+▶How to decide whether a Poisson or a negative binomial
+model is more appropriate for a data set using PROC
+COUNTREG in SAS?
+11 / 12
+
+
+======================================================================
+Page 12
+======================================================================
+
+Suggested Readings
+▶Chapters 8 & 9 (Dupont)
+▶Liu W. and Cela J. “Count Data Models in SAS". SAS
+Global Forum 2008.
+12 / 12

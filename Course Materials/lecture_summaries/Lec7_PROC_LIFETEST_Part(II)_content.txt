@@ -1,0 +1,431 @@
+Lecture: Lec7_PROC_LIFETEST_Part(II)
+Source: Lec7_PROC_LIFETEST_Part(II).pdf
+
+======================================================================
+
+======================================================================
+Page 1
+======================================================================
+
+Page 1 of 7 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+BIOST P8110: Applied Regression II 
+Lecture Note 7 - PROC LIFETEST (Part II) 
+ 
+Qixuan Chen 
+Department of Biostatistics 
+Columbia University 
+ 
+ 
+ 
+ 
+This lecture’s big ideas - how to use PROC LIFETEST in SAS to: 
+1. Compare survival experience between two groups 
+2. Compare survival experience among multiple groups 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+======================================================================
+Page 2
+======================================================================
+
+Page 2 of 7 
+ 
+1. WHAS100 Data 
+ 
+NAME:   
+Worcester Heart Attack Study WHAS100 Data 
+ 
+SIZE:  
+100 Observations 
+ 
+SOURCE:  
+Worcester Heart Attack Study data from Dr. Robert J. Goldberg of the Department of Cardiology 
+at the University of Massachusetts Medical School.  
+ 
+REFERENCE: 
+Hosmer, D.W. and Lemeshow, S. and May, S. (2008)  
+Applied Survival Analysis: Regression Modeling of Time to Event Data: Second Edition, John 
+Wiley and Sons Inc., New York, NY 
+ 
+DESCRIPTIVE ABSTRACT: 
+The main goal of this study is to describe factors associated with trends over time in the 
+incidence and survival rates following hospital admission for acute myocardial infarction (MI).  
+Data have been collected beginning in 1975 and extending through 2001 on all MI patients 
+admitted to hospitals in the Worcester, Massachusetts Standard Metropolitan Statistical Area. 
+ 
+LIST OF VARIABLES: 
+ 
+Variables 
+Name 
+ 
+Description 
+ 
+ 
+Values/Codes 
+***************************************************************************** 
+1 
+ 
+id 
+ 
+ID Code  
+ 
+ 
+1-100 
+2 
+ 
+lenfol 
+ 
+Follow Up Time  
+ 
+Days 
+3 
+ 
+fstat 
+               Follow Up Satus  
+ 
+1 = Dead, 0 = Alive 
+4 
+ 
+age 
+ 
+Age 
+ 
+ 
+ 
+years 
+5 
+ 
+gender 
+ 
+Gender  
+ 
+ 
+0 = Male, 1= Female 
+ 
+Read in the data set “whas100.csv”: 
+ 
+data whas100; 
+infile 'C:\whas100.csv' delimiter = ',' MISSOVER DSD; 
+input id lenfol fstat age gender;  
+run; 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+======================================================================
+Page 3
+======================================================================
+
+Page 3 of 7 
+ 
+2. Compare survival experience between males and females 
+ 
+LIFETEST procedure can be used to compare survival experience between males and females: 
+ods graphics on;                                                                          
+proc lifetest data=whas100 method=KM alpha=0.05 plots=survival(test);     
+ 
+time lenfol*fstat(0);               
+      strata gender;          
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+title 'Part 1: Kaplan-Meier estimates by gender';                               
+run; 
+ods graphics off;  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+The STRATA statement produces: 
+1) Separate tables of KM estimates for each of the K ≥ 2 groups, instead of a single table;  
+2) Multiple curves of the survival function on the same axes for easy comparison; 
+3) And test statistics for testing differences among the K groups. The TEST option (after 
+PLOTS=SURVIVAL) includes the log-rank test result in the survival plot. 
+                             Part 1: Kaplan-Meier estimates by gender                            
+ 
+                                      The LIFETEST Procedure 
+ 
+                  Testing Homogeneity of Survival Curves for lenfol over Strata 
+ 
+                                         Rank Statistics 
+ 
+                                 gender      Log-Rank    Wilcoxon 
+ 
+                                 0            -6.6200     -459.00 
+                                 1             6.6200      459.00 
+ 
+                           Covariance Matrix for the Log-Rank Statistics 
+ 
+                                gender             0             1 
+ 
+                                0            11.0351      -11.0351 
+                                1           -11.0351       11.0351 
+ 
+                           Covariance Matrix for the Wilcoxon Statistics 
+ 
+                                gender             0             1 
+ 
+                                0            60848.0      -60848.0 
+                                1           -60848.0       60848.0 
+ 
+                                   Test of Equality over Strata 
+ 
+                                                                             Pr > 
+                            Test      Chi-Square      DF    Chi-Square 
+ 
+                            Log-Rank     3.9714       1      0.0463 
+                            Wilcoxon      3.4624       1      0.0628 
+                            -2Log(LR)     4.4183       1      0.0356 
+ 
+
+
+======================================================================
+Page 4
+======================================================================
+
+Page 4 of 7 
+ 
+ 
+ 
+To request more tests: 
+proc lifetest data=whas100;      
+ 
+time lenfol*fstat(0);               
+      strata gender/test=all;         
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+title 'Part 2: More tests’;                               
+run; 
+ 
+                                         Part 2: More tests       
+ 
+                                       The LIFETEST Procedure 
+ 
+                                   Test of Equality over Strata 
+                                                                 Pr > 
+                           Test         Chi-Square      DF    Chi-Square 
+ 
+                           Log-Rank         3.9714       1      0.0463 
+                           Wilcoxon          3.4624       1      0.0628 
+                           Tarone             3.6860       1      0.0549 
+                           Peto                 3.8507       1      0.0497 
+                           Modified Peto  3.8089       1      0.0510 
+                           Fleming(1)       3.8721       1      0.0491 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+======================================================================
+Page 5
+======================================================================
+
+Page 5 of 7 
+ 
+3. Compare survival experience among multiple age groups 
+Age is a continuous variable. We can use STRATA statement to define age groups and compare 
+the survival experience among multiple age groups. 
+ods graphics on;                                                                          
+proc lifetest data=whas100 method=KM alpha=0.05 plots=survival(test);     
+ 
+time lenfol*fstat(0);               
+     strata age (60 70 80);         
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+title 'Part 3: Kaplan-Meier estimates by age groups';                               
+run; 
+ods graphics off;  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+The STRATA statement creates four strata defined by age intervals: age < 60, 60 ≤ age < 70, 70 
+≤ age < 80, and age ≥ 80. 
+                            Part 3: Kaplan-Meier estimates by age groups                           
+ 
+                                       The LIFETEST Procedure 
+ 
+                   Testing Homogeneity of Survival Curves for lenfol over Strata 
+ 
+                                          Rank Statistics 
+ 
+                                  age         Log-Rank    Wilcoxon 
+                                   <60         -7.5195     -490.00 
+                                    65          -5.9178     -385.00 
+                                    75           3.7738      201.00 
+                                  >=80         9.6635      674.00 
+ 
+                           Covariance Matrix for the Log-Rank Statistics 
+ 
+                    age            <60            65            75          >=80 
+                     <60     10.6818       -3.9033       -3.0451       -3.7334 
+                      65       -3.9033        9.5270       -2.6157       -3.0079 
+                      75       -3.0451       -2.6157        8.0964       -2.4356 
+                    >=80     -3.7334       -3.0079       -2.4356        9.1769 
+ 
+                           Covariance Matrix for the Wilcoxon Statistics 
+ 
+                    age            <60            65            75          >=80 
+                     <60      57305.6      -19834.3      -17148.6      -20322.6 
+                      65      -19834.3       51592.4      -14536.6      -17221.5 
+                      75      -17148.6      -14536.6       46809.9      -15124.7 
+                    >=80    -20322.6      -17221.5      -15124.7       52668.7 
+ 
+                                    Test of Equality over Strata 
+ 
+                                                                 Pr > 
+                                Test      Chi-Square      DF    Chi-Square 
+                             Log-Rank     15.5721       3      0.0014 
+                             Wilcoxon      12.2981       3      0.0064 
+                             -2Log(LR)    17.2401       3      0.0006  
+
+
+======================================================================
+Page 6
+======================================================================
+
+Page 6 of 7 
+ 
+ 
+When comparing more than two survival curves, a k-sample test tells you whether the curves are 
+significantly different from each other, but it does not identify which pairs of curves are different. 
+We can request multiple comparisons using Bonferroni test: 
+ 
+proc lifetest data=whas100;     
+ 
+time lenfol*fstat(0);               
+     strata age (60 70 80)/adjust=bon;          
+ 
+ 
+ 
+ 
+  
+ 
+title 'Part 4: Bonferroni comparison';                               
+run; 
+ 
+                                   Part 4: Bonferroni comparison                                   
+ 
+                      Adjustment for Multiple Comparisons for the Logrank Test 
+                       Strata Comparison                         p-Values 
+                          age         age    Chi-Square       Raw    Bonferroni 
+ 
+                      60.0000          65        0.0916    0.7622        1.0000 
+                      60.0000          75        5.1285    0.0235        0.1412 
+                      60.0000     80.0000  10.8051    0.0010        0.0061 
+                           65              75        4.1096    0.0426        0.2558 
+                           65         80.0000    9.8211    0.0017        0.0104 
+                           75         80.0000    1.5665    0.2107        1.0000 
+                       
+Adjustment for Multiple Comparisons for the Wilcoxon Test 
+                       Strata Comparison                         p-Values 
+                          age         age    Chi-Square       Raw    Bonferroni 
+ 
+                      60.0000          65        0.0742    0.7853        1.0000 
+                      60.0000          75        3.4497    0.0633        0.3796 
+                      60.0000     80.0000    8.9955    0.0027        0.0162 
+                           65              75        2.6938    0.1007        0.6044 
+                           65         80.0000    8.0854    0.0045        0.0268 
+                           75         80.0000    1.7246    0.1891        1.0000 
+
+
+======================================================================
+Page 7
+======================================================================
+
+Page 7 of 7 
+ 
+We can also use STRATA statement to create multiple groups from two or more variables. For 
+example, the strata can be created by age group and sex. 
+proc lifetest data=whas100;     
+ 
+time lenfol*fstat(0);               
+     strata age (60 70 80) gender;         
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+title 'Part 5: Strata created by age and gender';                               
+run; 
+ 
+ 
+                              Part 5: Strata created by age and gender                             
+ 
+                                       The LIFETEST Procedure 
+ 
+                                          Legend for Strata 
+ 
+                                 Stratum     gender    age 
+ 
+                                       1               0       <60 
+                                       2               1       <60 
+                                       3               0         65 
+                                       4               1         65 
+                                       5               0         75 
+                                       6               1         75 
+                                       7               0     >=80 
+                                       8               1     >=80 
+ 
+                                    Test of Equality over Strata 
+ 
+                                                                              Pr > 
+                             Test      Chi-Square      DF    Chi-Square 
+ 
+                             Log-Rank    18.2668       7      0.0108 
+                             Wilcoxon     15.1525       7      0.0341 
+                             -2Log(LR)   20.9073       7      0.0039 
+ 
